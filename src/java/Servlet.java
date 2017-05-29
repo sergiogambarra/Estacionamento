@@ -7,6 +7,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -76,7 +81,8 @@ public class Servlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-
+        
+        JSONParser parser = new JSONParser();
         StringBuffer jb = new StringBuffer();
         String line = null;
         try {
@@ -86,56 +92,32 @@ public class Servlet extends HttpServlet {
               } catch (Exception e) { /*report an error*/ }
 
         try {
-                JSONObject jsonObject =  HTTP.toJSONObject(jb.toString());
-                String json_str = jb.toString();
-                //instancia um novo JSONObject passando a string como entrada
-		JSONObject my_obj = new JSONObject(json_str);
+               Object obj = parser.parse(jb.toString());
 
-		//recupera o array "elenco"  
-		JSONArray elenco = my_obj.getJSONArray("plate");
-                //imprime cada ator/atriz do elenco com o uso dos métodos length() e get()
-                System.out.println("Elenco Original");
-		for (int i = 0; i < elenco.length(); i++) {
-			System.out.println("(" + i + ") " + elenco.get(i));
-		}
-		System.out.println();
-                //-- insere um novo ator no array 
-		elenco.put("Michael Java Fox");
-		
-		System.out.println("Elenco com o novo ator");
-		for (int i = 0; i < elenco.length(); i++) {
-			System.out.println("(" + i + ") " + elenco.get(i));
-		}
-		System.out.println();
-                //-- troca o nome da primeira atriz
-		elenco.put(0, "Jennifer Json Leigh");
-		
-		System.out.println("Elenco com o nome da primeira atriz modificado");
-		for (int i = 0; i < elenco.length(); i++) {
-			System.out.println("(" + i + ") " + elenco.get(i));
-		}
-		System.out.println();
-                //-- remove o terceiro ator
-		elenco.remove(2);
-		
-		System.out.println("Elenco com o ator David Makupovny removido");
-		for (int i = 0; i < elenco.length(); i++) {
-			System.out.println("(" + i + ") " + elenco.get(i));
-		}
-		
-                
-              } catch (JSONException e) {
-                //string json: contém array com três elementos
-		String json_str = "{\"elenco\":[\"Json Leigh\", \"Mary Stylesheet\", \"David Markupovny\"]}";
-		
-		
-		
-		
-		
-		
-		
-                throw new IOException("Error parsing JSON request string");
-              }
+                JSONObject jsonObject = (JSONObject) obj;
+                //System.out.println(jsonObject);
+
+                //String plate = (String) jsonObject.get("results");
+                //System.out.println(plate);
+
+                //long age = (Long) jsonObject.get("age");
+                //System.out.println(age);
+
+                // loop array
+                org.json.simple.JSONArray results = (org.json.simple.JSONArray) jsonObject.get("results");
+                //iterator = results.iterator();
+
+                Iterator<Object> iterator = results.iterator();
+                while (iterator.hasNext()) {
+                    //System.out.println(iterator.next());
+                    JSONObject jsonObjectnovo = (JSONObject) results.iterator().next();
+                    String plate = (String) jsonObjectnovo.get("plate");
+                    System.out.println("placa: "+plate);
+                }
+               
+              } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Work with the data using methods like...
         // int someInt = jsonObject.getInt("intParamName");
