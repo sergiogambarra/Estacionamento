@@ -26,9 +26,56 @@ import persistencia.VeiculoDAO;
 @SessionScoped
 
 public class SisEstacionamentoBean {
+
+    /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * @return the veiculo
+     */
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    /**
+     * @param veiculo the veiculo to set
+     */
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    /**
+     * @return the placas
+     */
+    public Placas getPlacas() {
+        return placas;
+    }
+
+    /**
+     * @param placas the placas to set
+     */
+    public void setPlacas(Placas placas) {
+        this.placas = placas;
+    }
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
     private Placas placas = new Placas();
+    
+    private final UsuarioDAO usuarioDao = new UsuarioDAO();
+    private final VeiculoDAO veiculoDao = new VeiculoDAO();
+    private final PlacasDAO placasDao = new PlacasDAO();
+   
           
     //usuario
     public String incluirUsuario() {
@@ -47,11 +94,11 @@ public class SisEstacionamentoBean {
     }
     
     //placas capturadas
-    public Placas incluirPlaca() {
+    public Placas incluirPlaca(Placas pla) {
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        PlacasDAO placDAO = new PlacasDAO();
-        return null;
+        placasDao.incluir(pla);
+        return this.placas;
     }
     
 }

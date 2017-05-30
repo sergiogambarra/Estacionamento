@@ -118,7 +118,7 @@ public class Servlet extends HttpServlet {
                         String plate = (String) jsonObjectnovo.get("plate");
                         System.out.println("placa: "+plate);
                         this.placa.setPlaca(plate);
-                        this.sis.incluirPlaca();
+                        this.sis.incluirPlaca(this.placa);
                         break;
                     }
                     

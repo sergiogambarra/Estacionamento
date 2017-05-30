@@ -5,13 +5,18 @@
  */
 package modelo;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sergio
  */
+
+@Entity
+@Table(name = "placas")
 public class Placas {
     @Id
     @GeneratedValue
