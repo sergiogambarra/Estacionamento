@@ -5,10 +5,16 @@
  */
 package backingbeans;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import modelo.Placas;
 import modelo.Usuario;
 import modelo.Veiculo;
+import persistencia.PlacasDAO;
+import persistencia.UsuarioDAO;
+import persistencia.VeiculoDAO;
 
 /**
  *
@@ -22,38 +28,30 @@ import modelo.Veiculo;
 public class SisEstacionamentoBean {
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
+    private Placas placas = new Placas();
+          
+    //usuario
+    public String incluirUsuario() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage msg;
+        UsuarioDAO usuDAO = new UsuarioDAO();
+        return null;
+    }
     
-    public SisEstacionamentoBean() {
-        //listaEventos = evtDao.listar();
-        
+    //veiculo
+    public String incluirVeiculo() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage msg;
+        VeiculoDAO veiDAO = new VeiculoDAO();
+        return null;
     }
-
-    /**
-     * @return the usuario
-     */
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    /**
-     * @param usuario the usuario to set
-     */
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    /**
-     * @return the veiculo
-     */
-    public Veiculo getVeiculo() {
-        return veiculo;
-    }
-
-    /**
-     * @param veiculo the veiculo to set
-     */
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    
+    //placas capturadas
+    public Placas incluirPlaca() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage msg;
+        PlacasDAO placDAO = new PlacasDAO();
+        return null;
     }
     
 }

@@ -5,10 +5,26 @@
  */
 package persistencia;
 
+import modelo.Veiculo;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 /**
  *
  * @author sergio
  */
 public class VeiculoDAO {
+    
+     private Session sessao;
+    
+    public VeiculoDAO() {
+        sessao = HibernateUtil.getSessionFactory().openSession();
+    }
+    
+    public void incluir(Veiculo vei) {
+        Transaction t = sessao.beginTransaction();
+        sessao.save(vei);
+        t.commit();
+    }
     
 }

@@ -8,19 +8,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.HTTP;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import modelo.Placas;
+import backingbeans.SisEstacionamentoBean;
 
 /**
  *
@@ -38,6 +35,10 @@ public class Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    private Placas placa = new Placas();
+    private SisEstacionamentoBean sis = new SisEstacionamentoBean();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -105,14 +106,22 @@ public class Servlet extends HttpServlet {
 
                 // loop array
                 org.json.simple.JSONArray results = (org.json.simple.JSONArray) jsonObject.get("results");
+                String uuid = (String) jsonObject.get("uuid");
+                System.out.println(uuid);
+                this.placa.setFoto(uuid);
                 //iterator = results.iterator();
 
                 Iterator<Object> iterator = results.iterator();
                 while (iterator.hasNext()) {
-                    //System.out.println(iterator.next());
-                    JSONObject jsonObjectnovo = (JSONObject) results.iterator().next();
-                    String plate = (String) jsonObjectnovo.get("plate");
-                    System.out.println("placa: "+plate);
+                    if (results.iterator().next() != null){
+                        JSONObject jsonObjectnovo = (JSONObject) results.iterator().next();
+                        String plate = (String) jsonObjectnovo.get("plate");
+                        System.out.println("placa: "+plate);
+                        this.placa.setPlaca(plate);
+                        this.sis.incluirPlaca();
+                        break;
+                    }
+                    
                 }
                
               } catch (ParseException e) {
