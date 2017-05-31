@@ -6,11 +6,15 @@
 package modelo;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *
  * @author sergio
  */
+@Entity
+@Table(name = "veiculo")
 public class Veiculo {
     private String placa;
     private String modelo;
