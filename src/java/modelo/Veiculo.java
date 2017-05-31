@@ -7,6 +7,8 @@ package modelo;
 
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -16,6 +18,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "veiculo")
 public class Veiculo {
+    @Id
+    @GeneratedValue
+    private int id;
     private String placa;
     private String modelo;
     private String fabricante;

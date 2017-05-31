@@ -1,0 +1,164 @@
+
+#body {
+    background-color: gray;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+ui-widget, .ui-widget .ui-widget {
+    font-size: 95% !important;
+}
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+.footer {
+    background-color: #d4d4d4;
+    color: white;
+    padding: 15px;
+}
+
+
+.span {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 40px;
+    font-weight: normal;
+    text-shadow: 2px 2px 4px graytexty;
+    height: 97px;
+}
+
+
+#conteudo {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: graytext;
+    padding: 10px;
+    margin-top: 5px;
+    height: 430px;
+}
+
+.loginform {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+#formDados {
+    margin: 0 auto;
+}
+
+
+.ui-button-text-only {
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 5px;
+    min-width: 200px;
+    min-height: 40px;
+    background-color: #6ea2ee; 
+
+}
+
+.ui-button {
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 5px;
+    min-width: 200px;
+    min-height: 40px;
+    background-color: #6ea2ee; 
+
+}
+
+/*botoes login*/
+#j_idt12\:j_idt15 {
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 5px;
+    min-width: 100px;
+    min-height: 40px;
+    background-color: #6ea2ee; 
+}
+
+#j_idt17\:j_idt20 {
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 5px;
+    min-width: 60px;
+    min-height: 36px;
+    background-color: #6ea2ee; 
+}
+
+#j_idt17\:j_idt21 {
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 5px;
+    min-width: 60px;
+    min-height: 36px;
+    background-color: #6ea2ee; 
+}
+
+#j_idt17\:j_idt22 {
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 5px;
+    min-width: 60px;
+    min-height: 36px;
+    background-color: #6ea2ee; 
+}
+
+#j_idt17\:j_idt23 {
+    font-size: 16px;
+    font-weight: normal; 
+    text-shadow: 0px;
+    margin-top: 5px;
+    min-width: 60px;
+    min-height: 36px;
+    background-color: #6ea2ee; 
+}
+
+#j_idt17\:j_idt24 {
+    font-size: 16px;
+    font-weight: normal; 
+    text-shadow: 0px;
+    margin-top: 5px;
+    min-width: 80px;
+    min-height: 36px;
+
+}
+.ui-datepicker {
+    font-size: 90%;
+    font-weight: normal; 
+}
+.ui-timepicker-div {
+    font-size: 90%;
+    font-weight: normal;
+}
+
+.ui-selectonemenu-items-wrapper {
+    font-size: 80%;
+    font-weight: normal; 
+}
+
+.ui-growl {
+    right:60px;
+    font-size: 85%;  
+}
+
+.msgInfo {
+    color: blue;
+}
+
+.msgErro {
+    color: red;
+}
+
+.info {
+    font-weight: normal;
+}
+
+

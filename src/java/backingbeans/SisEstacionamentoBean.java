@@ -79,9 +79,10 @@ public class SisEstacionamentoBean {
           
     //usuario
     public String incluirUsuario() {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        UsuarioDAO usuDAO = new UsuarioDAO();
+        usuarioDao.incluir(usuario);
         return null;
     }
     
@@ -95,6 +96,7 @@ public class SisEstacionamentoBean {
     
     //placas capturadas
     public Placas incluirPlaca(Placas pla) {
+        PlacasDAO placasDao = new PlacasDAO();
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
         placasDao.incluir(pla);

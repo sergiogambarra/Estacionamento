@@ -10,20 +10,19 @@
         <ui:define name="conteudo">
        
      <div class="jumbotron"  align="center">
-        <h1>Participe dos Eventos</h1>
-        <p> Um Sistema desenvolvido para a Criação e Participação em Eventos. </p>
+        <h1>Sistema de Controle de Veículos</h1>
+        <p>Um Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
         
-        <h:form enctype="multipart/form-data" rendered="#{sisEventosBean.verificarSessao() eq false}">
+        <h:form enctype="multipart/form-data">
             <h1>Cadastre-se</h1>
             <p:button class="btn btn-primary btn-lg"  value="Cadastrar" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
         </h:form>
-       
         
+              
       <br></br>
       </div>
             <p:spacer height="20"/>
          <p:separator/>
-
       <p:spacer height="20"/>
          <p:separator/>
              <div class="container">
@@ -39,3 +38,5 @@
         </ui:define>
     </ui:composition>
 </html>
+
+

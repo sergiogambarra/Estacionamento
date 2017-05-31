@@ -24,7 +24,10 @@ public class Usuario {
     private int id_user;
     private String nome;
     private String vinculo;
+    private String matriculaSIAPE;
     private String matricula;
+    private String curso;
+    private String empresa;
     private String RG;
 
     /**
@@ -95,6 +98,48 @@ public class Usuario {
      */
     public void setId_user(int id_user) {
         this.id_user = id_user;
+    }
+
+    /**
+     * @return the matriculaSIAPE
+     */
+    public String getMatriculaSIAPE() {
+        return matriculaSIAPE;
+    }
+
+    /**
+     * @param matriculaSIAPE the matriculaSIAPE to set
+     */
+    public void setMatriculaSIAPE(String matriculaSIAPE) {
+        this.matriculaSIAPE = matriculaSIAPE;
+    }
+
+    /**
+     * @return the curso
+     */
+    public String getCurso() {
+        return curso;
+    }
+
+    /**
+     * @param curso the curso to set
+     */
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+
+    /**
+     * @return the empresa
+     */
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    /**
+     * @param empresa the empresa to set
+     */
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
     
     
