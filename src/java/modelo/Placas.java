@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +24,9 @@ public class Placas {
     private int id;
     private String placa;
     private String foto;
+    private Date entrada;
+    private Date saida;
+    
 
     /**
      * @return the id
@@ -64,6 +68,34 @@ public class Placas {
      */
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    /**
+     * @return the entrada
+     */
+    public Date getEntrada() {
+        return entrada;
+    }
+
+    /**
+     * @param entrada the entrada to set
+     */
+    public void setEntrada(Date entrada) {
+        this.entrada = entrada;
+    }
+
+    /**
+     * @return the saida
+     */
+    public Date getSaida() {
+        return saida;
+    }
+
+    /**
+     * @param saida the saida to set
+     */
+    public void setSaida(Date saida) {
+        this.saida = saida;
     }
     
 }

@@ -24,7 +24,7 @@ public class Veiculo {
     private String placa;
     private String modelo;
     private String fabricante;
-    private Date ano;
+    private String ano;
 
     /**
      * @return the placa
@@ -71,14 +71,14 @@ public class Veiculo {
     /**
      * @return the ano
      */
-    public Date getAno() {
+    public String getAno() {
         return ano;
     }
 
     /**
      * @param ano the ano to set
      */
-    public void setAno(Date ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
     

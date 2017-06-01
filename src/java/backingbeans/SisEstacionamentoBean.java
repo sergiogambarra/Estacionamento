@@ -5,6 +5,10 @@
  */
 package backingbeans;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -68,23 +72,60 @@ public class SisEstacionamentoBean {
     public void setPlacas(Placas placas) {
         this.placas = placas;
     }
+    
+    public List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
     private Placas placas = new Placas();
     
+    private List<Usuario> listaUsuarios;
+    private List<Placas> listaPlacas;
+    
     private final UsuarioDAO usuarioDao = new UsuarioDAO();
     private final VeiculoDAO veiculoDao = new VeiculoDAO();
     private final PlacasDAO placasDao = new PlacasDAO();
+    
+    public SisEstacionamentoBean() {
+        listaUsuarios = usuarioDao.listar();
+        listaPlacas = placasDao.listar();
+    }
    
           
     //usuario
-    public String incluirUsuario() {
+    public String incluirUsuario() throws Exception {
         UsuarioDAO usuarioDao = new UsuarioDAO();
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
         usuarioDao.incluir(usuario);
-        return null;
+        msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Usuario cadastrado com Sucesso!", "");
+        context.addMessage(null, msg);
+        if (veiculo != null){
+            VeiculoDAO veiculoDao = new VeiculoDAO();
+            veiculoDao.incluir(veiculo);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Veiculo incluído com Sucesso!", "");
+        context.addMessage(null, msg);
+        }
+        usuario = new Usuario();
+        veiculo = new Veiculo();
+        return "incluirUsuario";
     }
+    
+    public String consultarUsuario(int id) {
+        usuario = usuarioDao.carregar(id);//idUsuario
+        return "consultaUsuario";
+    }
+    
+    public String iniciaAlteracaoUsuario(int id) {
+        usuario = usuarioDao.carregar(id);
+        return "alterarUsuario";
+    }
+    
     
     //veiculo
     public String incluirVeiculo() {
@@ -96,10 +137,22 @@ public class SisEstacionamentoBean {
     
     //placas capturadas
     public Placas incluirPlaca(Placas pla) {
+        listaPlacas = placasDao.listar();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        for (int i =0;i<listaPlacas.size();i++){
+            if (pla.getPlaca() == listaPlacas.get(i).getPlaca() && listaPlacas.get(i).getEntrada().before(date)){
+                
+                
+            } 
+        }
         PlacasDAO placasDao = new PlacasDAO();
+        pla.setEntrada(date);
+        
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
         placasDao.incluir(pla);
+        placas = new Placas();
         return this.placas;
     }
     
