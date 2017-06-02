@@ -5,10 +5,13 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,7 +20,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "veiculo")
-public class Veiculo {
+public class Veiculo implements Serializable {
+    
     @Id
     @GeneratedValue
     private int id;
@@ -25,7 +29,12 @@ public class Veiculo {
     private String modelo;
     private String fabricante;
     private String ano;
+    
 
+    @ManyToOne
+    @JoinColumn(name="id_user")
+    private Usuario usuario;
+    
     /**
      * @return the placa
      */
@@ -80,6 +89,20 @@ public class Veiculo {
      */
     public void setAno(String ano) {
         this.ano = ano;
+    }
+
+    /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
 }

@@ -5,9 +5,11 @@
  */
 package modelo;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,6 +31,9 @@ public class Usuario {
     private String curso;
     private String empresa;
     private String RG;
+    
+   @OneToMany(mappedBy="usuario")
+    private List<Veiculo> cadastraVeic;
 
     /**
      * @return the nome
@@ -140,6 +145,20 @@ public class Usuario {
      */
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
+    }
+
+    /**
+     * @return the cadastraVeic
+     */
+    public List<Veiculo> getCadastraVeic() {
+        return cadastraVeic;
+    }
+
+    /**
+     * @param cadastraVeic the cadastraVeic to set
+     */
+    public void setCadastraVeic(List<Veiculo> cadastraVeic) {
+        this.cadastraVeic = cadastraVeic;
     }
     
     

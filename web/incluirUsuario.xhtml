@@ -11,16 +11,15 @@
 
             <p:panel id="basic" header="Cadastro de Usuario" style="margin-bottom:20px">
                 <div id="formDados">
-                    
-                    <p>
-                        <h:panelGrid columns="1">
-                            <h:outputLabel for="txtNomeUsuario" value="Nome Completo:"/>
-                            <h:inputText id="txtNomeUsuario" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
-                        </h:panelGrid>    
-                    </p>    
-                    
                     <h:form prependId="false">
-                        <p:growl id="growl"/>
+                    <p:growl id="growl"/>
+                        <p>
+                            <h:panelGrid columns="1">
+                                <h:outputLabel for="txtNomeUsuario" value="Nome Completo:"/>
+                                <h:inputText id="txtNomeUsuario" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                            </h:panelGrid>    
+                        </p>    
+                    
                         <h:panelGrid columns="1">
                             <h:outputLabel for="vinculo" value="Vinculo com a Instituição:"/>
                             <h:selectOneMenu id="vinculo" value="#{sisEstacionamentoBean.usuario.vinculo}">

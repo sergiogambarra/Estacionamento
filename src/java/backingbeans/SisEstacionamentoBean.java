@@ -7,6 +7,8 @@ package backingbeans;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -104,7 +106,16 @@ public class SisEstacionamentoBean {
         msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Usuario cadastrado com Sucesso!", "");
         context.addMessage(null, msg);
-        if (veiculo != null){
+        if (veiculo.getPlaca() != null){
+            usuarioDao = new UsuarioDAO();
+            listaUsuarios = usuarioDao.listar();
+            ArrayList<Integer> ids_users = new ArrayList<Integer>();
+            for (int i = 0; i< this.listaUsuarios.size();i++){
+                ids_users.add(this.listaUsuarios.get(i).getId_user());
+            }
+            int lastIDuser = Collections.max(ids_users);
+            this.usuario.setId_user(lastIDuser);
+            this.veiculo.setUsuario(usuario);
             VeiculoDAO veiculoDao = new VeiculoDAO();
             veiculoDao.incluir(veiculo);
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
