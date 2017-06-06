@@ -2,45 +2,49 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
-    <ui:composition template="templates/padrao.xhtml">
-        <ui:define name="conteudo">
-       
-     <div class="jumbotron"  align="center">
-        <h1>Sistema de Controle de Veículos</h1>
-        <p>Um Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Sistema de Controle de Veículos</title>
+    </h:head>
+    <h:body>
         
-        <h:form enctype="multipart/form-data">
-            
-            <p:button class="btn btn-primary btn-lg"  value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
-            
-            <p:button class="btn btn-primary btn-lg"  value="Veículos" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
-            
-            <p:button class="btn btn-primary btn-lg"  value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
-        </h:form>
-        
-              
-      <br></br>
-      </div>
-            <p:spacer height="20"/>
-         <p:separator/>
-      <p:spacer height="20"/>
-         <p:separator/>
-             <div class="container">
-           <div class="footer">
-      <footer class="container-fluid text-center">
-        <p> Sérgio Gambarra da Silva</p>
-         <p>
-         Este sistema foi desenvolvido na disciplina de Trabalho de Conclusão de Curso de Análise e Desenvolvimento de Sistemas do Campus Restinga do IFRS.
-        </p>
-      </footer>
-    </div> 
-       </div> 
-        </ui:define>
-    </ui:composition>
-</html>
+        <div class="jumbotron"  align="center">
+            <h1>Sistema de Controle de Veículos</h1>
+            <p>Um Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
 
+            <h:form enctype="multipart/form-data">
+
+                <p:button value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
+
+                <p:button value="Veículos" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
+
+                <p:button value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
+            
+                 
+            </h:form>
+
+            <h:form id="img1" enctype="multipart/form-data" >
+                <p:outputLabel for="imagem" value="CSV"/>
+                <p:fileUpload fileUploadListener="#{sisEventosBean.uploadImagem}" fileLimit="1" fileLimitMessage="Excedido Limite de arquivos"
+                    cancelLabel="Cancelar" label="Arquivo" uploadLabel="Anexar" 
+                    invalidFileMessage="Somente arquivos .jpg, .png ou .gif"
+                    allowTypes="/(\.|\/)(csv)$/" 
+                    mode="advanced" id="imagem"/>
+                <p:commandButton value="Enviar" ajax="false" />
+            </h:form>
+            <br></br>
+        </div>
+        
+        <div class="container">
+            <div class="footer">
+                <footer class="container-fluid text-center">
+                  <p> Sérgio Gambarra da Silva</p>
+                   <p>
+                   Este sistema foi desenvolvido na disciplina de Trabalho de Conclusão de Curso de Análise e Desenvolvimento de Sistemas do Campus Restinga do IFRS.
+                  </p>
+                </footer>
+            </div> 
+        </div> 
+    </h:body>
+</html>
 
