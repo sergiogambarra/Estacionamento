@@ -9,7 +9,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import java.io.FileReader;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ import persistencia.VeiculoDAO;
 @ManagedBean
 @SessionScoped
 
-public class SisEstacionamentoBean implements Serializable{
+public class SisEstacionamentoBean1 {
 
     /**
      * @return the usuario
@@ -100,8 +99,7 @@ public class SisEstacionamentoBean implements Serializable{
     private final PlacasDAO placasDao = new PlacasDAO();
     private final AlunosDAO alunosDao = new AlunosDAO();
     
-    
-    public SisEstacionamentoBean() {
+    public SisEstacionamentoBean1() {
         listaUsuarios = usuarioDao.listar();
         listaPlacas = placasDao.listar();
         listaAlunos = alunosDao.listar();
@@ -181,13 +179,12 @@ public class SisEstacionamentoBean implements Serializable{
     
     //Upload CSV de Alunos
     
-    public void lerCSVAlunos(String CSV) throws Exception
+    public List<Alunos>lerCSVAlunos(String CSV) throws Exception
     {
-        listaAlunos.removeAll(listaAlunos);
         //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/listagem.csv";
+        String csvFilename = "listagem.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '\'', 1);
         //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
@@ -196,20 +193,11 @@ public class SisEstacionamentoBean implements Serializable{
 
 
         for (Object object : list) {
+            listaAlunos.addAll(list);
             Alunos alunos = (Alunos) object;
-            listaAlunos.add(alunos);
+            System.out.println(alunos.getNome());
         }
-
-        
-        for (int i = 0 ; i< listaAlunos.size(); i++) {
-            if (listaAlunos.get(i).getSituacao().contains(null) || listaAlunos.get(i).getSituacao().contains("")) {
-                if (listaAlunos.get(i).getSituacao().equalsIgnoreCase("Regular")){
-                alunosDao.incluir(this.listaAlunos.get(i));
-                }
-            }
-        }
-
-        
+        return listaAlunos;
     }
     
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -217,7 +205,7 @@ public class SisEstacionamentoBean implements Serializable{
     {
         ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
         strategy.setType(Alunos.class);
-        String[] columns = new String[] {"matricula", "nome", "curso", "matriz_curricular", "situacao", "ingresso"};
+        String[] columns = new String[] {"matricula", "nome", "matriz_curricular", "situacao", "ingresso"};
         strategy.setColumnMapping(columns);
         return strategy;
     }

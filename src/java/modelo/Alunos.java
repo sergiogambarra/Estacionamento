@@ -5,18 +5,30 @@
  */
 package modelo;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Sergio
  */
+
+@Entity
+@Table(name = "alunos")
 public class Alunos {
-        private String id;
-        private String matricula;
-        private String nome;
-        private String curso;
-        private String matriz_curricular;
-        private String situacao;
-        private String ingresso;
+    
+    @Id
+    @GeneratedValue
+    private int id;
+    private String matricula;
+    private String nome;
+    private String curso;
+    private String matriz_curricular;
+    private String situacao;
+    private String ingresso;
 
     
    
@@ -108,15 +120,16 @@ public class Alunos {
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
+
     
 }
