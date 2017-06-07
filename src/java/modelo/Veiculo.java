@@ -27,7 +27,7 @@ public class Veiculo {
     private int id;
     private String placa;
     private String modelo;
-    private String fabricante;
+    private String marca;
     private String ano;
     
 
@@ -64,20 +64,6 @@ public class Veiculo {
     }
 
     /**
-     * @return the fabricante
-     */
-    public String getFabricante() {
-        return fabricante;
-    }
-
-    /**
-     * @param fabricante the fabricante to set
-     */
-    public void setFabricante(String fabricante) {
-        this.fabricante = fabricante;
-    }
-
-    /**
      * @return the ano
      */
     public String getAno() {
@@ -103,6 +89,34 @@ public class Veiculo {
      */
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the marca
+     */
+    public String getMarca() {
+        return marca;
+    }
+
+    /**
+     * @param marca the marca to set
+     */
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
     
 }

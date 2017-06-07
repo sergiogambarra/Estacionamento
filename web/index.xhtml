@@ -16,11 +16,13 @@
 
                 <p:button value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
 
-                <p:button value="Veículos" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
+                <p:button value="Veículos" style="margin-left:10px;margin-right:10px" outcome="incluirVeiculo"/>
 
-                <p:button value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="newjsf"/>
+                <p:button value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
                 
                 <p:commandButton value="Enviar CSV Alunos" ajax="false" action="#{sisEstacionamentoBean.lerCSVAlunos()}" style="margin-right:20px;"/>
+                
+                <p:commandButton value="Enviar CSV Servidores" ajax="false" action="#{sisEstacionamentoBean.lerCSVServidores()}" style="margin-right:20px;"/>
                                 
                 
                 

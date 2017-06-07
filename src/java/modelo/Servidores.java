@@ -50,18 +50,4 @@ public class Servidores {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
-
-    /**
-     * @return the nome
-     */
-    public String getNome() {
-        return nome;
-    }
-
-    /**
-     * @param nome the nome to set
-     */
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 }

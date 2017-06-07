@@ -20,6 +20,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+
+    /**
+     * @return the instituicao
+     */
+    public String getInstituicao() {
+        return instituicao;
+    }
+
+    /**
+     * @param instituicao the instituicao to set
+     */
+    public void setInstituicao(String instituicao) {
+        this.instituicao = instituicao;
+    }
     
     @Id
     @GeneratedValue
@@ -30,6 +44,7 @@ public class Usuario {
     private String matricula;
     private String curso;
     private String empresa;
+    private String instituicao;
     private String RG;
     
    @OneToMany(mappedBy="usuario")

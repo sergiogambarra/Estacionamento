@@ -5,7 +5,6 @@
  */
 package modelo;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,13 +25,10 @@ public class Alunos {
     private String matricula;
     private String nome;
     private String curso;
-    private String matriz_curricular;
-    private String situacao;
-    private String ingresso;
+    
 
     
    
-
     /**
      * @return the matricula
      */
@@ -73,48 +69,6 @@ public class Alunos {
      */
     public void setCurso(String curso) {
         this.curso = curso;
-    }
-
-    /**
-     * @return the matriz_curricular
-     */
-    public String getMatriz_curricular() {
-        return matriz_curricular;
-    }
-
-    /**
-     * @param matriz_curricular the matriz_curricular to set
-     */
-    public void setMatriz_curricular(String matriz_curricular) {
-        this.matriz_curricular = matriz_curricular;
-    }
-
-    /**
-     * @return the situacao
-     */
-    public String getSituacao() {
-        return situacao;
-    }
-
-    /**
-     * @param situacao the situacao to set
-     */
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
-    }
-
-    /**
-     * @return the ingresso
-     */
-    public String getIngresso() {
-        return ingresso;
-    }
-
-    /**
-     * @param ingresso the ingresso to set
-     */
-    public void setIngresso(String ingresso) {
-        this.ingresso = ingresso;
     }
 
     /**

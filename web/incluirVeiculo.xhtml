@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/padrao.xhtml">
+        <ui:define name="conteudo">
+
+            <p:panel id="basic" header="Cadastro de Veículo" style="margin-bottom:20px">
+                <div id="formDados">
+                    
+                    
+                    
+                    <h:form prependId="false">
+                    <p:growl id="growl"/>
+                    
+                                            <fieldset>
+                            
+                                <h:panelGroup>
+                                    <p>
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel for="placa" value="Placa:" />
+                                            <h:inputText id="placa" value="#{sisEstacionamentoBean.veiculo.placa}" />
+                                        </h:panelGrid>
+                                    </p>
+                                    <p>
+                                        <h:panelGrid columns="1">
+                                        <h:outputLabel for="marca" value="Marca" />
+                                        <h:selectOneMenu id="marca" value="#{sisEstacionamentoBean.veiculo.marca}">
+                                            <f:selectItem itemLabel="Selecione..." />
+                                            <f:selectItem itemValue="Acura"/>
+                                            <f:selectItem itemValue="Agrale"/>
+                                            <f:selectItem itemValue="Alfa Romeo"/>
+                                            <f:selectItem itemValue="AM Gen"/>
+                                            <f:selectItem itemValue="Asia Motors"/>
+                                            <f:selectItem itemValue="ASTON MARTIN"/>
+                                            <f:selectItem itemValue="Audi"/>
+                                            <f:selectItem itemValue="BMW"/>
+                                            <f:selectItem itemValue="BRM"/>
+                                            <f:selectItem itemValue="Buggy"/>
+                                            <f:selectItem itemValue="Bugre"/>
+                                            <f:selectItem itemValue="Cadillac"/>
+                                            <f:selectItem itemValue="CBT Jipe"/>
+                                            <f:selectItem itemValue="CHANA"/>
+                                            <f:selectItem itemValue="CHANGAN"/>
+                                            <f:selectItem itemValue="CHERY"/>
+                                            <f:selectItem itemValue="Chrysler"/>
+                                            <f:selectItem itemValue="Citro\u00ebn"/>
+                                            <f:selectItem itemValue="Cross Lander"/>
+                                            <f:selectItem itemValue="Daewoo"/>
+                                            <f:selectItem itemValue="Daihatsu"/>
+                                            <f:selectItem itemValue="Dodge"/>
+                                            <f:selectItem itemValue="EFFA"/>
+                                            <f:selectItem itemValue="Engesa"/>
+                                            <f:selectItem itemValue="Envemo"/>
+                                            <f:selectItem itemValue="Ferrari"/>
+                                            <f:selectItem itemValue="Fiat"/>
+                                            <f:selectItem itemValue="Fibravan"/>
+                                            <f:selectItem itemValue="Ford"/>
+                                            <f:selectItem itemValue="FOTON"/>
+                                            <f:selectItem itemValue="Fyber"/>
+                                            <f:selectItem itemValue="GEELY"/>
+                                            <f:selectItem itemValue="GM - Chevrolet"/>
+                                            <f:selectItem itemValue="GREAT WALL"/>
+                                            <f:selectItem itemValue="Gurgel"/>
+                                            <f:selectItem itemValue="HAFEI"/>
+                                            <f:selectItem itemValue="Honda"/>
+                                            <f:selectItem itemValue="Hyundai"/>
+                                            <f:selectItem itemValue="Isuzu"/>
+                                            <f:selectItem itemValue="JAC"/>
+                                            <f:selectItem itemValue="Jaguar"/>
+                                            <f:selectItem itemValue="Jeep"/>
+                                            <f:selectItem itemValue="JINBEI"/>
+                                            <f:selectItem itemValue="JPX"/>
+                                            <f:selectItem itemValue="Kia Motors"/>
+                                            <f:selectItem itemValue="Lada"/>
+                                            <f:selectItem itemValue="LAMBORGHINI"/>
+                                            <f:selectItem itemValue="Land Rover"/>
+                                            <f:selectItem itemValue="Lexus"/>
+                                            <f:selectItem itemValue="LIFAN"/>
+                                            <f:selectItem itemValue="LOBINI"/>
+                                            <f:selectItem itemValue="Lotus"/>
+                                            <f:selectItem itemValue="Mahindra"/>
+                                            <f:selectItem itemValue="Maserati"/>
+                                            <f:selectItem itemValue="Matra"/>
+                                            <f:selectItem itemValue="Mazda"/>
+                                            <f:selectItem itemValue="Mercedes-Benz"/>
+                                            <f:selectItem itemValue="Mercury"/>
+                                            <f:selectItem itemValue="MG"/>
+                                            <f:selectItem itemValue="MINI"/>
+                                            <f:selectItem itemValue="Mitsubishi"/>
+                                            <f:selectItem itemValue="Miura"/>
+                                            <f:selectItem itemValue="Nissan"/>
+                                            <f:selectItem itemValue="Peugeot"/>
+                                            <f:selectItem itemValue="Plymouth"/>
+                                            <f:selectItem itemValue="Pontiac"/>
+                                            <f:selectItem itemValue="Porsche"/>
+                                            <f:selectItem itemValue="RAM"/>
+                                            <f:selectItem itemValue="RELY"/>
+                                            <f:selectItem itemValue="Renault"/>
+                                            <f:selectItem itemValue="Rolls-Royce"/>
+                                            <f:selectItem itemValue="Rover"/>
+                                            <f:selectItem itemValue="Saab"/>
+                                            <f:selectItem itemValue="Saturn"/>
+                                            <f:selectItem itemValue="Seat"/>
+                                            <f:selectItem itemValue="SHINERAY"/>
+                                            <f:selectItem itemValue="smart"/>
+                                            <f:selectItem itemValue="SSANGYONG"/>
+                                            <f:selectItem itemValue="Subaru"/>
+                                            <f:selectItem itemValue="Suzuki"/>
+                                            <f:selectItem itemValue="TAC"/>
+                                            <f:selectItem itemValue="Toyota"/>
+                                            <f:selectItem itemValue="Troller"/>
+                                            <f:selectItem itemValue="Volvo"/>
+                                            <f:selectItem itemValue="VW - VolksWagen"/>
+                                            <f:selectItem itemValue="Wake"/>
+                                            <f:selectItem itemValue="Walk"/>
+                                            <f:ajax render="teste" />
+                                        </h:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p>
+                                    <p>
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel for="modelo" value="Modelo:" />
+                                            <h:inputText id="modelo" value="#{sisEstacionamentoBean.veiculo.modelo}" />
+                                        </h:panelGrid>
+                                    </p>
+                                    <p>
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel for="ano" value="Ano:" />
+                                            <h:inputText id="ano" value="#{sisEstacionamentoBean.veiculo.ano}" />
+                                        </h:panelGrid>
+                                    </p>
+                            </h:panelGroup>
+                        </fieldset>
+                    
+
+                        <h:panelGrid columns="1">
+                            <h:outputLabel for="vinculo" value="Vinculo com a Instituição:"/>
+                            <h:selectOneMenu id="vinculo" value="#{sisEstacionamentoBean.usuario.vinculo}">
+                                <f:selectItem itemLabel="Selecione..." />
+                                <f:selectItem itemValue="Servidor" />
+                                <f:selectItem itemValue="Aluno" />
+                                <f:selectItem itemValue="Terceirizado" />
+                                <f:selectItem itemValue="Fornecedor" />
+                                <f:selectItem itemValue="Estagiário" />
+                                <f:selectItem itemValue="Outros" />
+                                <f:ajax render="teste" />
+                            </h:selectOneMenu>
+
+                        </h:panelGrid>
+                        
+                    <h:panelGroup id="teste">
+                            
+                                <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
+                                    <h:panelGrid columns="1">
+                                        <h:outputLabel for="txtMatriculaSIAPE" value="Matrícula SIAPE"/>
+                                        <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.usuario.matriculaSIAPE}"/>
+                                        
+                                        <h:outputLabel for="txtNomeServidor" value="Nome Completo:"/>
+                                        <h:inputText id="txtNomeServidor" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                            
+                            <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Aluno'}">
+                                
+                                <h:panelGrid columns="1">
+                                    
+                                        <h:outputLabel for="txtMatricula" value="Matrícula"/>
+                                        <h:inputText id="txtMatricula" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula" value="#{sisEstacionamentoBean.usuario.matricula}"/>
+                                        
+                                        <h:outputLabel for="txtNomeAluno" value="Nome Completo:"/>
+                                        <h:inputText id="txtNomeAluno" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                                        
+                                        <h:outputLabel for="txtCurso" value="Curso"/>
+                                        <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.usuario.curso}"/>
+                                    
+                                </h:panelGrid>
+                                    
+                            </h:panelGroup>
+
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Terceirizado' || sisEstacionamentoBean.usuario.vinculo == 'Fornecedor' || sisEstacionamentoBean.usuario.vinculo == 'Estagiario'|| sisEstacionamentoBean.usuario.vinculo == 'Outros'}">
+                                
+                            <h:panelGrid columns="1">
+
+                                <h:outputLabel for="txtNomeOutros" value="Nome Completo:"/>
+                                <h:inputText id="txtNomeOutros" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+
+                                <h:outputLabel for="txtRG" value="RG"/>
+                                <h:inputText id="txtRG" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.usuario.RG}"/>
+
+                                <h:outputLabel for="txtEmpresa" value="Empresa"/>
+                                <h:inputText id="txtEmpresa" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.usuario.empresa}"/>
+
+                            </h:panelGrid>
+                                
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Estagiario'}">
+                                
+                            <h:panelGrid columns="1">
+
+                                <h:outputLabel for="txtNomeOutros" value="Nome Completo:"/>
+                                <h:inputText id="txtNomeOutros" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+
+                                <h:outputLabel for="txtRG" value="RG"/>
+                                <h:inputText id="txtRG" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.usuario.RG}"/>
+
+                                <h:outputLabel for="txtInstituicao" value="Empresa"/>
+                                <h:inputText id="txtInstituicao" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.usuario.instituicao}"/>
+
+                            </h:panelGrid>
+                                
+                        </h:panelGroup>
+                        <p>
+                            <h:panelGrid columns="1">
+                                
+                            </h:panelGrid>    
+                        </p>    
+                            
+                    </h:panelGroup>
+
+                        <p:toolbar>
+                            <f:facet name="left"> 
+                                <p:commandButton value="Cadastrar" ajax="false" action="#{sisEstacionamentoBean.incluirUsuario}" style="margin-right:20px;">
+                                </p:commandButton>
+                            </f:facet>
+                            <f:facet name="right">     
+                            </f:facet>
+                        </p:toolbar>
+                    </h:form>
+                </div>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

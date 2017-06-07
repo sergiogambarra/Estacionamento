@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.enterprise.context.spi.Context;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -30,6 +31,7 @@ import persistencia.AlunosDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
 import persistencia.VeiculoDAO;
+import persistencia.ServidoresDAO;
 
 /**
  *
@@ -54,6 +56,13 @@ public class SisEstacionamentoBean implements Serializable{
      */
     public void setServidores(Servidores servidores) {
         this.servidores = servidores;
+    }
+
+    /**
+     * @param listaUsuarios the listaUsuarios to set
+     */
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
     }
 
     /**
@@ -82,17 +91,20 @@ public class SisEstacionamentoBean implements Serializable{
     private List<Usuario> listaUsuarios;
     private List<Placas> listaPlacas;
     private List<Alunos> listaAlunos;
+    private List<Servidores> listaServidores;
     
     private final UsuarioDAO usuarioDao = new UsuarioDAO();
     private final VeiculoDAO veiculoDao = new VeiculoDAO();
     private final PlacasDAO placasDao = new PlacasDAO();
     private final AlunosDAO alunosDao = new AlunosDAO();
+    private final ServidoresDAO servidoresDao = new ServidoresDAO();
     
     
     public SisEstacionamentoBean() {
         listaUsuarios = usuarioDao.listar();
         listaPlacas = placasDao.listar();
         listaAlunos = alunosDao.listar();
+        listaServidores = servidoresDao.listar();
         
     }
    
@@ -108,7 +120,7 @@ public class SisEstacionamentoBean implements Serializable{
         context.addMessage(null, msg);
         if (veiculo.getPlaca() != null){
             usuarioDao = new UsuarioDAO();
-            listaUsuarios = usuarioDao.listar();
+            setListaUsuarios(usuarioDao.listar());
             ArrayList<Integer> ids_users = new ArrayList<Integer>();
             for (int i = 0; i< this.listaUsuarios.size();i++){
                 ids_users.add(this.listaUsuarios.get(i).getId_user());
@@ -176,12 +188,13 @@ public class SisEstacionamentoBean implements Serializable{
         //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
+        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
+        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '\'', 1);
         //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
         //Set column mapping strategy
-        List list = csv.parse(setColumMapping(), csvReader);
+        List list = csv.parse(mapearColunasCSVAlunos(), csvReader);
         
         
 
@@ -193,14 +206,52 @@ public class SisEstacionamentoBean implements Serializable{
     }
     
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static ColumnPositionMappingStrategy setColumMapping()
+    private static ColumnPositionMappingStrategy mapearColunasCSVAlunos()
     {
         ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
         strategy.setType(Alunos.class);
-        String[] columns = new String[] {"matricula", "nome", "curso", "matriz_curricular", "situacao", "ingresso"};
+        String[] columns = new String[] {"matricula", "nome", "curso"};
         strategy.setColumnMapping(columns);
         return strategy;
     }
+    
+    //Upload CSV de Servidores
+    
+    public void lerCSVServidores() throws Exception
+    {
+        listaServidores.removeAll(listaServidores);
+        listaServidores = servidoresDao.listar();
+        //listaAlunos = alunosDao.listar();
+        CsvToBean csv = new CsvToBean();
+
+        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
+        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
+        CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
+        //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
+
+        //Set column mapping strategy
+        List list = csv.parse(mapearColunasCSVServidores(), csvReader);
+        
+        
+
+        for (Object object : list) {
+            servidores = (Servidores) object;
+            listaServidores.add(servidores);
+            servidoresDao.incluir(servidores);
+        }
+    }
+    
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static ColumnPositionMappingStrategy mapearColunasCSVServidores()
+    {
+        ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
+        strategy.setType(Servidores.class);
+        String[] columns = new String[] {"matricula", "nome"};
+        strategy.setColumnMapping(columns);
+        return strategy;
+    }
+    
+     
     
         /**
      * @return the usuario
