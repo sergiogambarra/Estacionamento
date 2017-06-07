@@ -23,9 +23,14 @@ public class AlunosDAO {
     }
 
     public void incluir(Alunos alu) {
-        Transaction t = sessao.beginTransaction();
-        sessao.save(alu);
-        t.commit();
+        
+            
+                Transaction t = sessao.beginTransaction();
+                sessao.save(alu);
+                t.commit();
+            
+        
+        
     }
 
     public ArrayList<Alunos> listar() {

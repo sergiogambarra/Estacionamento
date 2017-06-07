@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import modelo.Alunos;
 import modelo.Placas;
 import modelo.Usuario;
 import modelo.Veiculo;
+import modelo.Servidores;
 import persistencia.AlunosDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
@@ -41,55 +43,41 @@ import persistencia.VeiculoDAO;
 public class SisEstacionamentoBean implements Serializable{
 
     /**
-     * @return the usuario
+     * @return the servidores
      */
-    public Usuario getUsuario() {
-        return usuario;
+    public Servidores getServidores() {
+        return servidores;
     }
 
     /**
-     * @param usuario the usuario to set
+     * @param servidores the servidores to set
      */
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setServidores(Servidores servidores) {
+        this.servidores = servidores;
     }
 
     /**
-     * @return the veiculo
+     * @return the alunos
      */
-    public Veiculo getVeiculo() {
-        return veiculo;
+    public Alunos getAlunos() {
+        return alunos;
     }
 
     /**
-     * @param veiculo the veiculo to set
+     * @param alunos the alunos to set
      */
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    public void setAlunos(Alunos alunos) {
+        this.alunos = alunos;
     }
 
-    /**
-     * @return the placas
-     */
-    public Placas getPlacas() {
-        return placas;
-    }
-
-    /**
-     * @param placas the placas to set
-     */
-    public void setPlacas(Placas placas) {
-        this.placas = placas;
-    }
-    
-    public List<Usuario> getListaUsuarios() {
-        return listaUsuarios;
-    }
 
     
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
     private Placas placas = new Placas();
+    private Servidores servidores = new Servidores();
+    private Alunos alunos = new Alunos();
+    
     
     private List<Usuario> listaUsuarios;
     private List<Placas> listaPlacas;
@@ -181,35 +169,27 @@ public class SisEstacionamentoBean implements Serializable{
     
     //Upload CSV de Alunos
     
-    public void lerCSVAlunos(String CSV) throws Exception
+    public void lerCSVAlunos() throws Exception
     {
         listaAlunos.removeAll(listaAlunos);
+        listaAlunos = alunosDao.listar();
         //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/listagem.csv";
+        String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '\'', 1);
         //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
         //Set column mapping strategy
         List list = csv.parse(setColumMapping(), csvReader);
-
+        
+        
 
         for (Object object : list) {
-            Alunos alunos = (Alunos) object;
+            alunos = (Alunos) object;
             listaAlunos.add(alunos);
+            alunosDao.incluir(alunos);
         }
-
-        
-        for (int i = 0 ; i< listaAlunos.size(); i++) {
-            if (listaAlunos.get(i).getSituacao().contains(null) || listaAlunos.get(i).getSituacao().contains("")) {
-                if (listaAlunos.get(i).getSituacao().equalsIgnoreCase("Regular")){
-                alunosDao.incluir(this.listaAlunos.get(i));
-                }
-            }
-        }
-
-        
     }
     
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -222,4 +202,50 @@ public class SisEstacionamentoBean implements Serializable{
         return strategy;
     }
     
+        /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * @return the veiculo
+     */
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    /**
+     * @param veiculo the veiculo to set
+     */
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    /**
+     * @return the placas
+     */
+    public Placas getPlacas() {
+        return placas;
+    }
+
+    /**
+     * @param placas the placas to set
+     */
+    public void setPlacas(Placas placas) {
+        this.placas = placas;
+    }
+    
+    public List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
 }
