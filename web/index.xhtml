@@ -29,16 +29,52 @@
             
                  
             </h:form>
+            
+            <h:form>   
+                <p:growl id="growl" />
 
-            <h:form id="img1" enctype="multipart/form-data" >
-                <p:outputLabel for="imagem" value="CSV"/>
-                <p:fileUpload fileUploadListener="#{sisEventosBean.uploadImagem}" fileLimit="1" fileLimitMessage="Excedido Limite de arquivos"
-                    cancelLabel="Cancelar" label="Arquivo" uploadLabel="Anexar" 
-                    invalidFileMessage="Somente arquivos .jpg, .png ou .gif"
-                    allowTypes="/(\.|\/)(csv)$/" 
-                    mode="advanced" id="imagem"/>
-                <p:commandButton value="Enviar" ajax="false" />
+                <h3 style="margin-top:0">Client ProgressBar</h3>
+                <p:commandButton value="Start" action="#{sisEstacionamentoBean.lerCSVServidores()}" id="start" type="button" onclick="start()" widgetVar="startButton1"/>
+                <p:commandButton value="Cancel" id="cancel" type="button" onclick="cancel()" />
+                <br /><br />
+                <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>
+
             </h:form>
+ 
+            <style tyle="text/css">
+                .animated .ui-progressbar-value { 
+                    background-image: url("/showcase/javax.faces.resource/demo/images/pbar-ani.gif.xhtml"); 
+                }
+            </style>
+
+            <script type="text/javascript">
+            function start() {
+                #{sisEstacionamentoBean.lerCSVServidores()}
+                PF('startButton1').disable();
+
+                window['progress'] = setInterval(function() {
+                    var pbClient = PF('pbClient'),
+                    oldValue = pbClient.getValue(),
+                    newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if(newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+
+            function cancel() {
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+            </script>
+
+           
             <br></br>
         </div>
         
