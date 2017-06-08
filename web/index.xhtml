@@ -2,7 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="templates/padrao.xhtml">
+        <ui:define name="conteudo">
     <h:head>
         <title>Sistema de Controle de Veículos</title>
     </h:head>
@@ -13,33 +16,31 @@
             <p>Um Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
 
             <h:form enctype="multipart/form-data">
+                 <p:growl id="growl" />
 
-                <p:button value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
-
+                <p:button class="btn btn-primary btn-lg" value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
+                
                 <p:button value="Veículos" style="margin-left:10px;margin-right:10px" outcome="incluirVeiculo"/>
 
                 <p:button value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
                 
-                <p:commandButton value="Enviar CSV Alunos" ajax="false" action="#{sisEstacionamentoBean.lerCSVAlunos()}" style="margin-right:20px;"/>
+                <p:commandButton value="Enviar CSV Alunos" onclick="PF('pbAjax').start();PF('startButton2').disable();" widgetVar="startButton2" action="#{sisEstacionamentoBean.lerCSVAlunos()}" style="margin-right:20px;"/>
                 
-                <p:commandButton value="Enviar CSV Servidores" ajax="false" action="#{sisEstacionamentoBean.lerCSVServidores()}" style="margin-right:20px;"/>
+                <p:commandButton value="Enviar CSV Servidores" onclick="PF('pbAjax').start();PF('startButton2').disable();" widgetVar="startButton2" action="#{sisEstacionamentoBean.lerCSVServidores()}" style="margin-right:20px;"/>
+                
+                
+                <br /><br />
+                <p:progressBar widgetVar="pbAjax" style="width:300px" ajax="true" value="#{sisEstacionamentoBean.progress}" labelTemplate="{value}%" global="false">
+                    <p:ajax event="complete" listener="#{sisEstacionamentoBean.onComplete}" update="growl" oncomplete="PF('startButton2').enable()"/>
+                </p:progressBar>
                                 
-                
+               
                 
             
                  
             </h:form>
             
-            <h:form>   
-                <p:growl id="growl" />
-
-                <h3 style="margin-top:0">Client ProgressBar</h3>
-                <p:commandButton value="Start" action="#{sisEstacionamentoBean.lerCSVServidores()}" id="start" type="button" onclick="start()" widgetVar="startButton1"/>
-                <p:commandButton value="Cancel" id="cancel" type="button" onclick="cancel()" />
-                <br /><br />
-                <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:300px"/>
-
-            </h:form>
+           
  
             <style tyle="text/css">
                 .animated .ui-progressbar-value { 
@@ -49,7 +50,6 @@
 
             <script type="text/javascript">
             function start() {
-                #{sisEstacionamentoBean.lerCSVServidores()}
                 PF('startButton1').disable();
 
                 window['progress'] = setInterval(function() {
@@ -65,12 +65,6 @@
 
 
                 }, 1000);
-            }
-
-            function cancel() {
-                clearInterval(window['progress']);
-                PF('pbClient').setValue(0);
-                PF('startButton1').enable();
             }
             </script>
 
@@ -89,5 +83,7 @@
             </div> 
         </div> 
     </h:body>
+            </ui:define>
+        </ui:composition>
 </html>
 

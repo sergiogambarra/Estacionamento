@@ -21,6 +21,7 @@ import javax.enterprise.context.spi.Context;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import modelo.Alunos;
 import modelo.Placas;
@@ -40,7 +41,7 @@ import persistencia.ServidoresDAO;
 
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 
 public class SisEstacionamentoBean implements Serializable{
 
@@ -107,7 +108,7 @@ public class SisEstacionamentoBean implements Serializable{
         listaServidores = servidoresDao.listar();
         
     }
-   
+   private Integer progress;
           
     //usuario
     public String incluirUsuario() throws Exception {
@@ -184,6 +185,7 @@ public class SisEstacionamentoBean implements Serializable{
     public void lerCSVAlunos() throws Exception
     {
         listaAlunos.removeAll(listaAlunos);
+        List<Alunos> listaNovaAlunos = listaAlunos;
         listaAlunos = alunosDao.listar();
         //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
@@ -196,12 +198,16 @@ public class SisEstacionamentoBean implements Serializable{
         //Set column mapping strategy
         List list = csv.parse(mapearColunasCSVAlunos(), csvReader);
         
-        
+        int i=0;
 
         for (Object object : list) {
+            i++;
             alunos = (Alunos) object;
-            listaAlunos.add(alunos);
+            listaNovaAlunos.add(alunos);
             alunosDao.incluir(alunos);
+            progress =  i * 100 / list.size();
+            System.out.println(progress);
+            this.setProgress(progress);
         }
     }
     
@@ -220,24 +226,27 @@ public class SisEstacionamentoBean implements Serializable{
     public void lerCSVServidores() throws Exception
     {
         listaServidores.removeAll(listaServidores);
+        List<Servidores> listaNovaServidores = listaServidores;
         listaServidores = servidoresDao.listar();
-        //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
 
         //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
         String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
-        //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
         //Set column mapping strategy
         List list = csv.parse(mapearColunasCSVServidores(), csvReader);
         
+        int i=0;
         
-
         for (Object object : list) {
+            i++;
             servidores = (Servidores) object;
-            listaServidores.add(servidores);
+            listaNovaServidores.add(servidores);
             servidoresDao.incluir(servidores);
+            progress =  i * 100 / list.size();
+            System.out.println(progress);
+            this.setProgress(progress);
         }
     }
     
@@ -251,18 +260,13 @@ public class SisEstacionamentoBean implements Serializable{
         return strategy;
     }
     
-    private Integer progress;
+    
  
     public Integer getProgress() {
         if(progress == null) {
             progress = 0;
         }
-        else {
-            progress = progress + (int)(Math.random() * 35);
-             
-            if(progress > 100)
-                progress = 100;
-        }
+        
          
         return progress;
     }
@@ -272,7 +276,7 @@ public class SisEstacionamentoBean implements Serializable{
     }
      
     public void onComplete() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Progress Completed"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Lista de Servidores Atualizada"));
     }
      
     public void cancel() {

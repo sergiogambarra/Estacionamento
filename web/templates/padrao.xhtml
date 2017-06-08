@@ -10,12 +10,32 @@
         <h:outputStylesheet  library="css" name="estilos.css"/>
         <h:outputScript  library="js" name="validacao.js"/>   
         <h:outputScript library="js" name="locale-primefaces.js"/>
-        <h:outputScript library="js" name="cep.js"/>
+        
 
     </h:head>
     <h:body>
         <p:layout fullPage="true">
-             
+            <p:layoutUnit position="north">  
+                <span> <h1> Sistema de Estacionamento IFRS - Campus Restinga </h1></span>
+                <div class="loginform" align="right">
+                    <h:form>
+                        <p:growl id="growl"/>   
+                        <p:outputLabel for="txtUsuario" value="Usuario " style="color:gray;font-weight:bold;margin-right:10px"/>
+                        <p:inputText id="txtUsuario" maxlength="60" size="20" value="" style="color:gray;font-weight:bold;margin-right:10px"/>
+
+                        <p:outputLabel for="txtSenhaUsuario" value="Senha: " style="color:gray;font-weight:bold;margin-left:10px"/>
+                        <p:password id="txtSenhaUsuario" maxlength="60" size="20" value="" style="margin-right:10px"/>
+                        <p:commandButton class="btn btn-primary btn-lg" value="Login" ajax="false" style="margin-left:10px;margin-right:10px"/>
+                        <p:commandLink ajax="false" value="Esqueci a senha" action="enviarSenha" style="margin-left:10px;margin-right:10px" />
+                        
+                    </h:form>
+                </div>
+                <h:form enctype="multipart/form-data"> 
+                    <p:menubar style="margin-top:6px; margin-bottom:10px;">
+                        <p:menuitem value="Home" action="index"/>  
+                    </p:menubar>
+                </h:form>     
+            </p:layoutUnit>    
             <p:layoutUnit id="conteudo" position="center">
                 <ui:insert name="conteudo"/>
             </p:layoutUnit>
