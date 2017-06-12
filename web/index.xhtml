@@ -15,30 +15,7 @@
             <h1>Sistema de Controle de Veículos</h1>
             <p>Um Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
 
-            <h:form enctype="multipart/form-data">
-                 <p:growl id="growl" />
-
-                <p:button class="btn btn-primary btn-lg" value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
-                
-                <p:button value="Veículos" style="margin-left:10px;margin-right:10px" outcome="incluirVeiculo"/>
-
-                <p:button value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
-                
-                <p:commandButton value="Enviar CSV Alunos" onclick="PF('pbAjax').start();PF('startButton2').disable();" widgetVar="startButton2" action="#{sisEstacionamentoBean.lerCSVAlunos()}" style="margin-right:20px;"/>
-                
-                <p:commandButton value="Enviar CSV Servidores" onclick="PF('pbAjax').start();PF('startButton2').disable();" widgetVar="startButton2" action="#{sisEstacionamentoBean.lerCSVServidores()}" style="margin-right:20px;"/>
-                
-                
-                <br /><br />
-                <p:progressBar widgetVar="pbAjax" style="width:300px" ajax="true" value="#{sisEstacionamentoBean.progress}" labelTemplate="{value}%" global="false">
-                    <p:ajax event="complete" listener="#{sisEstacionamentoBean.onComplete}" update="growl" oncomplete="PF('startButton2').enable()"/>
-                </p:progressBar>
-                                
-               
-                
             
-                 
-            </h:form>
             
            
  
@@ -72,9 +49,9 @@
             <br></br>
         </div>
         
-        <div class="container">
-            <div class="footer">
-                <footer class="container-fluid text-center">
+        <div >
+            <div >
+                <footer >
                   <p> Sérgio Gambarra da Silva</p>
                    <p>
                    Este sistema foi desenvolvido na disciplina de Trabalho de Conclusão de Curso de Análise e Desenvolvimento de Sistemas do Campus Restinga do IFRS.

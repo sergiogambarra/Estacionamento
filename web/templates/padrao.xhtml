@@ -18,18 +18,27 @@
             <p:layoutUnit position="north">  
                 <span> <h1> Sistema de Estacionamento IFRS - Campus Restinga </h1></span>
                 <div class="loginform" align="right">
-                    <h:form>
+                    <h:form rendered="#{sisEventosBean.verificarSessao() eq false}">
                         <p:growl id="growl"/>   
                         <p:outputLabel for="txtUsuario" value="Usuario " style="color:gray;font-weight:bold;margin-right:10px"/>
                         <p:inputText id="txtUsuario" maxlength="60" size="20" value="" style="color:gray;font-weight:bold;margin-right:10px"/>
 
                         <p:outputLabel for="txtSenhaUsuario" value="Senha: " style="color:gray;font-weight:bold;margin-left:10px"/>
                         <p:password id="txtSenhaUsuario" maxlength="60" size="20" value="" style="margin-right:10px"/>
-                        <p:commandButton class="btn btn-primary btn-lg" value="Login" ajax="false" style="margin-left:10px;margin-right:10px"/>
+                        <p:commandButton value="Login" ajax="false" style="margin-left:10px;margin-right:10px"/>
                         <p:commandLink ajax="false" value="Esqueci a senha" action="enviarSenha" style="margin-left:10px;margin-right:10px" />
                         
                     </h:form>
+                    <h:form enctype="multipart/form-data">
+                       <p:growl id="growl" />
+
+                       <p:button value="Usuários" style="margin-left:10px;margin-right:10px" outcome="usuarios"/>
+                       <p:button value="Cadastrar Veículo" style="margin-left:10px;margin-right:10px" outcome="incluirVeiculo"/>
+                       <p:button value="Veículos Não Cadastrados" style="margin-left:10px;margin-right:10px" outcome="incluirUsuario"/>
+                       <p:button value="Upload CSV" style="margin-left:10px;margin-right:10px" outcome="uploadForm"/>         
+                    </h:form>
                 </div>
+                
                 <h:form enctype="multipart/form-data"> 
                     <p:menubar style="margin-top:6px; margin-bottom:10px;">
                         <p:menuitem value="Home" action="index"/>  

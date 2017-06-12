@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="templates/padrao.xhtml">
+        <ui:define name="conteudo">
+            
+ 
+            <form action="Upload" method="post" enctype="multipart/form-data">
+                <p:growl id="growl"/>
+                
+                    <input type="text" name="description" />
+                    <input type="file" name="file" />
+                    <input type="submit" />
+                    <br /><br />
+                    <p:commandButton value="Enviar CSV Alunos" onclick="PF('pbAjax').start();PF('startButton2').disable();" widgetVar="startButton2" action="#{sisEstacionamentoBean.lerCSVAlunos()}" style="margin-right:20px;"/>
+
+                    <p:commandButton value="Enviar CSV Servidores" onclick="PF('pbAjax').start();PF('startButton2').disable();" widgetVar="startButton2" action="#{sisEstacionamentoBean.lerCSVServidores()}" style="margin-right:20px;"/>
+
+                    <br /><br />
+                    <p:progressBar widgetVar="pbAjax" style="width:300px" ajax="true" value="#{sisEstacionamentoBean.progress}" labelTemplate="{value}%" global="false">
+                        <p:ajax event="complete" listener="#{sisEstacionamentoBean.onComplete}" update="growl" oncomplete="PF('startButton2').enable()"/>
+                    </p:progressBar>
+
+            </form>     
+        </ui:define>
+    </ui:composition>
+</html>

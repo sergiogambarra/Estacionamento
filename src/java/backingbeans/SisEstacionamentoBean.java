@@ -190,8 +190,8 @@ public class SisEstacionamentoBean implements Serializable{
         //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
-        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
+        String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\alunos.csv";
+        //String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '\'', 1);
         //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
@@ -230,8 +230,8 @@ public class SisEstacionamentoBean implements Serializable{
         listaServidores = servidoresDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\listagem.csv";
-        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
+        String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\servidores.csv";
+        //String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
 
         //Set column mapping strategy
