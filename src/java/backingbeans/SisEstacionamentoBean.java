@@ -180,7 +180,7 @@ public class SisEstacionamentoBean implements Serializable{
                 PlacasDAO placasDao = new PlacasDAO();
                 pla.setEntrada(d2);
                 placasDao.incluir(pla);
-                d1 = d2;
+                d1 = new Date();
             } 
             
         } catch (Exception e) {
