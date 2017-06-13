@@ -18,6 +18,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import modelo.Placas;
 import backingbeans.SisEstacionamentoBean;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  *
@@ -113,17 +117,51 @@ public class Servlet extends HttpServlet {
 
                 Iterator<Object> iterator = results.iterator();
                 while (iterator.hasNext()) {
-                    if (results.iterator().next() != null){
-                        JSONObject jsonObjectnovo = (JSONObject) results.iterator().next();
-                        String plate = (String) jsonObjectnovo.get("plate");
+                        if (results.iterator().next() != null){
+                            JSONObject jsonObjectnovo = (JSONObject) results.iterator().next();
+                            String plate = (String) jsonObjectnovo.get("plate");
+                            String[] pp = plate.split("");
+                        
+                        if (pp.length == 7){
+                            for(int i=0;i<pp.length;i++){
+                                if (i<3){
+                                    if (Character.isLetter(pp[i].charAt(0))){
+                                        System.out.println(pp[i]);
+                                    } else if (pp[i].equals("1")){
+                                        pp[i] = "I";
+                                        System.out.println(pp[i]);
+                                    } else if (pp[i].equals("0")){
+                                        pp[i] = "O";
+                                        System.out.println(pp[i]);
+                                    }else if (pp[i].equals("5")){
+                                        pp[i] = "S";
+                                        System.out.println(pp[i]);
+                                    }
+                                } else if (!Character.isLetter(pp[i].charAt(0))){
+                                        System.out.println(pp[i]);
+                                    } else if (pp[i].equals("I")){
+                                        pp[i] = "1";
+                                        System.out.println(pp[i]);
+                                    } else if (pp[i].equals("O")){
+                                        pp[i] = "0";
+                                        System.out.println(pp[i]);
+                                    } else if (pp[i].equals("S")){
+                                        pp[i] = "5";
+                                        System.out.println(pp[i]);
+                                    }
+                            plate = String.join("",pp);
+                            }
+                        } else {
+                            break;
+                        }
                         System.out.println("placa: "+plate);
                         this.placa.setPlaca(plate);
-                        this.sis.incluirPlaca(this.placa);
+                        this.sis.incluirPlaca(this.placa);   
                         break;
                     }
-                    
+ 
                 }
-               
+                    
               } catch (ParseException e) {
             e.printStackTrace();
         }

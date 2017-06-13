@@ -161,21 +161,37 @@ public class SisEstacionamentoBean implements Serializable{
     
     //placas capturadas
     public Placas incluirPlaca(Placas pla) {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date d2 = new Date();
+        String data2Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d2);
         listaPlacas = placasDao.listar();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        for (int i =0;i<listaPlacas.size();i++){
-            if (pla.getPlaca() == listaPlacas.get(i).getPlaca() && listaPlacas.get(i).getEntrada().before(date)){
-                
-                
+        Date d1 = listaPlacas.get(listaPlacas.size()-1).getEntrada();
+	String data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
+        try {
+            d1 = dateFormat.parse(data1Formatada);
+            d2 = dateFormat.parse(data2Formatada);
+            long diferenca = d2.getTime() - d1.getTime();
+            System.out.println(diferenca);
+            long diffSeconds = diferenca / 1000 % 60;
+            System.out.print(diffSeconds + " segundos, ");
+            long diffMinutes = diferenca / (60 * 1000) % 60;
+            System.out.print(diffMinutes + " minutos, ");
+            if (((d2.getTime() - d1.getTime())/ 1000 % 60) + (((d2.getTime() - d1.getTime())/ (60 * 1000) % 60)*60) > 20){
+                PlacasDAO placasDao = new PlacasDAO();
+                pla.setEntrada(d2);
+                placasDao.incluir(pla);
+                d1 = d2;
             } 
-        }
-        PlacasDAO placasDao = new PlacasDAO();
-        pla.setEntrada(date);
+            
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
         
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg;
-        placasDao.incluir(pla);
+   
+        
+        d2 = new Date();
+        
+        
         placas = new Placas();
         return this.placas;
     }
@@ -190,8 +206,8 @@ public class SisEstacionamentoBean implements Serializable{
         //listaAlunos = alunosDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\alunos.csv";
-        //String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
+        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\alunos.csv";
+        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '\'', 1);
         //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
@@ -230,8 +246,8 @@ public class SisEstacionamentoBean implements Serializable{
         listaServidores = servidoresDao.listar();
         CsvToBean csv = new CsvToBean();
 
-        String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\servidores.csv";
-        //String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
+        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\servidores.csv";
+        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
 
         //Set column mapping strategy
