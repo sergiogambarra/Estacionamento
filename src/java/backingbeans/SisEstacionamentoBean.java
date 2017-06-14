@@ -28,6 +28,7 @@ import modelo.Placas;
 import modelo.Usuario;
 import modelo.Veiculo;
 import modelo.Servidores;
+import org.apache.commons.lang3.time.DateUtils;
 import persistencia.AlunosDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
@@ -164,9 +165,23 @@ public class SisEstacionamentoBean implements Serializable{
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date d2 = new Date();
         String data2Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d2);
+        String data2FormatadaDia = new SimpleDateFormat("MM/dd/yyyy").format(d2);
+        
+        
         listaPlacas = placasDao.listar();
         Date d1 = listaPlacas.get(listaPlacas.size()-1).getEntrada();
-	String data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
+        String data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
+        String data1FormatadaDia = new SimpleDateFormat("MM/dd/yyyy").format(d1);
+        
+        //Verifica se a data de entrada vinda do banco nao vem vazia
+        //Caso o banco esteja limpo
+        if (listaPlacas.get(listaPlacas.size()-1).getEntrada() == null){
+            data1Formatada = "01/01/2000 23:59:59";
+            
+        } else {
+            d1 = listaPlacas.get(listaPlacas.size()-1).getEntrada();
+            data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
+        }
         try {
             d1 = dateFormat.parse(data1Formatada);
             d2 = dateFormat.parse(data2Formatada);
@@ -176,11 +191,33 @@ public class SisEstacionamentoBean implements Serializable{
             System.out.print(diffSeconds + " segundos, ");
             long diffMinutes = diferenca / (60 * 1000) % 60;
             System.out.print(diffMinutes + " minutos, ");
-            if (((d2.getTime() - d1.getTime())/ 1000 % 60) + (((d2.getTime() - d1.getTime())/ (60 * 1000) % 60)*60) > 20){
-                PlacasDAO placasDao = new PlacasDAO();
-                pla.setEntrada(d2);
-                placasDao.incluir(pla);
-                d1 = new Date();
+            long diffHours = diferenca / (60 * 60 * 1000); 
+            System.out.print(diffHours + " horas, ");
+            boolean mesmodia = DateUtils.isSameDay(d1, d2);
+            // && listaPlacas.get(i).getSaida().equals(null)
+            
+            if (diffSeconds + (diffMinutes * 60) + (diffHours * 60 *60) > 20){
+                boolean entrada = true;
+                boolean saida = false;
+                for (int i =0;i<listaPlacas.size();i++){
+                    if (listaPlacas.get(i).getPlaca().equals(pla.getPlaca())){
+                        entrada = false;
+                    } 
+                }
+                if (entrada == false){
+                    PlacasDAO placasDao = new PlacasDAO();
+                    pla.setSaida(d2);
+                    placasDao.incluir(pla);
+                    d1 = new Date();
+                    
+                } else {
+                    PlacasDAO placasDao = new PlacasDAO();
+                    pla.setEntrada(d2);
+                    placasDao.incluir(pla);
+                    d1 = new Date();
+                    
+                }
+                
             } 
             
         } catch (Exception e) {

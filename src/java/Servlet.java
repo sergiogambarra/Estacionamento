@@ -136,6 +136,9 @@ public class Servlet extends HttpServlet {
                                     }else if (pp[i].equals("5")){
                                         pp[i] = "S";
                                         System.out.println(pp[i]);
+                                    }else if (pp[i].equals("8")){
+                                        pp[i] = "B";
+                                        System.out.println(pp[i]);
                                     }
                                 } else if (!Character.isLetter(pp[i].charAt(0))){
                                         System.out.println(pp[i]);
@@ -147,6 +150,9 @@ public class Servlet extends HttpServlet {
                                         System.out.println(pp[i]);
                                     } else if (pp[i].equals("S")){
                                         pp[i] = "5";
+                                        System.out.println(pp[i]);
+                                    }else if (pp[i].equals("B")){
+                                        pp[i] = "8";
                                         System.out.println(pp[i]);
                                     }
                             plate = String.join("",pp);

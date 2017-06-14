@@ -26,9 +26,11 @@ public class PlacasDAO {
         Transaction t = sessao.beginTransaction();
         sessao.save(plac);
         t.commit();
+        sessao.clear();
     }
     
     public ArrayList<Placas> listar() {
+        sessao = HibernateUtil.getSessionFactory().openSession();
         return (ArrayList<Placas>) sessao.createCriteria(Placas.class).list();
     }
     
