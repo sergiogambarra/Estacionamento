@@ -5,51 +5,21 @@
  */
 package modelo;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
  * @author Sergio
  */
 @Entity
-@Table(name = "servidores")
-public class Servidores {
+@DiscriminatorValue(value = "S")
+public class Servidores extends Usuario {
 
-    /**
-     * @return the nome
-     */
-    public String getNome() {
-        return nome;
-    }
 
-    /**
-     * @param nome the nome to set
-     */
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    @Id
-    @GeneratedValue
-    private int id;
     private String matricula;
-    private String nome;
+    private String cargo;
 
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
 
     /**
      * @return the matricula
@@ -63,5 +33,19 @@ public class Servidores {
      */
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    /**
+     * @return the cargo
+     */
+    public String getCargo() {
+        return cargo;
+    }
+
+    /**
+     * @param cargo the cargo to set
+     */
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 }

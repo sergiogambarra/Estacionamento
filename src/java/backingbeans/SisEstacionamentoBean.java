@@ -13,22 +13,21 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.enterprise.context.spi.Context;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import modelo.Alunos;
+import modelo.Outros;
 import modelo.Placas;
 import modelo.Usuario;
 import modelo.Veiculo;
 import modelo.Servidores;
 import org.apache.commons.lang3.time.DateUtils;
+import org.primefaces.model.UploadedFile;
 import persistencia.AlunosDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
@@ -45,6 +44,20 @@ import persistencia.ServidoresDAO;
 @ViewScoped
 
 public class SisEstacionamentoBean implements Serializable{
+
+    /**
+     * @return the file
+     */
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
 
     /**
      * @return the servidores
@@ -81,13 +94,14 @@ public class SisEstacionamentoBean implements Serializable{
         this.alunos = alunos;
     }
 
-
+    private UploadedFile file;
     
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
     private Placas placas = new Placas();
     private Servidores servidores = new Servidores();
     private Alunos alunos = new Alunos();
+    private Outros outros = new Outros();
     
     
     private List<Usuario> listaUsuarios;
@@ -116,7 +130,16 @@ public class SisEstacionamentoBean implements Serializable{
         UsuarioDAO usuarioDao = new UsuarioDAO();
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        usuarioDao.incluir(usuario);
+        this.outros.setVinculo(this.usuario.getVinculo());
+        this.alunos.setVinculo(this.usuario.getVinculo());
+        this.servidores.setVinculo(this.usuario.getVinculo());
+        if (this.usuario.getVinculo().equals("Servidor")){
+            usuarioDao.incluir(this.servidores);
+        } else if(this.usuario.getVinculo().equals("Aluno")){
+            usuarioDao.incluir(this.alunos);
+        } else {
+            usuarioDao.incluir(this.outros);
+        }
         msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Usuario cadastrado com Sucesso!", "");
         context.addMessage(null, msg);
@@ -125,10 +148,10 @@ public class SisEstacionamentoBean implements Serializable{
             setListaUsuarios(usuarioDao.listar());
             ArrayList<Integer> ids_users = new ArrayList<Integer>();
             for (int i = 0; i< this.listaUsuarios.size();i++){
-                ids_users.add(this.listaUsuarios.get(i).getId_user());
+                ids_users.add(this.listaUsuarios.get(i).getIdUsuario());
             }
-            int lastIDuser = Collections.max(ids_users);
-            this.usuario.setId_user(lastIDuser);
+            int lastIdUsuario = Collections.max(ids_users);
+            this.usuario.setIdUsuario(lastIdUsuario);
             this.veiculo.setUsuario(usuario);
             VeiculoDAO veiculoDao = new VeiculoDAO();
             veiculoDao.incluir(veiculo);
@@ -233,6 +256,13 @@ public class SisEstacionamentoBean implements Serializable{
         return this.placas;
     }
     
+    public void upload() {
+        if(file != null) {
+            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+    
     //Upload CSV de Alunos
     
     public void lerCSVAlunos() throws Exception
@@ -245,7 +275,7 @@ public class SisEstacionamentoBean implements Serializable{
 
         //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\alunos.csv";
         String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
-        CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '\'', 1);
+        CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '"', 1);
         //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
 
         //Set column mapping strategy
@@ -382,6 +412,20 @@ public class SisEstacionamentoBean implements Serializable{
     
     public List<Usuario> getListaUsuarios() {
         return listaUsuarios;
+    }
+
+    /**
+     * @return the outros
+     */
+    public Outros getOutros() {
+        return outros;
+    }
+
+    /**
+     * @param outros the outros to set
+     */
+    public void setOutros(Outros outros) {
+        this.outros = outros;
     }
 
 }

@@ -5,10 +5,8 @@
  */
 package modelo;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
@@ -16,14 +14,10 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "alunos")
-public class Alunos {
+@DiscriminatorValue(value = "A")
+public class Alunos extends Usuario {
     
-    @Id
-    @GeneratedValue
-    private int id;
     private String matricula;
-    private String nome;
     private String curso;
     
 
@@ -43,19 +37,7 @@ public class Alunos {
         this.matricula = matricula;
     }
 
-    /**
-     * @return the nome
-     */
-    public String getNome() {
-        return nome;
-    }
-
-    /**
-     * @param nome the nome to set
-     */
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  
 
     /**
      * @return the curso
@@ -71,19 +53,7 @@ public class Alunos {
         this.curso = curso;
     }
 
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 
     
 }

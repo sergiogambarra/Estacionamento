@@ -39,7 +39,7 @@
                                 <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
                                     <h:panelGrid columns="1">
                                         <h:outputLabel for="txtMatriculaSIAPE" value="Matrícula SIAPE"/>
-                                        <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.usuario.matriculaSIAPE}"/>
+                                        <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.servidores.matricula}"/>
                                     </h:panelGrid>
                                 </h:panelGroup>
                             
@@ -48,10 +48,10 @@
                                 <h:panelGrid columns="1">
                                     
                                         <h:outputLabel for="txtMatricula" value="Matrícula"/>
-                                        <h:inputText id="txtMatricula" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula" value="#{sisEstacionamentoBean.usuario.matricula}"/>
+                                        <h:inputText id="txtMatricula" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula" value="#{sisEstacionamentoBean.alunos.matricula}"/>
                                     
                                         <h:outputLabel for="txtCurso" value="Curso"/>
-                                        <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.usuario.curso}"/>
+                                        <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.alunos.curso}"/>
                                     
                                 </h:panelGrid>
                                     
@@ -90,8 +90,8 @@
                                     </p>
                                     <p>
                                         <h:panelGrid columns="1">
-                                            <h:outputLabel for="fabricante" value="Fabricante:" />
-                                            <h:inputText id="fabricante" value="#{sisEstacionamentoBean.veiculo.fabricante}" />
+                                            <h:outputLabel for="marca" value="Marca" />
+                                            <h:inputText id="marca" value="#{sisEstacionamentoBean.veiculo.marca}" />
                                         </h:panelGrid>
                                     </p>
                                     <p>

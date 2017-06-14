@@ -158,10 +158,13 @@
                                 <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
                                     <h:panelGrid columns="1">
                                         <h:outputLabel for="txtMatriculaSIAPE" value="Matrícula SIAPE"/>
-                                        <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.usuario.matriculaSIAPE}"/>
+                                        <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.servidores.matricula}"/>
                                         
                                         <h:outputLabel for="txtNomeServidor" value="Nome Completo:"/>
-                                        <h:inputText id="txtNomeServidor" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                                        <h:inputText id="txtNomeServidor" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.servidores.nome}"/>
+                                        
+                                        <h:outputLabel for="txtCargo" value="Cargo:"/>
+                                        <h:inputText id="txtCargo" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.servidores.cargo}"/>
                                     </h:panelGrid>
                                 </h:panelGroup>
                             
@@ -170,13 +173,13 @@
                                 <h:panelGrid columns="1">
                                     
                                         <h:outputLabel for="txtMatricula" value="Matrícula"/>
-                                        <h:inputText id="txtMatricula" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula" value="#{sisEstacionamentoBean.usuario.matricula}"/>
+                                        <h:inputText id="txtMatricula" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula" value="#{sisEstacionamentoBean.alunos.matricula}"/>
                                         
                                         <h:outputLabel for="txtNomeAluno" value="Nome Completo:"/>
-                                        <h:inputText id="txtNomeAluno" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                                        <h:inputText id="txtNomeAluno" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.alunos.nome}"/>
                                         
                                         <h:outputLabel for="txtCurso" value="Curso"/>
-                                        <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.usuario.curso}"/>
+                                        <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.alunos.curso}"/>
                                     
                                 </h:panelGrid>
                                     
@@ -187,13 +190,13 @@
                             <h:panelGrid columns="1">
 
                                 <h:outputLabel for="txtNomeOutros" value="Nome Completo:"/>
-                                <h:inputText id="txtNomeOutros" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                                <h:inputText id="txtNomeOutros" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.outros.nome}"/>
 
                                 <h:outputLabel for="txtRG" value="RG"/>
-                                <h:inputText id="txtRG" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.usuario.RG}"/>
+                                <h:inputText id="txtRG" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.outros.RG}"/>
 
                                 <h:outputLabel for="txtEmpresa" value="Empresa"/>
-                                <h:inputText id="txtEmpresa" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.usuario.empresa}"/>
+                                <h:inputText id="txtEmpresa" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.outros.empresa}"/>
 
                             </h:panelGrid>
                                 
@@ -203,13 +206,13 @@
                             <h:panelGrid columns="1">
 
                                 <h:outputLabel for="txtNomeEstagiario" value="Nome Completo:"/>
-                                <h:inputText id="txtNomeEstagiario" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.usuario.nome}"/>
+                                <h:inputText id="txtNomeEstagiario" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.outros.nome}"/>
 
                                 <h:outputLabel for="txtRGEstagiario" value="RG"/>
-                                <h:inputText id="txtRGEstagiario" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.usuario.RG}"/>
+                                <h:inputText id="txtRGEstagiario" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.outros.RG}"/>
 
                                 <h:outputLabel for="txtInstituicao" value="Empresa"/>
-                                <h:inputText id="txtInstituicao" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.usuario.instituicao}"/>
+                                <h:inputText id="txtInstituicao" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.outros.empresa}"/>
 
                             </h:panelGrid>
                                 
