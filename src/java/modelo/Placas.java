@@ -19,11 +19,40 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "placas")
 public class Placas {
+
+    /**
+     * @return the fotoEntrda
+     */
+    public String getFotoEntrada() {
+        return fotoEntrada;
+    }
+
+    /**
+     * @param fotoEntrda the fotoEntrda to set
+     */
+    public void setFotoEntrada(String fotoEntrda) {
+        this.fotoEntrada = fotoEntrda;
+    }
+
+    /**
+     * @return the fotoSaida
+     */
+    public String getFotoSaida() {
+        return fotoSaida;
+    }
+
+    /**
+     * @param fotoSaida the fotoSaida to set
+     */
+    public void setFotoSaida(String fotoSaida) {
+        this.fotoSaida = fotoSaida;
+    }
     @Id
     @GeneratedValue
     private int id;
     private String placa;
-    private String foto;
+    private String fotoEntrada;
+    private String fotoSaida;
     private Date entrada;
     private Date saida;
     
@@ -56,19 +85,6 @@ public class Placas {
         this.placa = placa;
     }
 
-    /**
-     * @return the foto
-     */
-    public String getFoto() {
-        return foto;
-    }
-
-    /**
-     * @param foto the foto to set
-     */
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
 
     /**
      * @return the entrada

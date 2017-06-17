@@ -5,10 +5,9 @@
  */
 package backingbeans;
 
-import com.opencsv.CSVReader;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.CsvToBean;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,6 +25,9 @@ import modelo.Placas;
 import modelo.Usuario;
 import modelo.Veiculo;
 import modelo.Servidores;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.model.UploadedFile;
 import persistencia.AlunosDAO;
@@ -107,6 +109,7 @@ public class SisEstacionamentoBean implements Serializable{
     private List<Usuario> listaUsuarios;
     private List<Placas> listaPlacas;
     private List<Alunos> listaAlunos;
+    private List<Veiculo> listaVeiculos;
     private List<Servidores> listaServidores;
     
     private final UsuarioDAO usuarioDao = new UsuarioDAO();
@@ -119,6 +122,7 @@ public class SisEstacionamentoBean implements Serializable{
     public SisEstacionamentoBean() {
         listaUsuarios = usuarioDao.listar();
         listaPlacas = placasDao.listar();
+        listaVeiculos = veiculoDao.listar();
         listaAlunos = alunosDao.listar();
         listaServidores = servidoresDao.listar();
         
@@ -191,18 +195,18 @@ public class SisEstacionamentoBean implements Serializable{
         String data2FormatadaDia = new SimpleDateFormat("MM/dd/yyyy").format(d2);
         
         
-        listaPlacas = placasDao.listar();
-        Date d1 = listaPlacas.get(listaPlacas.size()-1).getEntrada();
+        setListaPlacas(placasDao.listar());
+        Date d1 = getListaPlacas().get(getListaPlacas().size()-1).getEntrada();
         String data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
         String data1FormatadaDia = new SimpleDateFormat("MM/dd/yyyy").format(d1);
         
         //Verifica se a data de entrada vinda do banco nao vem vazia
         //Caso o banco esteja limpo
-        if (listaPlacas.get(listaPlacas.size()-1).getEntrada() == null){
+        if (getListaPlacas().get(getListaPlacas().size()-1).getEntrada() == null){
             data1Formatada = "01/01/2000 23:59:59";
             
         } else {
-            d1 = listaPlacas.get(listaPlacas.size()-1).getEntrada();
+            d1 = getListaPlacas().get(getListaPlacas().size()-1).getEntrada();
             data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
         }
         try {
@@ -222,8 +226,8 @@ public class SisEstacionamentoBean implements Serializable{
             if (diffSeconds + (diffMinutes * 60) + (diffHours * 60 *60) > 20){
                 boolean entrada = true;
                 boolean saida = false;
-                for (int i =0;i<listaPlacas.size();i++){
-                    if (listaPlacas.get(i).getPlaca().equals(pla.getPlaca())){
+                for (int i =0;i<getListaPlacas().size();i++){
+                    if (getListaPlacas().get(i).getPlaca().equals(pla.getPlaca())){
                         entrada = false;
                     } 
                 }
@@ -256,95 +260,63 @@ public class SisEstacionamentoBean implements Serializable{
         return this.placas;
     }
     
-    public void upload() {
-        if(file != null) {
-            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+    //Upload CSV de Alunos
+    //Upload CSV de Servidores
+    public void upload() throws IOException {
+        listaServidores = servidoresDao.listar();
+        AlunosDAO alunosDao = new AlunosDAO();
+        listaAlunos = alunosDao.listar();
+        InputStream input = getFile().getInputstream();
+        
+        if (file != null) {
+            int i=0;
+            CSVParser parser = new CSVParser(new InputStreamReader(input),CSVFormat.EXCEL.withHeader().withDelimiter(';'));
+            int gravados = 0;
+            boolean gravar = true;
+            for (CSVRecord record : parser) {
+                i++;
+                if (record.isMapped("MATRICULA")){
+                    for (int j =0 ; j<listaServidores.size();j++){
+                        if (listaServidores.get(j).getMatricula().equals(record.get("MATRICULA"))){
+                            gravar = false;
+                        }
+                    }
+                    this.servidores.setMatricula(record.get("MATRICULA"));
+                    this.servidores.setNome(record.get("SERVIDOR"));
+                    this.servidores.setCargo(record.get("CARGO EMPREGO"));
+                    this.servidores.setVinculo("Servidor");
+                    if (gravar){
+                        servidoresDao.incluir(servidores);
+                    }
+                } else {
+                    for (int j =0 ; j<listaAlunos.size();j++){
+                        if (listaAlunos.get(j).getMatricula().equals(record.get("Matrícula"))){
+                            gravar = false;
+                        }
+                    }
+                    this.alunos.setMatricula(record.get("Matrícula"));
+                    this.alunos.setNome(record.get("Nome"));
+                    this.alunos.setCurso(record.get("Curso"));
+                    this.alunos.setVinculo("Aluno");
+                    if (gravar){
+                        alunosDao.incluir(alunos);
+                        gravados++;
+                    }
+                }
+                progress =  i * 100 / record.size();
+                System.out.println(progress);
+                System.out.println(gravados);
+                this.setProgress(progress);
+            }
+            parser.close();
+            FacesMessage message = new FacesMessage("Sucesso!", file.getFileName()+"enviado e " + gravados +"registros foram inserido.");
+            
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
     
-    //Upload CSV de Alunos
-    
-    public void lerCSVAlunos() throws Exception
-    {
-        listaAlunos.removeAll(listaAlunos);
-        List<Alunos> listaNovaAlunos = listaAlunos;
-        listaAlunos = alunosDao.listar();
-        //listaAlunos = alunosDao.listar();
-        CsvToBean csv = new CsvToBean();
-
-        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\alunos.csv";
-        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/alunos.csv";
-        CSVReader csvReader = new CSVReader(new FileReader(csvFilename),';', '"', 1);
-        //CSVReader reader=new CSVReader(new InputStreamReader(new FileInputStream("d:\\a.csv"), "UTF-8"), ',', '\'', 1);
-
-        //Set column mapping strategy
-        List list = csv.parse(mapearColunasCSVAlunos(), csvReader);
-        
-        int i=0;
-
-        for (Object object : list) {
-            i++;
-            alunos = (Alunos) object;
-            listaNovaAlunos.add(alunos);
-            alunosDao.incluir(alunos);
-            progress =  i * 100 / list.size();
-            System.out.println(progress);
-            this.setProgress(progress);
-        }
-    }
-    
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static ColumnPositionMappingStrategy mapearColunasCSVAlunos()
-    {
-        ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
-        strategy.setType(Alunos.class);
-        String[] columns = new String[] {"matricula", "nome", "curso"};
-        strategy.setColumnMapping(columns);
-        return strategy;
-    }
-    
-    //Upload CSV de Servidores
-    
-    public void lerCSVServidores() throws Exception
-    {
-        listaServidores.removeAll(listaServidores);
-        List<Servidores> listaNovaServidores = listaServidores;
-        listaServidores = servidoresDao.listar();
-        CsvToBean csv = new CsvToBean();
-
-        //String csvFilename = "C:\\Users\\Sergio\\Documents\\NetBeansProjects\\Git\\Estacionamento\\servidores.csv";
-        String csvFilename = "/home/sergio/NetBeansProjects/Estacionamento/servidores.csv";
-        CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
-
-        //Set column mapping strategy
-        List list = csv.parse(mapearColunasCSVServidores(), csvReader);
-        
-        int i=0;
-        
-        for (Object object : list) {
-            i++;
-            servidores = (Servidores) object;
-            listaNovaServidores.add(servidores);
-            servidoresDao.incluir(servidores);
-            progress =  i * 100 / list.size();
-            System.out.println(progress);
-            this.setProgress(progress);
-        }
-    }
-    
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static ColumnPositionMappingStrategy mapearColunasCSVServidores()
-    {
-        ColumnPositionMappingStrategy strategy = new ColumnPositionMappingStrategy();
-        strategy.setType(Servidores.class);
-        String[] columns = new String[] {"matricula", "nome"};
-        strategy.setColumnMapping(columns);
-        return strategy;
-    }
     
     
- 
     public Integer getProgress() {
         if(progress == null) {
             progress = 0;
@@ -426,6 +398,48 @@ public class SisEstacionamentoBean implements Serializable{
      */
     public void setOutros(Outros outros) {
         this.outros = outros;
+    }
+
+    /**
+     * @return the listaPlacas
+     */
+    public List<Placas> getListaPlacas() {
+        return listaPlacas;
+    }
+
+    /**
+     * @param listaPlacas the listaPlacas to set
+     */
+    public void setListaPlacas(List<Placas> listaPlacas) {
+        this.listaPlacas = listaPlacas;
+    }
+
+    /**
+     * @return the listaAlunos
+     */
+    public List<Alunos> getListaAlunos() {
+        return listaAlunos;
+    }
+
+    /**
+     * @param listaAlunos the listaAlunos to set
+     */
+    public void setListaAlunos(List<Alunos> listaAlunos) {
+        this.listaAlunos = listaAlunos;
+    }
+
+    /**
+     * @return the listaVeiculos
+     */
+    public List<Veiculo> getListaVeiculos() {
+        return listaVeiculos;
+    }
+
+    /**
+     * @param listaVeiculos the listaVeiculos to set
+     */
+    public void setListaVeiculos(List<Veiculo> listaVeiculos) {
+        this.listaVeiculos = listaVeiculos;
     }
 
 }

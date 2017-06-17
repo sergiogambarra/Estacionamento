@@ -26,6 +26,14 @@ public class PlacasDAO {
         Transaction t = sessao.beginTransaction();
         sessao.save(plac);
         t.commit();
+        
+    }
+    
+    public void alterar(Placas plac) {
+        Transaction t = sessao.beginTransaction();
+        sessao.update(plac);
+        t.commit();
+        sessao.flush();
         sessao.clear();
     }
     

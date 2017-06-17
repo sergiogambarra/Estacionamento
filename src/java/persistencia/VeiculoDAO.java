@@ -5,6 +5,7 @@
  */
 package persistencia;
 
+import java.util.ArrayList;
 import modelo.Veiculo;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,6 +26,10 @@ public class VeiculoDAO {
         Transaction t = sessao.beginTransaction();
         sessao.save(vei);
         t.commit();
+    }
+    
+    public ArrayList<Veiculo> listar() {
+        return (ArrayList<Veiculo>) sessao.createCriteria(Veiculo.class).list();
     }
     
 }

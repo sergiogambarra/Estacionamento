@@ -6,6 +6,7 @@
 package persistencia;
 
 import java.util.ArrayList;
+import modelo.Alunos;
 import modelo.Usuario;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -46,7 +47,7 @@ public class UsuarioDAO {
     public ArrayList<Usuario> listar() {
         return (ArrayList<Usuario>) sessao.createCriteria(Usuario.class).list();
     }
-
+    
     public Usuario carregar(int id) {
         return (Usuario) sessao.get(Usuario.class, id);
     }

@@ -22,14 +22,13 @@ public class ServidoresDAO {
     }
 
     public void incluir(Servidores ser) {
-        
+
+        Transaction t = sessao.beginTransaction();
+        sessao.save(ser);
+        t.commit();
+        sessao.flush();
+        sessao.clear();
             
-                Transaction t = sessao.beginTransaction();
-                sessao.save(ser);
-                t.commit();
-            
-        
-        
     }
 
     public ArrayList<Servidores> listar() {

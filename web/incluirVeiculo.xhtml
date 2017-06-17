@@ -11,129 +11,124 @@
 
             <p:panel id="basic" header="Cadastro de Veículo" style="margin-bottom:20px">
                 <div id="formDados">
-                    
-                    
-                    
                     <h:form prependId="false">
                     <p:growl id="growl"/>
-                    
-                                            <fieldset>
-                            
-                                <h:panelGroup>
-                                    <p>
-                                        <h:panelGrid columns="1">
-                                            <h:outputLabel for="placa" value="Placa:" />
-                                            <h:inputText id="placa" value="#{sisEstacionamentoBean.veiculo.placa}" />
-                                        </h:panelGrid>
-                                    </p>
-                                    <p>
-                                        <h:panelGrid columns="1">
-                                        <h:outputLabel for="marca" value="Marca" />
-                                        <h:selectOneMenu id="marca" value="#{sisEstacionamentoBean.veiculo.marca}">
-                                            <f:selectItem itemLabel="Selecione..." />
-                                            <f:selectItem itemValue="Acura"/>
-                                            <f:selectItem itemValue="Agrale"/>
-                                            <f:selectItem itemValue="Alfa Romeo"/>
-                                            <f:selectItem itemValue="AM Gen"/>
-                                            <f:selectItem itemValue="Asia Motors"/>
-                                            <f:selectItem itemValue="ASTON MARTIN"/>
-                                            <f:selectItem itemValue="Audi"/>
-                                            <f:selectItem itemValue="BMW"/>
-                                            <f:selectItem itemValue="BRM"/>
-                                            <f:selectItem itemValue="Buggy"/>
-                                            <f:selectItem itemValue="Bugre"/>
-                                            <f:selectItem itemValue="Cadillac"/>
-                                            <f:selectItem itemValue="CBT Jipe"/>
-                                            <f:selectItem itemValue="CHANA"/>
-                                            <f:selectItem itemValue="CHANGAN"/>
-                                            <f:selectItem itemValue="CHERY"/>
-                                            <f:selectItem itemValue="Chrysler"/>
-                                            <f:selectItem itemValue="Citro\u00ebn"/>
-                                            <f:selectItem itemValue="Cross Lander"/>
-                                            <f:selectItem itemValue="Daewoo"/>
-                                            <f:selectItem itemValue="Daihatsu"/>
-                                            <f:selectItem itemValue="Dodge"/>
-                                            <f:selectItem itemValue="EFFA"/>
-                                            <f:selectItem itemValue="Engesa"/>
-                                            <f:selectItem itemValue="Envemo"/>
-                                            <f:selectItem itemValue="Ferrari"/>
-                                            <f:selectItem itemValue="Fiat"/>
-                                            <f:selectItem itemValue="Fibravan"/>
-                                            <f:selectItem itemValue="Ford"/>
-                                            <f:selectItem itemValue="FOTON"/>
-                                            <f:selectItem itemValue="Fyber"/>
-                                            <f:selectItem itemValue="GEELY"/>
-                                            <f:selectItem itemValue="GM - Chevrolet"/>
-                                            <f:selectItem itemValue="GREAT WALL"/>
-                                            <f:selectItem itemValue="Gurgel"/>
-                                            <f:selectItem itemValue="HAFEI"/>
-                                            <f:selectItem itemValue="Honda"/>
-                                            <f:selectItem itemValue="Hyundai"/>
-                                            <f:selectItem itemValue="Isuzu"/>
-                                            <f:selectItem itemValue="JAC"/>
-                                            <f:selectItem itemValue="Jaguar"/>
-                                            <f:selectItem itemValue="Jeep"/>
-                                            <f:selectItem itemValue="JINBEI"/>
-                                            <f:selectItem itemValue="JPX"/>
-                                            <f:selectItem itemValue="Kia Motors"/>
-                                            <f:selectItem itemValue="Lada"/>
-                                            <f:selectItem itemValue="LAMBORGHINI"/>
-                                            <f:selectItem itemValue="Land Rover"/>
-                                            <f:selectItem itemValue="Lexus"/>
-                                            <f:selectItem itemValue="LIFAN"/>
-                                            <f:selectItem itemValue="LOBINI"/>
-                                            <f:selectItem itemValue="Lotus"/>
-                                            <f:selectItem itemValue="Mahindra"/>
-                                            <f:selectItem itemValue="Maserati"/>
-                                            <f:selectItem itemValue="Matra"/>
-                                            <f:selectItem itemValue="Mazda"/>
-                                            <f:selectItem itemValue="Mercedes-Benz"/>
-                                            <f:selectItem itemValue="Mercury"/>
-                                            <f:selectItem itemValue="MG"/>
-                                            <f:selectItem itemValue="MINI"/>
-                                            <f:selectItem itemValue="Mitsubishi"/>
-                                            <f:selectItem itemValue="Miura"/>
-                                            <f:selectItem itemValue="Nissan"/>
-                                            <f:selectItem itemValue="Peugeot"/>
-                                            <f:selectItem itemValue="Plymouth"/>
-                                            <f:selectItem itemValue="Pontiac"/>
-                                            <f:selectItem itemValue="Porsche"/>
-                                            <f:selectItem itemValue="RAM"/>
-                                            <f:selectItem itemValue="RELY"/>
-                                            <f:selectItem itemValue="Renault"/>
-                                            <f:selectItem itemValue="Rolls-Royce"/>
-                                            <f:selectItem itemValue="Rover"/>
-                                            <f:selectItem itemValue="Saab"/>
-                                            <f:selectItem itemValue="Saturn"/>
-                                            <f:selectItem itemValue="Seat"/>
-                                            <f:selectItem itemValue="SHINERAY"/>
-                                            <f:selectItem itemValue="smart"/>
-                                            <f:selectItem itemValue="SSANGYONG"/>
-                                            <f:selectItem itemValue="Subaru"/>
-                                            <f:selectItem itemValue="Suzuki"/>
-                                            <f:selectItem itemValue="TAC"/>
-                                            <f:selectItem itemValue="Toyota"/>
-                                            <f:selectItem itemValue="Troller"/>
-                                            <f:selectItem itemValue="Volvo"/>
-                                            <f:selectItem itemValue="VW - VolksWagen"/>
-                                            <f:selectItem itemValue="Wake"/>
-                                            <f:selectItem itemValue="Walk"/>
-                                            <f:ajax render="teste" />
-                                        </h:selectOneMenu>
-                                        </h:panelGrid>
-                                    </p>
-                                    <p>
-                                        <h:panelGrid columns="1">
-                                            <h:outputLabel for="modelo" value="Modelo:" />
-                                            <h:inputText id="modelo" value="#{sisEstacionamentoBean.veiculo.modelo}" />
-                                        </h:panelGrid>
-                                    </p>
-                                    <p>
-                                        <h:panelGrid columns="1">
-                                            <h:outputLabel for="ano" value="Ano:" />
-                                            <h:inputText id="ano" value="#{sisEstacionamentoBean.veiculo.ano}" />
-                                        </h:panelGrid>
-                                    </p>
+                        <fieldset>        
+                            <h:panelGroup>
+                                <p>
+                                    <h:panelGrid columns="1">
+                                        <h:outputLabel for="placa" value="Placa:" />
+                                        <h:inputText id="placa" value="#{sisEstacionamentoBean.veiculo.placa}" />
+                                    </h:panelGrid>
+                                </p>
+                                <p>
+                                    <h:panelGrid columns="1">
+                                    <h:outputLabel for="marca" value="Marca" />
+                                    <h:selectOneMenu id="marca" value="#{sisEstacionamentoBean.veiculo.marca}">
+                                        <f:selectItem itemLabel="Selecione..." />
+                                        <f:selectItem itemValue="Acura"/>
+                                        <f:selectItem itemValue="Agrale"/>
+                                        <f:selectItem itemValue="Alfa Romeo"/>
+                                        <f:selectItem itemValue="AM Gen"/>
+                                        <f:selectItem itemValue="Asia Motors"/>
+                                        <f:selectItem itemValue="ASTON MARTIN"/>
+                                        <f:selectItem itemValue="Audi"/>
+                                        <f:selectItem itemValue="BMW"/>
+                                        <f:selectItem itemValue="BRM"/>
+                                        <f:selectItem itemValue="Buggy"/>
+                                        <f:selectItem itemValue="Bugre"/>
+                                        <f:selectItem itemValue="Cadillac"/>
+                                        <f:selectItem itemValue="CBT Jipe"/>
+                                        <f:selectItem itemValue="CHANA"/>
+                                        <f:selectItem itemValue="CHANGAN"/>
+                                        <f:selectItem itemValue="CHERY"/>
+                                        <f:selectItem itemValue="Chrysler"/>
+                                        <f:selectItem itemValue="Citroen"/>
+                                        <f:selectItem itemValue="Cross Lander"/>
+                                        <f:selectItem itemValue="Daewoo"/>
+                                        <f:selectItem itemValue="Daihatsu"/>
+                                        <f:selectItem itemValue="Dodge"/>
+                                        <f:selectItem itemValue="EFFA"/>
+                                        <f:selectItem itemValue="Engesa"/>
+                                        <f:selectItem itemValue="Envemo"/>
+                                        <f:selectItem itemValue="Ferrari"/>
+                                        <f:selectItem itemValue="Fiat"/>
+                                        <f:selectItem itemValue="Fibravan"/>
+                                        <f:selectItem itemValue="Ford"/>
+                                        <f:selectItem itemValue="FOTON"/>
+                                        <f:selectItem itemValue="Fyber"/>
+                                        <f:selectItem itemValue="GEELY"/>
+                                        <f:selectItem itemValue="GM - Chevrolet"/>
+                                        <f:selectItem itemValue="GREAT WALL"/>
+                                        <f:selectItem itemValue="Gurgel"/>
+                                        <f:selectItem itemValue="HAFEI"/>
+                                        <f:selectItem itemValue="Honda"/>
+                                        <f:selectItem itemValue="Hyundai"/>
+                                        <f:selectItem itemValue="Isuzu"/>
+                                        <f:selectItem itemValue="JAC"/>
+                                        <f:selectItem itemValue="Jaguar"/>
+                                        <f:selectItem itemValue="Jeep"/>
+                                        <f:selectItem itemValue="JINBEI"/>
+                                        <f:selectItem itemValue="JPX"/>
+                                        <f:selectItem itemValue="Kia Motors"/>
+                                        <f:selectItem itemValue="Lada"/>
+                                        <f:selectItem itemValue="LAMBORGHINI"/>
+                                        <f:selectItem itemValue="Land Rover"/>
+                                        <f:selectItem itemValue="Lexus"/>
+                                        <f:selectItem itemValue="LIFAN"/>
+                                        <f:selectItem itemValue="LOBINI"/>
+                                        <f:selectItem itemValue="Lotus"/>
+                                        <f:selectItem itemValue="Mahindra"/>
+                                        <f:selectItem itemValue="Maserati"/>
+                                        <f:selectItem itemValue="Matra"/>
+                                        <f:selectItem itemValue="Mazda"/>
+                                        <f:selectItem itemValue="Mercedes-Benz"/>
+                                        <f:selectItem itemValue="Mercury"/>
+                                        <f:selectItem itemValue="MG"/>
+                                        <f:selectItem itemValue="MINI"/>
+                                        <f:selectItem itemValue="Mitsubishi"/>
+                                        <f:selectItem itemValue="Miura"/>
+                                        <f:selectItem itemValue="Nissan"/>
+                                        <f:selectItem itemValue="Peugeot"/>
+                                        <f:selectItem itemValue="Plymouth"/>
+                                        <f:selectItem itemValue="Pontiac"/>
+                                        <f:selectItem itemValue="Porsche"/>
+                                        <f:selectItem itemValue="RAM"/>
+                                        <f:selectItem itemValue="RELY"/>
+                                        <f:selectItem itemValue="Renault"/>
+                                        <f:selectItem itemValue="Rolls-Royce"/>
+                                        <f:selectItem itemValue="Rover"/>
+                                        <f:selectItem itemValue="Saab"/>
+                                        <f:selectItem itemValue="Saturn"/>
+                                        <f:selectItem itemValue="Seat"/>
+                                        <f:selectItem itemValue="SHINERAY"/>
+                                        <f:selectItem itemValue="smart"/>
+                                        <f:selectItem itemValue="SSANGYONG"/>
+                                        <f:selectItem itemValue="Subaru"/>
+                                        <f:selectItem itemValue="Suzuki"/>
+                                        <f:selectItem itemValue="TAC"/>
+                                        <f:selectItem itemValue="Toyota"/>
+                                        <f:selectItem itemValue="Troller"/>
+                                        <f:selectItem itemValue="Volvo"/>
+                                        <f:selectItem itemValue="VW - VolksWagen"/>
+                                        <f:selectItem itemValue="Wake"/>
+                                        <f:selectItem itemValue="Walk"/>
+                                        <f:ajax render="teste" />
+                                    </h:selectOneMenu>
+                                    </h:panelGrid>
+                                </p>
+                                <p>
+                                    <h:panelGrid columns="1">
+                                        <h:outputLabel for="modelo" value="Modelo:" />
+                                        <h:inputText id="modelo" value="#{sisEstacionamentoBean.veiculo.modelo}" />
+                                    </h:panelGrid>
+                                </p>
+                                <p>
+                                    <h:panelGrid columns="1">
+                                        <h:outputLabel for="ano" value="Ano:" />
+                                        <h:inputText id="ano" value="#{sisEstacionamentoBean.veiculo.ano}" />
+                                    </h:panelGrid>
+                                </p>
                             </h:panelGroup>
                         </fieldset>
                     
