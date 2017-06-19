@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class SisEstacionamentoBean implements Serializable{
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
     private Placas placas = new Placas();
-    private Servidores servidores = new Servidores();
+    private Servidores servidores;
     private Alunos alunos = new Alunos();
     private Outros outros = new Outros();
     
@@ -196,7 +197,35 @@ public class SisEstacionamentoBean implements Serializable{
     public String incluirVeiculo() {
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        VeiculoDAO veiDAO = new VeiculoDAO();
+        int id = 0;
+        
+        
+        if (veiculo.getPlaca() != null){
+            for (int k =0 ; k<listaServidores.size();k++){
+                if (listaServidores.get(k).getMatricula().equals(servidores.getMatricula())){
+                    id = listaServidores.get(k).getIdUsuario();
+                }
+            }
+            
+            if (id > 0 ){
+                this.usuario.setIdUsuario(id);
+            } else {
+                setListaUsuarios(usuarioDao.listar());
+                ArrayList<Integer> ids_users = new ArrayList<Integer>();
+                for (int i = 0; i< this.listaUsuarios.size();i++){
+                    ids_users.add(this.listaUsuarios.get(i).getIdUsuario());
+                }
+                int lastIdUsuario = Collections.max(ids_users);
+                this.usuario.setIdUsuario(lastIdUsuario);
+            }
+
+            this.veiculo.setUsuario(usuario);
+            VeiculoDAO veiculoDao = new VeiculoDAO();
+            veiculoDao.incluir(veiculo);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Veiculo incluído com Sucesso!", "");
+        context.addMessage(null, msg);
+        }
         return null;
     }
     
@@ -282,19 +311,19 @@ public class SisEstacionamentoBean implements Serializable{
         InputStream input = getFile().getInputstream();
         InputStream input2 = input;
         
-        BufferedReader in = new BufferedReader(new InputStreamReader(input2));
-        String line = null;
-        progress = 0;
-        StringBuilder responseData = new StringBuilder();
-        while((line = in.readLine()) != null) {
-            responseData.append(line);
-            progress++;
-        }
-        System.out.println(progress);
+//        BufferedReader in = new BufferedReader(new InputStreamReader(input2));
+//        String line = null;
+//        progress = 0;
+//        StringBuilder responseData = new StringBuilder();
+//        while((line = in.readLine()) != null) {
+//            responseData.append(line);
+//            progress++;
+//        }
+//        System.out.println(progress);
         
         if (file != null) {
             int i=0;
-            CSVParser parser = new CSVParser(new InputStreamReader(input),CSVFormat.EXCEL.withHeader().withDelimiter(';'));
+            CSVParser parser = new CSVParser(new InputStreamReader(input, StandardCharsets.ISO_8859_1),CSVFormat.EXCEL.withHeader().withDelimiter(';'));
             int gravados = 0;
             boolean gravar = true;
             for (CSVRecord record : parser) {
@@ -330,10 +359,10 @@ public class SisEstacionamentoBean implements Serializable{
                         gravados++;
                     }
                 }
-                progress =  i * 100 / record.size();
-                System.out.println(progress);
+//                progress =  i * 100 / record.size();
+//                System.out.println(progress);
                 System.out.println(gravados);
-                this.setProgress(progress);
+//                this.setProgress(progress);
             }
             parser.close();
             FacesMessage message = new FacesMessage("Sucesso! ", file.getFileName()+" enviado e " + gravados +" registros foram inserido!");

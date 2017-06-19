@@ -13,13 +13,13 @@
         
         <div class="jumbotron"  align="center">
             <h1>Sistema de Controle de Veículos</h1>
-            <p>Um Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
+            <p>Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
 
             <h:form>
             <h:panelGrid columns="2">
-            <p:autoComplete value="#{sisEstacionamentoBean.servidorSelecionado.matricula}" completeMethod="#{sisEstacionamentoBean.completaNome}" var="servidor" itemLabel="#{servidor.matricula}" itemValue="#{servidor}" converter="servidorConverter"/>
+            <p:autoComplete value="#{sisEstacionamentoBean.servidores.matricula}" completeMethod="#{sisEstacionamentoBean.completaNome}" var="servidor" itemLabel="#{servidor.matricula}" itemValue="#{servidor}" converter="servidorConverter"/>
             <p:commandButton value="Submit" update="servidores" image="ui-icon-transfer-e-w"/>
-            <h:outputText id="servidores" value="Selecionado: #{sisEstacionamentoBean.servidorSelecionado.cargo}" />
+            <h:outputText id="servidores" value="Selecionado: #{sisEstacionamentoBean.servidores.cargo}" />
             </h:panelGrid>
             </h:form>
  

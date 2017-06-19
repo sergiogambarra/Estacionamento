@@ -20,13 +20,13 @@ import backingbeans.SisEstacionamentoBean;
 
 @FacesConverter(value="servidorConverter")
 public class ServidorConverter implements Converter {
-    private SisEstacionamentoBean sis = new SisEstacionamentoBean();
+   private SisEstacionamentoBean sis = new SisEstacionamentoBean();
     
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
         ServidoresDAO servidoresDAO = new ServidoresDAO();
         Servidores servidores = servidoresDAO.buscaPorMatricula(string);
-        sis.setServidorSelecionado(servidores);
+        sis.setServidores(servidores);
         return servidores;
     }
 
