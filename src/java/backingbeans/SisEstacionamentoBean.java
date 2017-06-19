@@ -5,6 +5,7 @@
  */
 package backingbeans;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -97,6 +98,7 @@ public class SisEstacionamentoBean implements Serializable{
     }
 
     private UploadedFile file;
+    private Servidores servidorSelecionado;
     
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
@@ -107,6 +109,7 @@ public class SisEstacionamentoBean implements Serializable{
     
     
     private List<Usuario> listaUsuarios;
+    private List<Usuario> listaUsuariosCadastrados;
     private List<Placas> listaPlacas;
     private List<Alunos> listaAlunos;
     private List<Veiculo> listaVeiculos;
@@ -178,7 +181,17 @@ public class SisEstacionamentoBean implements Serializable{
         return "alterarUsuario";
     }
     
-    
+    public List<Servidores> completaNome(String query) {
+        this.listaServidores = servidoresDao.listar();
+        List<Servidores> sugestoes = new ArrayList<Servidores>();
+        for (Servidores s : this.listaServidores) {
+            if (s.getMatricula().startsWith(query)) {
+                sugestoes.add(s);
+            }
+        }
+        return sugestoes;
+    }
+     
     //veiculo
     public String incluirVeiculo() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -267,6 +280,17 @@ public class SisEstacionamentoBean implements Serializable{
         AlunosDAO alunosDao = new AlunosDAO();
         listaAlunos = alunosDao.listar();
         InputStream input = getFile().getInputstream();
+        InputStream input2 = input;
+        
+        BufferedReader in = new BufferedReader(new InputStreamReader(input2));
+        String line = null;
+        progress = 0;
+        StringBuilder responseData = new StringBuilder();
+        while((line = in.readLine()) != null) {
+            responseData.append(line);
+            progress++;
+        }
+        System.out.println(progress);
         
         if (file != null) {
             int i=0;
@@ -276,8 +300,9 @@ public class SisEstacionamentoBean implements Serializable{
             for (CSVRecord record : parser) {
                 i++;
                 if (record.isMapped("MATRICULA")){
-                    for (int j =0 ; j<listaServidores.size();j++){
-                        if (listaServidores.get(j).getMatricula().equals(record.get("MATRICULA"))){
+                    gravar = true;
+                    for (int k =0 ; k<listaServidores.size();k++){
+                        if (listaServidores.get(k).getMatricula().equals(record.get("MATRICULA"))){
                             gravar = false;
                         }
                     }
@@ -287,8 +312,10 @@ public class SisEstacionamentoBean implements Serializable{
                     this.servidores.setVinculo("Servidor");
                     if (gravar){
                         servidoresDao.incluir(servidores);
+                        gravados++;
                     }
                 } else {
+                    gravar = true;
                     for (int j =0 ; j<listaAlunos.size();j++){
                         if (listaAlunos.get(j).getMatricula().equals(record.get("Matrícula"))){
                             gravar = false;
@@ -309,7 +336,7 @@ public class SisEstacionamentoBean implements Serializable{
                 this.setProgress(progress);
             }
             parser.close();
-            FacesMessage message = new FacesMessage("Sucesso!", file.getFileName()+"enviado e " + gravados +"registros foram inserido.");
+            FacesMessage message = new FacesMessage("Sucesso! ", file.getFileName()+" enviado e " + gravados +" registros foram inserido!");
             
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
@@ -440,6 +467,35 @@ public class SisEstacionamentoBean implements Serializable{
      */
     public void setListaVeiculos(List<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
+    }
+
+    /**
+     * @return the listaUsuariosCadastrados
+     */
+    public List<Usuario> getListaUsuariosCadastrados() {
+        return listaUsuariosCadastrados;
+    }
+
+    /**
+     * @param listaUsuariosCadastrados the listaUsuariosCadastrados to set
+     */
+    public void setListaUsuariosCadastrados(List<Usuario> listaUsuariosCadastrados) {
+        this.listaUsuariosCadastrados = listaUsuariosCadastrados;
+    }
+
+
+    /**
+     * @return the servidorSelecionado
+     */
+    public Servidores getServidorSelecionado() {
+        return servidorSelecionado;
+    }
+
+    /**
+     * @param servidorSelecionado the servidorSelecionado to set
+     */
+    public void setServidorSelecionado(Servidores servidorSelecionado) {
+        this.servidorSelecionado = servidorSelecionado;
     }
 
 }

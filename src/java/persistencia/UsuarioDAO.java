@@ -6,11 +6,13 @@
 package persistencia;
 
 import java.util.ArrayList;
+import java.util.List;
 import modelo.Alunos;
 import modelo.Usuario;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import static org.hibernate.criterion.Expression.sql;
 
 public class UsuarioDAO {
 
@@ -52,13 +54,26 @@ public class UsuarioDAO {
         return (Usuario) sessao.get(Usuario.class, id);
     }
     
+//    public List<Cidade> listaCidadesDoEstado(Integer idEstado) {
+//		String jpql = "select c from Cidade c where c.estado.id = :pIdEstado" ;
+//		Query query = this.sessao.createQuery(jpql).setParameter("pIdEstado", idEstado) ;
+//		return query.getResultList() ;
+//	}
     
-    public Usuario buscarUsuario(String email) {
-        //sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery("from Usuario u where u.email = :email");
-        Usuario u = (Usuario) query.setString("email", email).uniqueResult();
-
-        return u;
+    
+    public List<Usuario> listarUsuariosCadastrados() {
+        String jpql = "SELECT usuario * from usuario inner join veiculo ON usuario.idUsuario = veiculo.id";
+        Query query = sessao.createQuery(jpql);
+        
+        return query.list();
+        
+    }
+    
+    public Usuario buscaPorMatricula(String matricula) {
+        Usuario usuario = new Usuario();
+        String sql = "select * from usuario j where j.nome = ?";
+        Query query = sessao.createQuery(sql);
+        return usuario;
     }
 }
     
