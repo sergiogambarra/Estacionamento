@@ -13,41 +13,35 @@
                 <div id="formDados">
                     <h:form prependId="false">
                     <p:growl id="growl"/>
-                        <fieldset>        
-                            <h:panelGroup>
-                                <p>
-                                    <h:panelGrid columns="1">
-                                        <h:outputLabel for="placa" value="Placa:" />
-                                        <h:inputText id="placa" value="#{sisEstacionamentoBean.veiculo.placa}" />
-                                    </h:panelGrid>
-                                </p>
-                                <p>
-                                    <h:panelGrid columns="1">
-                                    <h:outputLabel for="marca" value="Marca:" />
-                                    <p:autoComplete id="dd" dropdown="true" var="marca" itemValue="#{marca}"
-                                            value="#{sisEstacionamentoBean.marca}" itemLabel="#{marca.nome}"
-                                            completeMethod="#{sisEstacionamentoBean.completeMetodo}" 
-                                            converter="marcaConverter"/>           
-                                    </h:panelGrid>
-                                </p>
-                                <p>
-                                    <h:panelGrid columns="1">
-                                        <h:outputLabel for="modelo" value="Modelo:" />
-                                        <h:inputText id="modelo" value="#{sisEstacionamentoBean.marca.modelo}" />
-                                    </h:panelGrid>
-                                </p>
-                                <p>
-                                    <h:panelGrid columns="1">
-                                        <h:outputLabel for="ano" value="Ano:" />
-                                        <h:inputText id="ano" value="#{sisEstacionamentoBean.veiculo.ano}" />
-                                    </h:panelGrid>
-                                </p>
-                            </h:panelGroup>
-                        </fieldset>
+                    <p/>
+                           
+                        <h:panelGroup>
+                            <h:panelGrid columns="8">
+                                <h:outputLabel for="placa" value="Placa:" />
+                                <h:inputText id="placa" value="#{sisEstacionamentoBean.veiculo.placa}" />
+
+                                <h:outputText id="marca" value="Marca:" />
+                                <p:autoComplete id="dd" var="marca" itemValue="#{marca}"
+                                        value="#{sisEstacionamentoBean.marca}" itemLabel="#{marca.nome}"
+                                        completeMethod="#{sisEstacionamentoBean.completeMetodo}" 
+                                        converter="marcaConverter"/>
+
+                                <h:outputLabel for="modelo" value="Modelo:" />
+                                <h:inputText id="modelo" value="#{sisEstacionamentoBean.marca.modelo}" />
+
+                                <h:outputLabel for="ano" value="Ano:" />
+                                <h:inputText id="ano" value="#{sisEstacionamentoBean.veiculo.ano}" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    <p/>
+                      
                     
 
-                        <h:panelGrid columns="1">
-                            <h:outputLabel for="vinculo" value="Vinculo com a Instituição:"/>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel for="usuario" value="Adicionar/Selecione usuário ao veículo:"/>
+                            <br/>
+                            <p/>
+                            <h:outputLabel for="vinculo" value="Vinculo do usuário com a Instituição:"/>
                             <h:selectOneMenu id="vinculo" value="#{sisEstacionamentoBean.usuario.vinculo}">
                                 <f:selectItem itemLabel="Selecione..." />
                                 <f:selectItem itemValue="Servidor" />
@@ -63,42 +57,44 @@
                         
                     <h:panelGroup id="teste">
                             
-                                <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
-                                    <h:panelGrid columns="1">
-                                        
-                                        <p:autoComplete value="#{sisEstacionamentoBean.servidores.matricula}" completeMethod="#{sisEstacionamentoBean.completaNome}" var="servidor" itemLabel="#{servidor.matricula}" itemValue="#{servidor}" converter="servidorConverter"/>
-                                        <p:commandButton value="Submit" update="servidores" image="ui-icon-transfer-e-w"/>
-                                        <h:outputText id="servidores" value="Selecionado: #{sisEstacionamentoBean.servidores.cargo}" />
-                                        
-                                        <h:outputLabel for="txtMatriculaSIAPE" value="Matrícula SIAPE"/>
-                                        <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.servidores.matricula}"/>
-                                        
-                                        <h:outputLabel for="txtNomeServidor" value="Nome Completo:"/>
-                                        <h:inputText id="txtNomeServidor" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.servidores.nome}"/>
-                                        
-                                        <h:outputLabel for="txtCargo" value="Cargo:"/>
-                                        <h:inputText id="txtCargo" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.servidores.cargo}"/>
-                                    </h:panelGrid>
-                                </h:panelGroup>
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
+                            <h:panelGrid columns="2">
+                                <br/>
+                                <h:outputLabel for="txtMatricula" value="Matrícula:"/>
+                                <br/>
+                                <p:autoComplete id="acservidor" var="servidor" itemValue="#{servidor}"
+                                                value="#{sisEstacionamentoBean.servidores}" itemLabel="#{servidor.matricula}"
+                                                completeMethod="#{sisEstacionamentoBean.completaNomeServidores}"
+                                                converter="servidorConverter">
+                                                <p:ajax event="itemSelect" listener="#{sisEstacionamentoBean.handleSelectServidor}" update="nomeServidor cargo"/> 
+                                </p:autoComplete>     
+                                <br/>
+                                <h:outputText id="nomeServidor" value="Nome: #{sisEstacionamentoBean.servidores.nome}" />
+                                <br/>
+                                <h:outputText id="cargo" value="Cargo: #{sisEstacionamentoBean.servidores.cargo}" />
+                                <br/>
+                            </h:panelGrid>
+                        </h:panelGroup>
                             
-                            <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Aluno'}">
-                                
-                                <h:panelGrid columns="1">
-                                    
-                                    <h:outputLabel for="txtMatricula" value="Matrícula"/>
-                                    <p:autoComplete maxlength="60" size="50" id="txtMatricula" requiredMessage="Digite a Matrícula" required="true" value="#{sisEstacionamentoBean.alunos.matricula}" completeMethod="#{sisEstacionamentoBean.completaNomeAlunos}" var="alunos" itemLabel="#{alunos.matricula}" itemValue="#{alunos}" converter="alunoConverter"/>
-                                    <p:commandButton value="Submit" update="txtNomeAluno alunos" image="ui-icon-transfer-e-w"/>
-                                    <h:outputText id="alunos" value="Selecionado: #{sisEstacionamentoBean.alunos.curso}" />
-                                    
-                                    <h:outputLabel for="txtNomeAluno" value="Nome Completo:"/>
-                                    <h:inputText id="txtNomeAluno" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.alunos.nome}"/>
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Aluno'}">
 
-                                    <h:outputLabel for="txtCurso" value="Curso"/>
-                                    <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.alunos.curso}"/>
-                                    
-                                </h:panelGrid>
-                                    
-                            </h:panelGroup>
+                            <h:panelGrid columns="2">
+                                <p/>
+                                <h:outputLabel for="txtMatricula" value="Matrícula:"/>
+                                <p/>
+                                <p:autoComplete id="acaluno" var="aluno" itemValue="#{aluno}"
+                                                value="#{sisEstacionamentoBean.alunos}" itemLabel="#{aluno.matricula}"
+                                                completeMethod="#{sisEstacionamentoBean.completaNomeAlunos}"
+                                                converter="alunoConverter">
+                                                <p:ajax event="itemSelect" listener="#{sisEstacionamentoBean.handleSelectAluno}" update="nomeAluno curso"/> 
+                                </p:autoComplete>     
+                                <p/>
+                                <h:outputText id="nomeAluno" value="Nome: #{sisEstacionamentoBean.alunos.nome}" />
+                                <p/>
+                                <h:outputText id="curso" value="Curso: #{sisEstacionamentoBean.alunos.curso}" />
+                            </h:panelGrid>
+
+                        </h:panelGroup>
 
                         <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Terceirizado' || sisEstacionamentoBean.usuario.vinculo == 'Fornecedor' || sisEstacionamentoBean.usuario.vinculo == 'Estagiario'|| sisEstacionamentoBean.usuario.vinculo == 'Outros'}">
                                 
@@ -116,7 +112,7 @@
                             </h:panelGrid>
                                 
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Estagiario'}">
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Estagiário'}">
                                 
                             <h:panelGrid columns="1">
 
@@ -126,8 +122,8 @@
                                 <h:outputLabel for="txtRGEstagiario" value="RG"/>
                                 <h:inputText id="txtRGEstagiario" maxlength="60" size="50"  required="true" requiredMessage="Digite o RG" value="#{sisEstacionamentoBean.outros.RG}"/>
 
-                                <h:outputLabel for="txtInstituicao" value="Empresa"/>
-                                <h:inputText id="txtInstituicao" maxlength="60" size="50"  required="true" requiredMessage="Digite a Empresa" value="#{sisEstacionamentoBean.outros.empresa}"/>
+                                <h:outputLabel for="txtInstituicao" value="Instituição"/>
+                                <h:inputText id="txtInstituicao" maxlength="60" size="50"  required="true" requiredMessage="Digite a Instituição" value="#{sisEstacionamentoBean.outros.empresa}"/>
 
                             </h:panelGrid>
                                 

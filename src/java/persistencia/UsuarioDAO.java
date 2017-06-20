@@ -7,12 +7,11 @@ package persistencia;
 
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Alunos;
 import modelo.Usuario;
+import modelo.Veiculo;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import static org.hibernate.criterion.Expression.sql;
 
 public class UsuarioDAO {
 
@@ -62,14 +61,23 @@ public class UsuarioDAO {
     
     
     public List<Usuario> listarUsuariosCadastrados() {
-        String jpql = "SELECT usuario * from usuario inner join veiculo ON usuario.idUsuario = veiculo.id";
-        Query query = sessao.createQuery(jpql);
+        List<Usuario> usr = (ArrayList<Usuario>) sessao.createCriteria(Usuario.class).list();
+        List<Veiculo> veic = (ArrayList<Veiculo>) sessao.createCriteria(Veiculo.class).list();
+        List<Usuario> resultados = new ArrayList<>();
         
-        return query.list();
-        
+        for(int x =0; x < usr.size();x ++){
+            for (int y =0; y < veic.size();y ++){
+                if (usr.get(x).getIdUsuario() == veic.get(y).getUsuario().getIdUsuario()){
+                    resultados.add(usr.get(x));
+                }
+            }
+            
+        }
+        return resultados;
     }
     
     public Usuario buscaPorMatricula(String matricula) {
+        
         Usuario usuario = new Usuario();
         String sql = "select * from usuario j where j.nome = ?";
         Query query = sessao.createQuery(sql);

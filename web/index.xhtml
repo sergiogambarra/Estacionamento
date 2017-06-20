@@ -15,14 +15,6 @@
             <h1>Sistema de Controle de Veículos</h1>
             <p>Sistema desenvolvido para Cadastro e Controle do Estacionamento do Campus Restinga - IFRS</p>
 
-            <h:form>
-            <h:panelGrid columns="2">
-            <p:autoComplete value="#{sisEstacionamentoBean.servidores.matricula}" completeMethod="#{sisEstacionamentoBean.completaNome}" var="servidor" itemLabel="#{servidor.matricula}" itemValue="#{servidor}" converter="servidorConverter"/>
-            <p:commandButton value="Submit" update="servidores" image="ui-icon-transfer-e-w"/>
-            <h:outputText id="servidores" value="Selecionado: #{sisEstacionamentoBean.servidores.cargo}" />
-            </h:panelGrid>
-            </h:form>
- 
             <style tyle="text/css">
                 .animated .ui-progressbar-value { 
                     background-image: url("/showcase/javax.faces.resource/demo/images/pbar-ani.gif.xhtml"); 

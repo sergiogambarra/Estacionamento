@@ -46,10 +46,7 @@ public class ServidoresDAO {
 //    }
     
      public Servidores buscaPorMatricula(String matricula) {
-        //Servidores usuario = new Servidores();
         Servidores ser = null;
-//        String sql = "select * from Servidores j where j.matricula = ?";
-//        Query query = sessao.createQuery(sql);
         String hql = "FROM Servidores WHERE matricula = '" + matricula + "'";
 			Query query = sessao.createQuery(hql);
     

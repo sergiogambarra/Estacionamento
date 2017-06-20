@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import modelo.Alunos;
 import modelo.Marca;
 import modelo.Outros;
@@ -32,6 +33,7 @@ import modelo.Servidores;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.primefaces.event.SelectEvent;
 
 import org.primefaces.model.UploadedFile;
 import persistencia.AlunosDAO;
@@ -135,6 +137,7 @@ public class SisEstacionamentoBean implements Serializable{
     
     public SisEstacionamentoBean() {
         listaUsuarios = usuarioDao.listar();
+        
         listaPlacas = placasDao.listar();
         listaVeiculos = veiculoDao.listar();
         listaAlunos = alunosDao.listar();
@@ -548,6 +551,9 @@ public class SisEstacionamentoBean implements Serializable{
      * @return the listaUsuariosCadastrados
      */
     public List<Usuario> getListaUsuariosCadastrados() {
+        for (int i=0;i<listaVeiculos.size();i++){
+            listaUsuariosCadastrados.add(listaVeiculos.get(i).getUsuario());
+        }
         return listaUsuariosCadastrados;
     }
 
@@ -583,7 +589,15 @@ public class SisEstacionamentoBean implements Serializable{
         System.out.println(marca.getCod() + " - " + marca.getNome());
  
     }
-
+    
+    public void handleSelectServidor(SelectEvent event) {
+        this.servidores = (Servidores) event.getObject();
+    }
+    
+    public void handleSelectAluno(SelectEvent event) {
+        this.alunos = (Alunos) event.getObject();
+    }
+    
     /**
      * @return the marca
      */
