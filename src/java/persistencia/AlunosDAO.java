@@ -7,6 +7,7 @@ package persistencia;
 
 import java.util.ArrayList;
 import modelo.Alunos;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -34,6 +35,20 @@ public class AlunosDAO {
 
     public ArrayList<Alunos> listar() {
         return (ArrayList<Alunos>) sessao.createCriteria(Alunos.class).list();
+    }
+    
+    public Alunos buscaPorMatricula(String matricula) {
+        //Servidores usuario = new Servidores();
+        Alunos alu = null;
+//        String sql = "select * from Servidores j where j.matricula = ?";
+//        Query query = sessao.createQuery(sql);
+        String hql = "FROM Alunos WHERE matricula = '" + matricula + "'";
+			Query query = sessao.createQuery(hql);
+    
+			if (!query.list().isEmpty()) {
+				alu = (Alunos) query.list().get(0);
+			}
+        return alu;
     }
 }
 

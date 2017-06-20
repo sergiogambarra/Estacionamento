@@ -5,7 +5,6 @@
  */
 package backingbeans;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,11 +16,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import modelo.Alunos;
+import modelo.Marca;
 import modelo.Outros;
 import modelo.Placas;
 import modelo.Usuario;
@@ -30,9 +32,10 @@ import modelo.Servidores;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang3.time.DateUtils;
+
 import org.primefaces.model.UploadedFile;
 import persistencia.AlunosDAO;
+import persistencia.MarcaDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
 import persistencia.VeiculoDAO;
@@ -100,6 +103,7 @@ public class SisEstacionamentoBean implements Serializable{
 
     private UploadedFile file;
     private Servidores servidorSelecionado;
+    private Marca marca;
     
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
@@ -121,7 +125,13 @@ public class SisEstacionamentoBean implements Serializable{
     private final PlacasDAO placasDao = new PlacasDAO();
     private final AlunosDAO alunosDao = new AlunosDAO();
     private final ServidoresDAO servidoresDao = new ServidoresDAO();
+    private MarcaDAO marcaDao;
     
+     @PostConstruct
+    private void init(){
+ 
+        marcaDao = new MarcaDAO();
+    }
     
     public SisEstacionamentoBean() {
         listaUsuarios = usuarioDao.listar();
@@ -182,12 +192,23 @@ public class SisEstacionamentoBean implements Serializable{
         return "alterarUsuario";
     }
     
-    public List<Servidores> completaNome(String query) {
+    public List<Servidores> completaNomeServidores(String query) {
         this.listaServidores = servidoresDao.listar();
         List<Servidores> sugestoes = new ArrayList<Servidores>();
         for (Servidores s : this.listaServidores) {
             if (s.getMatricula().startsWith(query)) {
                 sugestoes.add(s);
+            }
+        }
+        return sugestoes;
+    }
+    
+    public List<Alunos> completaNomeAlunos(String query) {
+        this.listaAlunos = alunosDao.listar();
+        List<Alunos> sugestoes = new ArrayList<Alunos>();
+        for (Alunos a : this.listaAlunos) {
+            if (a.getMatricula().startsWith(query)) {
+                sugestoes.add(a);
             }
         }
         return sugestoes;
@@ -199,17 +220,39 @@ public class SisEstacionamentoBean implements Serializable{
         FacesMessage msg;
         int id = 0;
         
+        listaAlunos = alunosDao.listar();
+        listaServidores = servidoresDao.listar();
         
         if (veiculo.getPlaca() != null){
-            for (int k =0 ; k<listaServidores.size();k++){
-                if (listaServidores.get(k).getMatricula().equals(servidores.getMatricula())){
-                    id = listaServidores.get(k).getIdUsuario();
+            if (servidores != null){
+                for (int k =0; k<listaServidores.size(); k++){
+                    if (listaServidores.get(k).getMatricula().equals(servidores.getMatricula())){
+                        id = listaServidores.get(k).getIdUsuario();
+                    }
+                }
+            }
+            if (alunos != null){
+                for (int k =0; k < listaAlunos.size(); k++){
+                    if (listaAlunos.get(k).getMatricula().equals(alunos.getMatricula())){
+                        id = listaAlunos.get(k).getIdUsuario();
+                    }
                 }
             }
             
             if (id > 0 ){
                 this.usuario.setIdUsuario(id);
             } else {
+                this.outros.setVinculo(this.usuario.getVinculo());
+                this.alunos.setVinculo(this.usuario.getVinculo());
+                this.servidores.setVinculo(this.usuario.getVinculo());
+                if (this.usuario.getVinculo().equals("Servidor")){
+                    usuarioDao.incluir(this.servidores);
+                } else if(this.usuario.getVinculo().equals("Aluno")){
+                    usuarioDao.incluir(this.alunos);
+                } else {
+                    usuarioDao.incluir(this.outros);
+                }
+                
                 setListaUsuarios(usuarioDao.listar());
                 ArrayList<Integer> ids_users = new ArrayList<Integer>();
                 for (int i = 0; i< this.listaUsuarios.size();i++){
@@ -218,6 +261,9 @@ public class SisEstacionamentoBean implements Serializable{
                 int lastIdUsuario = Collections.max(ids_users);
                 this.usuario.setIdUsuario(lastIdUsuario);
             }
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Usuario cadastrado com Sucesso!", "");
+                context.addMessage(null, msg);
 
             this.veiculo.setUsuario(usuario);
             VeiculoDAO veiculoDao = new VeiculoDAO();
@@ -226,7 +272,7 @@ public class SisEstacionamentoBean implements Serializable{
                     "Veiculo incluído com Sucesso!", "");
         context.addMessage(null, msg);
         }
-        return null;
+        return "index";
     }
     
     //placas capturadas
@@ -262,7 +308,7 @@ public class SisEstacionamentoBean implements Serializable{
             System.out.print(diffMinutes + " minutos, ");
             long diffHours = diferenca / (60 * 60 * 1000); 
             System.out.print(diffHours + " horas, ");
-            boolean mesmodia = DateUtils.isSameDay(d1, d2);
+            
             // && listaPlacas.get(i).getSaida().equals(null)
             
             if (diffSeconds + (diffMinutes * 60) + (diffHours * 60 *60) > 20){
@@ -525,6 +571,31 @@ public class SisEstacionamentoBean implements Serializable{
      */
     public void setServidorSelecionado(Servidores servidorSelecionado) {
         this.servidorSelecionado = servidorSelecionado;
+    }
+    
+    public List<Marca> completeMetodo(String query){
+ 
+        return marcaDao.buscar(query);
+    }
+ 
+    public void submit(ActionEvent event){
+ 
+        System.out.println(marca.getCod() + " - " + marca.getNome());
+ 
+    }
+
+    /**
+     * @return the marca
+     */
+    public Marca getMarca() {
+        return marca;
+    }
+
+    /**
+     * @param marca the marca to set
+     */
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 
 }

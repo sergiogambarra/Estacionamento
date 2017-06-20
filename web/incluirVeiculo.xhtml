@@ -23,104 +23,17 @@
                                 </p>
                                 <p>
                                     <h:panelGrid columns="1">
-                                    <h:outputLabel for="marca" value="Marca" />
-                                    <h:selectOneMenu id="marca" value="#{sisEstacionamentoBean.veiculo.marca}">
-                                        <f:selectItem itemLabel="Selecione..." />
-                                        <f:selectItem itemValue="Acura"/>
-                                        <f:selectItem itemValue="Agrale"/>
-                                        <f:selectItem itemValue="Alfa Romeo"/>
-                                        <f:selectItem itemValue="AM Gen"/>
-                                        <f:selectItem itemValue="Asia Motors"/>
-                                        <f:selectItem itemValue="ASTON MARTIN"/>
-                                        <f:selectItem itemValue="Audi"/>
-                                        <f:selectItem itemValue="BMW"/>
-                                        <f:selectItem itemValue="BRM"/>
-                                        <f:selectItem itemValue="Buggy"/>
-                                        <f:selectItem itemValue="Bugre"/>
-                                        <f:selectItem itemValue="Cadillac"/>
-                                        <f:selectItem itemValue="CBT Jipe"/>
-                                        <f:selectItem itemValue="CHANA"/>
-                                        <f:selectItem itemValue="CHANGAN"/>
-                                        <f:selectItem itemValue="CHERY"/>
-                                        <f:selectItem itemValue="Chrysler"/>
-                                        <f:selectItem itemValue="Citroen"/>
-                                        <f:selectItem itemValue="Cross Lander"/>
-                                        <f:selectItem itemValue="Daewoo"/>
-                                        <f:selectItem itemValue="Daihatsu"/>
-                                        <f:selectItem itemValue="Dodge"/>
-                                        <f:selectItem itemValue="EFFA"/>
-                                        <f:selectItem itemValue="Engesa"/>
-                                        <f:selectItem itemValue="Envemo"/>
-                                        <f:selectItem itemValue="Ferrari"/>
-                                        <f:selectItem itemValue="Fiat"/>
-                                        <f:selectItem itemValue="Fibravan"/>
-                                        <f:selectItem itemValue="Ford"/>
-                                        <f:selectItem itemValue="FOTON"/>
-                                        <f:selectItem itemValue="Fyber"/>
-                                        <f:selectItem itemValue="GEELY"/>
-                                        <f:selectItem itemValue="GM - Chevrolet"/>
-                                        <f:selectItem itemValue="GREAT WALL"/>
-                                        <f:selectItem itemValue="Gurgel"/>
-                                        <f:selectItem itemValue="HAFEI"/>
-                                        <f:selectItem itemValue="Honda"/>
-                                        <f:selectItem itemValue="Hyundai"/>
-                                        <f:selectItem itemValue="Isuzu"/>
-                                        <f:selectItem itemValue="JAC"/>
-                                        <f:selectItem itemValue="Jaguar"/>
-                                        <f:selectItem itemValue="Jeep"/>
-                                        <f:selectItem itemValue="JINBEI"/>
-                                        <f:selectItem itemValue="JPX"/>
-                                        <f:selectItem itemValue="Kia Motors"/>
-                                        <f:selectItem itemValue="Lada"/>
-                                        <f:selectItem itemValue="LAMBORGHINI"/>
-                                        <f:selectItem itemValue="Land Rover"/>
-                                        <f:selectItem itemValue="Lexus"/>
-                                        <f:selectItem itemValue="LIFAN"/>
-                                        <f:selectItem itemValue="LOBINI"/>
-                                        <f:selectItem itemValue="Lotus"/>
-                                        <f:selectItem itemValue="Mahindra"/>
-                                        <f:selectItem itemValue="Maserati"/>
-                                        <f:selectItem itemValue="Matra"/>
-                                        <f:selectItem itemValue="Mazda"/>
-                                        <f:selectItem itemValue="Mercedes-Benz"/>
-                                        <f:selectItem itemValue="Mercury"/>
-                                        <f:selectItem itemValue="MG"/>
-                                        <f:selectItem itemValue="MINI"/>
-                                        <f:selectItem itemValue="Mitsubishi"/>
-                                        <f:selectItem itemValue="Miura"/>
-                                        <f:selectItem itemValue="Nissan"/>
-                                        <f:selectItem itemValue="Peugeot"/>
-                                        <f:selectItem itemValue="Plymouth"/>
-                                        <f:selectItem itemValue="Pontiac"/>
-                                        <f:selectItem itemValue="Porsche"/>
-                                        <f:selectItem itemValue="RAM"/>
-                                        <f:selectItem itemValue="RELY"/>
-                                        <f:selectItem itemValue="Renault"/>
-                                        <f:selectItem itemValue="Rolls-Royce"/>
-                                        <f:selectItem itemValue="Rover"/>
-                                        <f:selectItem itemValue="Saab"/>
-                                        <f:selectItem itemValue="Saturn"/>
-                                        <f:selectItem itemValue="Seat"/>
-                                        <f:selectItem itemValue="SHINERAY"/>
-                                        <f:selectItem itemValue="smart"/>
-                                        <f:selectItem itemValue="SSANGYONG"/>
-                                        <f:selectItem itemValue="Subaru"/>
-                                        <f:selectItem itemValue="Suzuki"/>
-                                        <f:selectItem itemValue="TAC"/>
-                                        <f:selectItem itemValue="Toyota"/>
-                                        <f:selectItem itemValue="Troller"/>
-                                        <f:selectItem itemValue="Volvo"/>
-                                        <f:selectItem itemValue="VW - VolksWagen"/>
-                                        <f:selectItem itemValue="Wake"/>
-                                        <f:selectItem itemValue="Walk"/>
-                                        <f:ajax render="teste" />
-                                    </h:selectOneMenu>
+                                    <h:outputLabel for="marca" value="Marca:" />
+                                    <p:autoComplete id="dd" dropdown="true" var="marca" itemValue="#{marca}"
+                                            value="#{sisEstacionamentoBean.marca}" itemLabel="#{marca.nome}"
+                                            completeMethod="#{sisEstacionamentoBean.completeMetodo}" 
+                                            converter="marcaConverter"/>           
                                     </h:panelGrid>
                                 </p>
                                 <p>
                                     <h:panelGrid columns="1">
                                         <h:outputLabel for="modelo" value="Modelo:" />
-                                        <h:inputText id="modelo" value="#{sisEstacionamentoBean.veiculo.modelo}" />
+                                        <h:inputText id="modelo" value="#{sisEstacionamentoBean.marca.modelo}" />
                                     </h:panelGrid>
                                 </p>
                                 <p>
@@ -152,6 +65,11 @@
                             
                                 <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
                                     <h:panelGrid columns="1">
+                                        
+                                        <p:autoComplete value="#{sisEstacionamentoBean.servidores.matricula}" completeMethod="#{sisEstacionamentoBean.completaNome}" var="servidor" itemLabel="#{servidor.matricula}" itemValue="#{servidor}" converter="servidorConverter"/>
+                                        <p:commandButton value="Submit" update="servidores" image="ui-icon-transfer-e-w"/>
+                                        <h:outputText id="servidores" value="Selecionado: #{sisEstacionamentoBean.servidores.cargo}" />
+                                        
                                         <h:outputLabel for="txtMatriculaSIAPE" value="Matrícula SIAPE"/>
                                         <h:inputText id="txtMatriculaSIAPE" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula SIAPE" value="#{sisEstacionamentoBean.servidores.matricula}"/>
                                         
@@ -167,14 +85,16 @@
                                 
                                 <h:panelGrid columns="1">
                                     
-                                        <h:outputLabel for="txtMatricula" value="Matrícula"/>
-                                        <h:inputText id="txtMatricula" maxlength="60" size="50"  required="true" requiredMessage="Digite a Matrícula" value="#{sisEstacionamentoBean.alunos.matricula}"/>
-                                        
-                                        <h:outputLabel for="txtNomeAluno" value="Nome Completo:"/>
-                                        <h:inputText id="txtNomeAluno" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.alunos.nome}"/>
-                                        
-                                        <h:outputLabel for="txtCurso" value="Curso"/>
-                                        <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.alunos.curso}"/>
+                                    <h:outputLabel for="txtMatricula" value="Matrícula"/>
+                                    <p:autoComplete maxlength="60" size="50" id="txtMatricula" requiredMessage="Digite a Matrícula" required="true" value="#{sisEstacionamentoBean.alunos.matricula}" completeMethod="#{sisEstacionamentoBean.completaNomeAlunos}" var="alunos" itemLabel="#{alunos.matricula}" itemValue="#{alunos}" converter="alunoConverter"/>
+                                    <p:commandButton value="Submit" update="txtNomeAluno alunos" image="ui-icon-transfer-e-w"/>
+                                    <h:outputText id="alunos" value="Selecionado: #{sisEstacionamentoBean.alunos.curso}" />
+                                    
+                                    <h:outputLabel for="txtNomeAluno" value="Nome Completo:"/>
+                                    <h:inputText id="txtNomeAluno" maxlength="60" size="50"  required="true" requiredMessage="Digite o seu nome" value="#{sisEstacionamentoBean.alunos.nome}"/>
+
+                                    <h:outputLabel for="txtCurso" value="Curso"/>
+                                    <h:inputText id="txtCurso" maxlength="60" size="50"  required="true" requiredMessage="Digite o Curso" value="#{sisEstacionamentoBean.alunos.curso}"/>
                                     
                                 </h:panelGrid>
                                     
@@ -222,7 +142,7 @@
 
                         <p:toolbar>
                             <f:facet name="left"> 
-                                <p:commandButton value="Cadastrar" ajax="false" action="#{sisEstacionamentoBean.incluirUsuario}" style="margin-right:20px;">
+                                <p:commandButton value="Cadastrar" ajax="false" action="#{sisEstacionamentoBean.incluirVeiculo}" style="margin-right:20px;">
                                 </p:commandButton>
                             </f:facet>
                             <f:facet name="right">     
