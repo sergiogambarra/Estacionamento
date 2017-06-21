@@ -28,6 +28,13 @@
 
                                 
 
+                                <h:outputLabel for="modelo" value="Modelo" />
+                                <p:autoComplete id="modelo" var="marca" itemValue="#{modelo}"
+                                        value="#{sisEstacionamentoBean.modelo}" itemLabel="#{modelo.nome}"
+                                        completeMethod="#{sisEstacionamentoBean.completeModelo}" 
+                                        converter="modeloConverter"/>
+
+                                
                                 <h:outputLabel for="ano" value="Ano:" />
                                 <h:inputText id="ano" value="#{sisEstacionamentoBean.veiculo.ano}" />
                             </h:panelGrid>

@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import modelo.Alunos;
 import modelo.Marca;
+import modelo.Modelo;
 import modelo.Outros;
 import modelo.Placas;
 import modelo.Usuario;
@@ -37,6 +38,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 import persistencia.AlunosDAO;
 import persistencia.MarcaDAO;
+import persistencia.ModeloDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
 import persistencia.VeiculoDAO;
@@ -52,6 +54,34 @@ import persistencia.ServidoresDAO;
 @ViewScoped
 
 public class SisEstacionamentoBean implements Serializable{
+
+    /**
+     * @return the listaModelos
+     */
+    public List<Modelo> getListaModelos() {
+        return listaModelos;
+    }
+
+    /**
+     * @param listaModelos the listaModelos to set
+     */
+    public void setListaModelos(List<Modelo> listaModelos) {
+        this.listaModelos = listaModelos;
+    }
+
+    /**
+     * @return the modelo
+     */
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    /**
+     * @param modelo the modelo to set
+     */
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
 
     /**
      * @return the file
@@ -105,6 +135,7 @@ public class SisEstacionamentoBean implements Serializable{
     private UploadedFile file;
     private Servidores servidorSelecionado;
     private Marca marca = new Marca();
+    private Modelo modelo = new Modelo();
     
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
@@ -120,6 +151,7 @@ public class SisEstacionamentoBean implements Serializable{
     private List<Alunos> listaAlunos;
     private List<Veiculo> listaVeiculos;
     private List<Servidores> listaServidores;
+    private List<Modelo> listaModelos;
     
     private final UsuarioDAO usuarioDao = new UsuarioDAO();
     private final VeiculoDAO veiculoDao = new VeiculoDAO();
@@ -127,6 +159,7 @@ public class SisEstacionamentoBean implements Serializable{
     private final AlunosDAO alunosDao = new AlunosDAO();
     private final ServidoresDAO servidoresDao = new ServidoresDAO();
     private MarcaDAO marcaDao;
+    private ModeloDAO modeloDao = new ModeloDAO();
     
     @PostConstruct
     private void init(){
@@ -135,10 +168,11 @@ public class SisEstacionamentoBean implements Serializable{
     
     public SisEstacionamentoBean() {
         listaUsuarios = usuarioDao.listar();
-        
+        listaUsuariosCadastrados = usuarioDao.listarUsuariosCadastrados();
         listaPlacas = placasDao.listar();
         listaVeiculos = veiculoDao.listar();
         listaAlunos = alunosDao.listar();
+        listaModelos = modeloDao.listar();
         listaServidores = servidoresDao.listar();
         
     }
@@ -221,13 +255,24 @@ public class SisEstacionamentoBean implements Serializable{
     public String incluirVeiculo() {
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
+        this.modelo = new Modelo();
         
         if (veiculo.getPlaca() != null){
             
         }
-        veiculo.setMarca(marca);
-        veiculoDao.incluir(veiculo);
         marcaDao.incluir(marca);
+        this.modelo.setMarca(marca);
+        modeloDao.incluir(modelo);
+        
+        veiculo.setModelo(modelo);
+        if (usuario.getVinculo().equals("Aluno")){
+            veiculo.setUsuario(alunos);
+        } else if (usuario.getVinculo().equals("Servidor")){
+            veiculo.setUsuario(servidores);
+        } else{
+            veiculo.setUsuario(outros);
+        }
+        veiculoDao.incluir(veiculo);
         
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Veiculo incluído com Sucesso!", "");
@@ -303,21 +348,33 @@ public class SisEstacionamentoBean implements Serializable{
         String data2Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d2);
         String data2FormatadaDia = new SimpleDateFormat("MM/dd/yyyy").format(d2);
         
+        Date d1;
+        String data1Formatada;
+        String fotoSaida = "";
         
         setListaPlacas(placasDao.listar());
-        Date d1 = getListaPlacas().get(getListaPlacas().size()-1).getEntrada();
-        String data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
-        String data1FormatadaDia = new SimpleDateFormat("MM/dd/yyyy").format(d1);
+//        if (getListaPlacas().size() > 0 ){
+//            d1 = getListaPlacas().get(getListaPlacas().size()-1).getEntrada();
+//        } else {
+//            
+//        }
+        
+        //String data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
+        
         
         //Verifica se a data de entrada vinda do banco nao vem vazia
         //Caso o banco esteja limpo
-        if (getListaPlacas().get(getListaPlacas().size()-1).getEntrada() == null){
+        if (getListaPlacas().size() == 0 || getListaPlacas().get(getListaPlacas().size()-1).getEntrada() == null){
             data1Formatada = "01/01/2000 23:59:59";
             
-        } else {
+        } else if (getListaPlacas().get(getListaPlacas().size()-1).getSaida() == null){
             d1 = getListaPlacas().get(getListaPlacas().size()-1).getEntrada();
             data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
+        } else {
+            d1 = getListaPlacas().get(getListaPlacas().size()-1).getSaida();
+            data1Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d1);
         }
+        
         try {
             d1 = dateFormat.parse(data1Formatada);
             d2 = dateFormat.parse(data2Formatada);
@@ -334,16 +391,19 @@ public class SisEstacionamentoBean implements Serializable{
             
             if (diffSeconds + (diffMinutes * 60) + (diffHours * 60 *60) > 20){
                 boolean entrada = true;
-                boolean saida = false;
+                
                 for (int i =0;i<getListaPlacas().size();i++){
-                    if (getListaPlacas().get(i).getPlaca().equals(pla.getPlaca())){
+                    if (getListaPlacas().get(i).getPlaca().equals(pla.getPlaca()) && getListaPlacas().get(i).getSaida() == null){
+                        fotoSaida = pla.getFotoEntrada();
+                        pla = getListaPlacas().get(i);
                         entrada = false;
                     } 
                 }
                 if (entrada == false){
                     PlacasDAO placasDao = new PlacasDAO();
                     pla.setSaida(d2);
-                    placasDao.incluir(pla);
+                    pla.setFotoSaida(fotoSaida);
+                    placasDao.alterar(pla);
                     d1 = new Date();
                     
                 } else {
@@ -373,6 +433,7 @@ public class SisEstacionamentoBean implements Serializable{
     //Upload CSV de Servidores
     public void upload() throws IOException {
         listaServidores = servidoresDao.listar();
+        this.servidores = new Servidores();
         AlunosDAO alunosDao = new AlunosDAO();
         listaAlunos = alunosDao.listar();
         InputStream input = getFile().getInputstream();
@@ -569,9 +630,9 @@ public class SisEstacionamentoBean implements Serializable{
      * @return the listaUsuariosCadastrados
      */
     public List<Usuario> getListaUsuariosCadastrados() {
-        for (int i=0;i<listaVeiculos.size();i++){
-            listaUsuariosCadastrados.add(listaVeiculos.get(i).getUsuario());
-        }
+//        for (int i=0;i<listaVeiculos.size();i++){
+//            listaUsuariosCadastrados.add(listaVeiculos.get(i).getUsuario());
+//        }
         return listaUsuariosCadastrados;
     }
 
@@ -601,6 +662,18 @@ public class SisEstacionamentoBean implements Serializable{
  
         return marcaDao.buscar(query);
     }
+    public List<Modelo> completeModelo(String query){
+        this.listaModelos = modeloDao.listar();
+        List<Modelo> sugestoes = new ArrayList<Modelo>();
+        for (Modelo m : this.listaModelos) {
+            if (m.getNome().startsWith(query)) {
+                sugestoes.add(m);
+            }
+        }
+        return sugestoes;
+    }
+    
+    
  
     public void submit(ActionEvent event){
  

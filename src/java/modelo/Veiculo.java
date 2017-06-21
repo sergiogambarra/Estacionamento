@@ -21,6 +21,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "veiculo")
 public class Veiculo {
+
+    /**
+     * @return the modelo
+     */
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    /**
+     * @param modelo the modelo to set
+     */
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
     
     @Id
     @GeneratedValue
@@ -33,9 +47,10 @@ public class Veiculo {
     @JoinColumn(name="id_user")
     private Usuario usuario;
     
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="id_marca")
-    private Marca marca;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="id_modelo")
+    private Modelo modelo;
+    
     
     /**
      * @return the placa
@@ -94,17 +109,4 @@ public class Veiculo {
         this.id = id;
     }
 
-    /**
-     * @return the marca
-     */
-    public Marca getMarca() {
-        return marca;
-    }
-
-    /**
-     * @param marca the marca to set
-     */
-    public void setMarca(Marca marca) {
-        this.marca = marca;
-    }
 }

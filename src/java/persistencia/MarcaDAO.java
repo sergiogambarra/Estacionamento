@@ -114,6 +114,11 @@ public class MarcaDAO {
     }
     
     public void incluir(Marca mar) {
+        for(Marca m : marcas){
+            if(m.getNome().equals(mar.getNome())){
+                mar = m;
+            }
+        } 
         Transaction t = sessao.beginTransaction();
         sessao.save(mar);
         t.commit();

@@ -5,12 +5,12 @@
  */
 package modelo;
 
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,8 +22,10 @@ import javax.persistence.Table;
 @Table(name = "marca")
 public class Marca {
 
+
     /**
-     * @return the cod
+     * @return the codprivate int id;
+    private String nome;
      */
     public Integer getCod() {
         return cod;
@@ -56,9 +58,9 @@ public class Marca {
     private String nome;
     
     
-    @ManyToOne
-    @JoinColumn(name="id_mod")
-    private Modelo modelo;
+//    @OneToMany
+//    @JoinColumn(name="id_mod")
+//    private List<Modelo> modelo;
     
  
     public Marca(){
@@ -70,5 +72,7 @@ public class Marca {
         this.cod = cod;
         this.nome = nome;
     }
+
+    
     
 }

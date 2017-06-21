@@ -33,7 +33,7 @@ public class MarcaConverter implements Converter {
     }
 
     /**
-     * Recupera o objeto Cidade e retorna o código da cidade como String
+     * Recupera o objeto Marca e retorna o código da Marca como String
      * @param context
      * @param component
      * @param value

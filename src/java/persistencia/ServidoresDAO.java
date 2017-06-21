@@ -37,13 +37,14 @@ public class ServidoresDAO {
         return (ArrayList<Servidores>) sessao.createCriteria(Servidores.class).list();
     }
     
-//     public List<Servidores> listarUsuariosCadastrados() {
+    public List<Servidores> listarUsuariosCadastrados() {
 //        String jpql = "SELECT usuario * from usuario inner join veiculo ON usuario.idUsuario = veiculo.id";
 //        Query query = sessao.createQuery(jpql);
 //        
 //        return query.list();
+        return null;
 //        
-//    }
+    }
     
      public Servidores buscaPorMatricula(String matricula) {
         Servidores ser = null;

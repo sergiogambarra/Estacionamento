@@ -61,19 +61,9 @@ public class UsuarioDAO {
     
     
     public List<Usuario> listarUsuariosCadastrados() {
-        List<Usuario> usr = (ArrayList<Usuario>) sessao.createCriteria(Usuario.class).list();
-        List<Veiculo> veic = (ArrayList<Veiculo>) sessao.createCriteria(Veiculo.class).list();
-        List<Usuario> resultados = new ArrayList<>();
         
-        for(int x =0; x < usr.size();x ++){
-            for (int y =0; y < veic.size();y ++){
-                if (usr.get(x).getIdUsuario() == veic.get(y).getUsuario().getIdUsuario()){
-                    resultados.add(usr.get(x));
-                }
-            }
-            
-        }
-        return resultados;
+
+        return sessao.createQuery("select distinct u from Usuario u inner join u.cadastraVeic").list();
     }
     
     public Usuario buscaPorMatricula(String matricula) {
