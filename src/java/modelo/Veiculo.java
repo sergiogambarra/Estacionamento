@@ -5,11 +5,13 @@
  */
 package modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,9 +29,13 @@ public class Veiculo {
     private String ano;
     
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.PERSIST)
     @JoinColumn(name="id_user")
     private Usuario usuario;
+    
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="id_marca")
+    private Marca marca;
     
     /**
      * @return the placa
@@ -86,5 +92,19 @@ public class Veiculo {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * @return the marca
+     */
+    public Marca getMarca() {
+        return marca;
+    }
+
+    /**
+     * @param marca the marca to set
+     */
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 }

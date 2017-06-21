@@ -8,6 +8,8 @@ package persistencia;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Marca;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -15,8 +17,12 @@ import modelo.Marca;
  */
 public class MarcaDAO {
     private List<Marca> marcas = new ArrayList<>();
+    private Session sessao;
+    
  
     public MarcaDAO(){
+        
+        sessao = HibernateUtil.getSessionFactory().openSession();
  
         marcas.add(new Marca(1, "Acura"));
         marcas.add(new Marca(2, "Agrale"));
@@ -105,6 +111,12 @@ public class MarcaDAO {
         marcas.add(new Marca(85, "VW - VolksWagen"));
         marcas.add(new Marca(86, "Wake"));
         marcas.add(new Marca(87, "Walk"));
+    }
+    
+    public void incluir(Marca mar) {
+        Transaction t = sessao.beginTransaction();
+        sessao.save(mar);
+        t.commit();
     }
  
     public Marca buscarPorCod(Integer cod){

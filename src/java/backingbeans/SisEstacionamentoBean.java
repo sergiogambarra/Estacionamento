@@ -22,7 +22,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
 import modelo.Alunos;
 import modelo.Marca;
 import modelo.Outros;
@@ -105,7 +104,7 @@ public class SisEstacionamentoBean implements Serializable{
 
     private UploadedFile file;
     private Servidores servidorSelecionado;
-    private Marca marca;
+    private Marca marca = new Marca();
     
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
@@ -129,9 +128,8 @@ public class SisEstacionamentoBean implements Serializable{
     private final ServidoresDAO servidoresDao = new ServidoresDAO();
     private MarcaDAO marcaDao;
     
-     @PostConstruct
+    @PostConstruct
     private void init(){
- 
         marcaDao = new MarcaDAO();
     }
     
@@ -218,7 +216,27 @@ public class SisEstacionamentoBean implements Serializable{
     }
      
     //veiculo
+    
+    
     public String incluirVeiculo() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage msg;
+        
+        if (veiculo.getPlaca() != null){
+            
+        }
+        veiculo.setMarca(marca);
+        veiculoDao.incluir(veiculo);
+        marcaDao.incluir(marca);
+        
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Veiculo incluído com Sucesso!", "");
+        context.addMessage(null, msg);
+        
+        return "index";
+    }
+    
+    public String incluirVeiculo2() {
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
         int id = 0;

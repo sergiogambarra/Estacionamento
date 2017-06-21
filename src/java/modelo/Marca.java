@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -53,11 +54,12 @@ public class Marca {
     @GeneratedValue
     private int cod;
     private String nome;
-    private String modelo;
+    
     
     @ManyToOne
-    @JoinColumn(name="id_veiculo")
-    private Veiculo veiculo;
+    @JoinColumn(name="id_mod")
+    private Modelo modelo;
+    
  
     public Marca(){
  
@@ -67,34 +69,6 @@ public class Marca {
  
         this.cod = cod;
         this.nome = nome;
-    }
-
-    /**
-     * @return the modelo
-     */
-    public String getModelo() {
-        return modelo;
-    }
-
-    /**
-     * @param modelo the modelo to set
-     */
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    /**
-     * @return the veiculo
-     */
-    public Veiculo getVeiculo() {
-        return veiculo;
-    }
-
-    /**
-     * @param veiculo the veiculo to set
-     */
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
     }
     
 }

@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  */
 public class VeiculoDAO {
     
-     private Session sessao;
+    private Session sessao;
     
     public VeiculoDAO() {
         sessao = HibernateUtil.getSessionFactory().openSession();

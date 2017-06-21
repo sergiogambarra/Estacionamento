@@ -18,8 +18,8 @@ import backingbeans.SisEstacionamentoBean;
  * @author Sergio
  */
 
-@FacesConverter(value="servidorConverter")
-public class ServidorConverter implements Converter {
+@FacesConverter(value="modeloConverter")
+public class ModeloConverter implements Converter {
    
     
     @Override
