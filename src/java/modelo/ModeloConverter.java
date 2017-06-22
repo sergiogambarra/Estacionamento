@@ -10,8 +10,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import persistencia.ServidoresDAO;
-import backingbeans.SisEstacionamentoBean;
 import persistencia.ModeloDAO;
 
 /**
@@ -32,19 +30,21 @@ public class ModeloConverter implements Converter {
 //    }
     
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        ModeloDAO modeloDao = new ModeloDAO();
+        Modelo modelo = modeloDao.buscarPorId(Integer.valueOf(value));
 
-        return new ModeloDAO().buscarPorId(Integer.valueOf(value));
+        return modelo;
     }
     
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         
-        Modelo modelo = new Modelo();
-        modelo = (Modelo) value;
-        return modelo.getNome();
+//        Modelo modelo = new Modelo();
+//        modelo = (Modelo) value;
+//        return modelo.getNome();
 
-//        Modelo m = (Modelo) value;
-//
-//        return String.valueOf(m.getId());
+          Modelo m = (Modelo) value;
+
+        return String.valueOf(m.getId());
     }
 
 //    @Override

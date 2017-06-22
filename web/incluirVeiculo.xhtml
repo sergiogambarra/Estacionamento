@@ -20,7 +20,7 @@
                                 <h:outputLabel for="placa" value="Placa:" />
                                 <h:inputText id="placa" value="#{sisEstacionamentoBean.veiculo.placa}" />
 
-                                <h:outputText id="marca" value="Marca:" />
+                                <h:outputLabel for="dd" value="Marca:" />
                                 <p:autoComplete id="dd" var="marca" itemValue="#{marca}"
                                         value="#{sisEstacionamentoBean.marca}" itemLabel="#{marca.nome}"
                                         completeMethod="#{sisEstacionamentoBean.completeMetodo}" 
@@ -44,7 +44,7 @@
                     
 
                         <h:panelGrid columns="2">
-                            <h:outputLabel for="usuario" value="Adicionar/Selecione usuário ao veículo:"/>
+                            <h:outputLabel value="Adicionar/Selecione usuário ao veículo:"/>
                             <br/>
                             <p/>
                             <h:outputLabel for="vinculo" value="Vinculo do usuário com a Instituição:"/>

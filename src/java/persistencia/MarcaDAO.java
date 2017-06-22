@@ -120,7 +120,7 @@ public class MarcaDAO {
             }
         } 
         Transaction t = sessao.beginTransaction();
-        sessao.save(mar);
+        sessao.saveOrUpdate(mar);
         t.commit();
     }
  

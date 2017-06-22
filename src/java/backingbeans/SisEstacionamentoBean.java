@@ -39,6 +39,7 @@ import org.primefaces.model.UploadedFile;
 import persistencia.AlunosDAO;
 import persistencia.MarcaDAO;
 import persistencia.ModeloDAO;
+import persistencia.OutrosDAO;
 import persistencia.PlacasDAO;
 import persistencia.UsuarioDAO;
 import persistencia.VeiculoDAO;
@@ -54,6 +55,20 @@ import persistencia.ServidoresDAO;
 @ViewScoped
 
 public class SisEstacionamentoBean implements Serializable{
+
+    /**
+     * @return the listaServidores
+     */
+    public List<Servidores> getListaServidores() {
+        return listaServidores;
+    }
+
+    /**
+     * @param listaServidores the listaServidores to set
+     */
+    public void setListaServidores(List<Servidores> listaServidores) {
+        this.listaServidores = listaServidores;
+    }
 
     /**
      * @return the listaModelos
@@ -136,7 +151,6 @@ public class SisEstacionamentoBean implements Serializable{
     private Servidores servidorSelecionado;
     private Marca marca = new Marca();
     private Modelo modelo = new Modelo();
-    
     private Usuario usuario = new Usuario();
     private Veiculo veiculo = new Veiculo();
     private Placas placas = new Placas();
@@ -158,13 +172,14 @@ public class SisEstacionamentoBean implements Serializable{
     private final PlacasDAO placasDao = new PlacasDAO();
     private final AlunosDAO alunosDao = new AlunosDAO();
     private final ServidoresDAO servidoresDao = new ServidoresDAO();
-    private MarcaDAO marcaDao;
-    private ModeloDAO modeloDao = new ModeloDAO();
+    private final OutrosDAO outrosDao = new OutrosDAO();
+    private final MarcaDAO marcaDao = new MarcaDAO();
+    private final ModeloDAO modeloDao = new ModeloDAO();
     
-    @PostConstruct
-    private void init(){
-        marcaDao = new MarcaDAO();
-    }
+//    @PostConstruct
+//    private void init(){
+//        marcaDao = new MarcaDAO();
+//    }
     
     public SisEstacionamentoBean() {
         listaUsuarios = usuarioDao.listar();
@@ -183,20 +198,20 @@ public class SisEstacionamentoBean implements Serializable{
         UsuarioDAO usuarioDao = new UsuarioDAO();
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        this.outros.setVinculo(this.usuario.getVinculo());
-        this.alunos.setVinculo(this.usuario.getVinculo());
-        this.servidores.setVinculo(this.usuario.getVinculo());
-        if (this.usuario.getVinculo().equals("Servidor")){
-            usuarioDao.incluir(this.servidores);
-        } else if(this.usuario.getVinculo().equals("Aluno")){
-            usuarioDao.incluir(this.alunos);
+        this.getOutros().setVinculo(this.getUsuario().getVinculo());
+        this.getAlunos().setVinculo(this.getUsuario().getVinculo());
+        this.getServidores().setVinculo(this.getUsuario().getVinculo());
+        if (this.getUsuario().getVinculo().equals("Servidor")){
+            usuarioDao.incluir(this.getServidores());
+        } else if(this.getUsuario().getVinculo().equals("Aluno")){
+            usuarioDao.incluir(this.getAlunos());
         } else {
-            usuarioDao.incluir(this.outros);
+            usuarioDao.incluir(this.getOutros());
         }
         msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Usuario cadastrado com Sucesso!", "");
         context.addMessage(null, msg);
-        if (veiculo.getPlaca() != null){
+        if (getVeiculo().getPlaca() != null){
             usuarioDao = new UsuarioDAO();
             setListaUsuarios(usuarioDao.listar());
             ArrayList<Integer> ids_users = new ArrayList<Integer>();
@@ -204,39 +219,30 @@ public class SisEstacionamentoBean implements Serializable{
                 ids_users.add(this.listaUsuarios.get(i).getIdUsuario());
             }
             int lastIdUsuario = Collections.max(ids_users);
-            this.usuario.setIdUsuario(lastIdUsuario);
-            this.veiculo.setUsuario(usuario);
+            this.getUsuario().setIdUsuario(lastIdUsuario);
+            this.getVeiculo().setUsuario(getUsuario());
             VeiculoDAO veiculoDao = new VeiculoDAO();
-            veiculoDao.incluir(veiculo);
+            veiculoDao.incluir(getVeiculo());
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Veiculo incluído com Sucesso!", "");
         context.addMessage(null, msg);
         }
-        usuario = new Usuario();
-        veiculo = new Veiculo();
+        setUsuario(new Usuario());
+        setVeiculo(new Veiculo());
         return "incluirUsuario";
     }
     
     public String consultarUsuario(int id) {
-        usuario = usuarioDao.carregar(id);//idUsuario
+        setUsuario(usuarioDao.carregar(id));//idUsuario
         return "consultaUsuario";
     }
     
     public String iniciaAlteracaoUsuario(int id) {
-        usuario = usuarioDao.carregar(id);
+        setUsuario(usuarioDao.carregar(id));
         return "alterarUsuario";
     }
     
-    public List<Servidores> completaNomeServidores(String query) {
-        this.listaServidores = servidoresDao.listar();
-        List<Servidores> sugestoes = new ArrayList<Servidores>();
-        for (Servidores s : this.listaServidores) {
-            if (s.getMatricula().startsWith(query)) {
-                sugestoes.add(s);
-            }
-        }
-        return sugestoes;
-    }
+    
     
     public List<Alunos> completaNomeAlunos(String query) {
         this.listaAlunos = alunosDao.listar();
@@ -255,24 +261,23 @@ public class SisEstacionamentoBean implements Serializable{
     public String incluirVeiculo() {
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        this.modelo = new Modelo();
+        this.setModelo(new Modelo());
         
-        if (veiculo.getPlaca() != null){
-            
-        }
-        marcaDao.incluir(marca);
-        this.modelo.setMarca(marca);
-        modeloDao.incluir(modelo);
+        marcaDao.incluir(getMarca());
+        this.getModelo().setMarca(getMarca());
+        modeloDao.incluir(getModelo());
         
-        veiculo.setModelo(modelo);
-        if (usuario.getVinculo().equals("Aluno")){
-            veiculo.setUsuario(alunos);
-        } else if (usuario.getVinculo().equals("Servidor")){
-            veiculo.setUsuario(servidores);
+        getVeiculo().setModelo(getModelo());
+        if (getUsuario().getVinculo().equals("Aluno")){
+            getVeiculo().setUsuario(getAlunos());
+        } else if (getUsuario().getVinculo().equals("Servidor")){
+            getVeiculo().setUsuario(getServidores());
         } else{
-            veiculo.setUsuario(outros);
+            getOutros().setVinculo(getUsuario().getVinculo());
+            outrosDao.incluir(getOutros());
+            getVeiculo().setUsuario(getOutros());
         }
-        veiculoDao.incluir(veiculo);
+        veiculoDao.incluir(getVeiculo());
         
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Veiculo incluído com Sucesso!", "");
@@ -287,36 +292,36 @@ public class SisEstacionamentoBean implements Serializable{
         int id = 0;
         
         listaAlunos = alunosDao.listar();
-        listaServidores = servidoresDao.listar();
+        setListaServidores(servidoresDao.listar());
         
-        if (veiculo.getPlaca() != null){
-            if (servidores != null){
-                for (int k =0; k<listaServidores.size(); k++){
-                    if (listaServidores.get(k).getMatricula().equals(servidores.getMatricula())){
-                        id = listaServidores.get(k).getIdUsuario();
+        if (getVeiculo().getPlaca() != null){
+            if (getServidores() != null){
+                for (int k =0; k<getListaServidores().size(); k++){
+                    if (getListaServidores().get(k).getMatricula().equals(getServidores().getMatricula())){
+                        id = getListaServidores().get(k).getIdUsuario();
                     }
                 }
             }
-            if (alunos != null){
+            if (getAlunos() != null){
                 for (int k =0; k < listaAlunos.size(); k++){
-                    if (listaAlunos.get(k).getMatricula().equals(alunos.getMatricula())){
+                    if (listaAlunos.get(k).getMatricula().equals(getAlunos().getMatricula())){
                         id = listaAlunos.get(k).getIdUsuario();
                     }
                 }
             }
             
             if (id > 0 ){
-                this.usuario.setIdUsuario(id);
+                this.getUsuario().setIdUsuario(id);
             } else {
-                this.outros.setVinculo(this.usuario.getVinculo());
-                this.alunos.setVinculo(this.usuario.getVinculo());
-                this.servidores.setVinculo(this.usuario.getVinculo());
-                if (this.usuario.getVinculo().equals("Servidor")){
-                    usuarioDao.incluir(this.servidores);
-                } else if(this.usuario.getVinculo().equals("Aluno")){
-                    usuarioDao.incluir(this.alunos);
+                this.getOutros().setVinculo(this.getUsuario().getVinculo());
+                this.getAlunos().setVinculo(this.getUsuario().getVinculo());
+                this.getServidores().setVinculo(this.getUsuario().getVinculo());
+                if (this.getUsuario().getVinculo().equals("Servidor")){
+                    usuarioDao.incluir(this.getServidores());
+                } else if(this.getUsuario().getVinculo().equals("Aluno")){
+                    usuarioDao.incluir(this.getAlunos());
                 } else {
-                    usuarioDao.incluir(this.outros);
+                    usuarioDao.incluir(this.getOutros());
                 }
                 
                 setListaUsuarios(usuarioDao.listar());
@@ -325,15 +330,15 @@ public class SisEstacionamentoBean implements Serializable{
                     ids_users.add(this.listaUsuarios.get(i).getIdUsuario());
                 }
                 int lastIdUsuario = Collections.max(ids_users);
-                this.usuario.setIdUsuario(lastIdUsuario);
+                this.getUsuario().setIdUsuario(lastIdUsuario);
             }
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Usuario cadastrado com Sucesso!", "");
                 context.addMessage(null, msg);
 
-            this.veiculo.setUsuario(usuario);
+                this.getVeiculo().setUsuario(getUsuario());
             VeiculoDAO veiculoDao = new VeiculoDAO();
-            veiculoDao.incluir(veiculo);
+            veiculoDao.incluir(getVeiculo());
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Veiculo incluído com Sucesso!", "");
         context.addMessage(null, msg);
@@ -425,15 +430,15 @@ public class SisEstacionamentoBean implements Serializable{
         d2 = new Date();
         
         
-        placas = new Placas();
-        return this.placas;
+        setPlacas(new Placas());
+        return this.getPlacas();
     }
     
     //Upload CSV de Alunos
     //Upload CSV de Servidores
     public void upload() throws IOException {
-        listaServidores = servidoresDao.listar();
-        this.servidores = new Servidores();
+        setListaServidores(servidoresDao.listar());
+        this.setServidores(new Servidores());
         AlunosDAO alunosDao = new AlunosDAO();
         listaAlunos = alunosDao.listar();
         InputStream input = getFile().getInputstream();
@@ -449,7 +454,7 @@ public class SisEstacionamentoBean implements Serializable{
 //        }
 //        System.out.println(progress);
         
-        if (file != null) {
+        if (getFile() != null) {
             int i=0;
             CSVParser parser = new CSVParser(new InputStreamReader(input, StandardCharsets.ISO_8859_1),CSVFormat.EXCEL.withHeader().withDelimiter(';'));
             int gravados = 0;
@@ -458,17 +463,17 @@ public class SisEstacionamentoBean implements Serializable{
                 i++;
                 if (record.isMapped("MATRICULA")){
                     gravar = true;
-                    for (int k =0 ; k<listaServidores.size();k++){
-                        if (listaServidores.get(k).getMatricula().equals(record.get("MATRICULA"))){
+                    for (int k =0 ; k<getListaServidores().size();k++){
+                        if (getListaServidores().get(k).getMatricula().equals(record.get("MATRICULA"))){
                             gravar = false;
                         }
                     }
-                    this.servidores.setMatricula(record.get("MATRICULA"));
-                    this.servidores.setNome(record.get("SERVIDOR"));
-                    this.servidores.setCargo(record.get("CARGO EMPREGO"));
-                    this.servidores.setVinculo("Servidor");
+                    this.getServidores().setMatricula(record.get("MATRICULA"));
+                    this.getServidores().setNome(record.get("SERVIDOR"));
+                    this.getServidores().setCargo(record.get("CARGO EMPREGO"));
+                    this.getServidores().setVinculo("Servidor");
                     if (gravar){
-                        servidoresDao.incluir(servidores);
+                        servidoresDao.incluir(getServidores());
                         gravados++;
                     }
                 } else {
@@ -478,12 +483,12 @@ public class SisEstacionamentoBean implements Serializable{
                             gravar = false;
                         }
                     }
-                    this.alunos.setMatricula(record.get("Matrícula"));
-                    this.alunos.setNome(record.get("Nome"));
-                    this.alunos.setCurso(record.get("Curso"));
-                    this.alunos.setVinculo("Aluno");
+                    this.getAlunos().setMatricula(record.get("Matrícula"));
+                    this.getAlunos().setNome(record.get("Nome"));
+                    this.getAlunos().setCurso(record.get("Curso"));
+                    this.getAlunos().setVinculo("Aluno");
                     if (gravar){
-                        alunosDao.incluir(alunos);
+                        alunosDao.incluir(getAlunos());
                         gravados++;
                     }
                 }
@@ -493,7 +498,7 @@ public class SisEstacionamentoBean implements Serializable{
 //                this.setProgress(progress);
             }
             parser.close();
-            FacesMessage message = new FacesMessage("Sucesso! ", file.getFileName()+" enviado e " + gravados +" registros foram inserido!");
+            FacesMessage message = new FacesMessage("Sucesso! ", getFile().getFileName()+" enviado e " + gravados +" registros foram inserido!");
             
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
@@ -662,6 +667,18 @@ public class SisEstacionamentoBean implements Serializable{
  
         return marcaDao.buscar(query);
     }
+    
+    public List<Servidores> completaNomeServidores(String query) {
+        this.setListaServidores(servidoresDao.listar());
+        List<Servidores> sugestoes = new ArrayList<Servidores>();
+        for (Servidores s : this.getListaServidores()) {
+            if (s.getMatricula().startsWith(query)) {
+                sugestoes.add(s);
+            }
+        }
+        return sugestoes;
+    }
+    
     public List<Modelo> completeModelo(String query){
         this.listaModelos = modeloDao.listar();
         List<Modelo> sugestoes = new ArrayList<Modelo>();
@@ -677,16 +694,16 @@ public class SisEstacionamentoBean implements Serializable{
  
     public void submit(ActionEvent event){
  
-        System.out.println(marca.getCod() + " - " + marca.getNome());
+        System.out.println(getMarca().getCod() + " - " + getMarca().getNome());
  
     }
     
     public void handleSelectServidor(SelectEvent event) {
-        this.servidores = (Servidores) event.getObject();
+        this.setServidores((Servidores) event.getObject());
     }
     
     public void handleSelectAluno(SelectEvent event) {
-        this.alunos = (Alunos) event.getObject();
+        this.setAlunos((Alunos) event.getObject());
     }
     
     /**

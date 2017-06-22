@@ -5,12 +5,9 @@
  */
 package modelo;
 
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -53,7 +50,6 @@ public class Marca {
     }
     
     @Id
-    @GeneratedValue
     private int cod;
     private String nome;
     

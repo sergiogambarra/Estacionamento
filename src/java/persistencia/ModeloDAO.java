@@ -18,7 +18,7 @@ import org.hibernate.Transaction;
  * @author Sergio
  */
 public class ModeloDAO {
-    private List<Modelo> modelos = new ArrayList<>();
+    //private List<Modelo> modelos = new ArrayList<>();
     private Session sessao;
     
  
@@ -61,20 +61,15 @@ public class ModeloDAO {
         //return (Modelo) sessao.createQuery("select * from Modelo m where m.id =" + id);
     }
  
-    public List<Modelo> buscar(String query){
- 
-        List<Modelo> resultados = new ArrayList<>();
- 
-        for(Modelo m : modelos){
- 
-            if(m.getNome().startsWith(query)){
- 
-                resultados.add(m);
-            }
-        }
- 
-        return resultados;
-    }
+//    public List<Modelo> buscar(String query){
+//        List<Modelo> resultados = new ArrayList<>();
+//        for(Modelo m : modelos){
+//            if(m.getNome().startsWith(query)){
+//                resultados.add(m);
+//            }
+//        }
+//        return resultados;
+//    }
     
     public ArrayList<Modelo> listar() {
         return (ArrayList<Modelo>) sessao.createCriteria(Modelo.class).list();
