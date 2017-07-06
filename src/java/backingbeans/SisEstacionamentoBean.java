@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -55,6 +54,20 @@ import persistencia.ServidoresDAO;
 @ViewScoped
 
 public class SisEstacionamentoBean implements Serializable{
+
+    /**
+     * @return the progress
+     */
+    public Integer getProgress() {
+        return progress;
+    }
+
+    /**
+     * @param progress the progress to set
+     */
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
 
     /**
      * @return the listaServidores
@@ -198,12 +211,12 @@ public class SisEstacionamentoBean implements Serializable{
         UsuarioDAO usuarioDao = new UsuarioDAO();
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage msg;
-        this.getOutros().setVinculo(this.getUsuario().getVinculo());
-        this.getAlunos().setVinculo(this.getUsuario().getVinculo());
-        this.getServidores().setVinculo(this.getUsuario().getVinculo());
-        if (this.getUsuario().getVinculo().equals("Servidor")){
+        this.getOutros().setVinculo(this.getOutros().getVinculo());
+        //this.getAlunos().setVinculo(this.getOutros().getVinculo());
+        //this.getServidores().setVinculo(this.getOutros().getVinculo());
+        if (this.getOutros().getVinculo().equals("Servidor")){
             usuarioDao.incluir(this.getServidores());
-        } else if(this.getUsuario().getVinculo().equals("Aluno")){
+        } else if(this.getOutros().getVinculo().equals("Aluno")){
             usuarioDao.incluir(this.getAlunos());
         } else {
             usuarioDao.incluir(this.getOutros());
@@ -313,9 +326,9 @@ public class SisEstacionamentoBean implements Serializable{
             if (id > 0 ){
                 this.getUsuario().setIdUsuario(id);
             } else {
-                this.getOutros().setVinculo(this.getUsuario().getVinculo());
-                this.getAlunos().setVinculo(this.getUsuario().getVinculo());
-                this.getServidores().setVinculo(this.getUsuario().getVinculo());
+                this.getOutros().setVinculo(this.getOutros().getVinculo());
+                //this.getAlunos().setVinculo(this.getOutros().getVinculo());
+                this.getOutros().setVinculo(this.getOutros().getVinculo());
                 if (this.getUsuario().getVinculo().equals("Servidor")){
                     usuarioDao.incluir(this.getServidores());
                 } else if(this.getUsuario().getVinculo().equals("Aluno")){
@@ -471,7 +484,7 @@ public class SisEstacionamentoBean implements Serializable{
                     this.getServidores().setMatricula(record.get("MATRICULA"));
                     this.getServidores().setNome(record.get("SERVIDOR"));
                     this.getServidores().setCargo(record.get("CARGO EMPREGO"));
-                    this.getServidores().setVinculo("Servidor");
+                    //this.getServidores().setVinculo("Servidor");
                     if (gravar){
                         servidoresDao.incluir(getServidores());
                         gravados++;
@@ -486,7 +499,7 @@ public class SisEstacionamentoBean implements Serializable{
                     this.getAlunos().setMatricula(record.get("Matrícula"));
                     this.getAlunos().setNome(record.get("Nome"));
                     this.getAlunos().setCurso(record.get("Curso"));
-                    this.getAlunos().setVinculo("Aluno");
+                    //this.getAlunos().setVinculo("Aluno");
                     if (gravar){
                         alunosDao.incluir(getAlunos());
                         gravados++;
@@ -505,28 +518,9 @@ public class SisEstacionamentoBean implements Serializable{
     }
     
     
-    
-    public Integer getProgress() {
-        if(progress == null) {
-            progress = 0;
-        }
-        
-         
-        return progress;
-    }
- 
-    public void setProgress(Integer progress) {
-        this.progress = progress;
-    }
-     
     public void onComplete() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Lista de Servidores Atualizada"));
     }
-     
-    public void cancel() {
-        progress = null;
-    }
-    
      
     
         /**

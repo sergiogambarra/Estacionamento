@@ -6,8 +6,6 @@
 package persistencia;
 
 import java.util.ArrayList;
-import java.util.List;
-import modelo.Marca;
 import modelo.Modelo;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -30,8 +28,28 @@ public class ModeloDAO {
     
     public void incluir(Modelo mod) {
         Transaction t = sessao.beginTransaction();
-        sessao.save(mod);
+        sessao.saveOrUpdate(mod);
         t.commit();
+        sessao.flush();
+        sessao.clear();
+    }
+    
+    
+    public ArrayList<Modelo> listar() {
+        return (ArrayList<Modelo>) sessao.createCriteria(Modelo.class).list();
+    }
+    
+    public Modelo buscarPorModelo(String modelo){
+        Modelo mod = null;
+        String hql = "FROM Modelo WHERE id = '" + modelo + "'";
+			Query query = sessao.createQuery(hql);
+    
+			if (!query.list().isEmpty()) {
+				mod = (Modelo) query.list().get(0);
+			}
+        return mod;
+        
+        //return (Modelo) sessao.createQuery("select * from Modelo m where m.id =" + id);
     }
     
 //    public Alunos buscaPorMatricula(String matricula) {
@@ -48,18 +66,7 @@ public class ModeloDAO {
 //        return alu;
 //    }
  
-    public Modelo buscarPorId(Integer id){
-        Modelo mod = null;
-        String hql = "FROM Modelo WHERE id = '" + id + "'";
-			Query query = sessao.createQuery(hql);
     
-			if (!query.list().isEmpty()) {
-				mod = (Modelo) query.list().get(0);
-			}
-        return mod;
-        
-        //return (Modelo) sessao.createQuery("select * from Modelo m where m.id =" + id);
-    }
  
 //    public List<Modelo> buscar(String query){
 //        List<Modelo> resultados = new ArrayList<>();
@@ -71,8 +78,6 @@ public class ModeloDAO {
 //        return resultados;
 //    }
     
-    public ArrayList<Modelo> listar() {
-        return (ArrayList<Modelo>) sessao.createCriteria(Modelo.class).list();
-    }
+    
     
 }

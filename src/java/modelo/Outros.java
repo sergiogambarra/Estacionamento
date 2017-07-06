@@ -20,6 +20,7 @@ public class Outros extends Usuario {
     
     private String RG;
     private String empresa;
+    private String vinculo;
     
     
     /**
@@ -48,6 +49,20 @@ public class Outros extends Usuario {
      */
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
+    }
+
+    /**
+     * @return the vinculo
+     */
+    public String getVinculo() {
+        return vinculo;
+    }
+
+    /**
+     * @param vinculo the vinculo to set
+     */
+    public void setVinculo(String vinculo) {
+        this.vinculo = vinculo;
     }
     
 }

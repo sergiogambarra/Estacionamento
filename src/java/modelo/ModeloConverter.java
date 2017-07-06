@@ -29,22 +29,22 @@ public class ModeloConverter implements Converter {
 //        return servidores;
 //    }
     
+     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         ModeloDAO modeloDao = new ModeloDAO();
-        Modelo modelo = modeloDao.buscarPorId(Integer.valueOf(value));
+        Modelo modelo = modeloDao.buscarPorModelo(value);
 
         return modelo;
     }
     
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
+    @Override
+    public String getAsString(FacesContext context, UIComponent component, Object o) {
         
-//        Modelo modelo = new Modelo();
-//        modelo = (Modelo) value;
-//        return modelo.getNome();
+        Modelo modelo = new Modelo();
+        modelo = (Modelo) o;
+        return modelo.getNome();
 
-          Modelo m = (Modelo) value;
-
-        return String.valueOf(m.getId());
+          
     }
 
 //    @Override

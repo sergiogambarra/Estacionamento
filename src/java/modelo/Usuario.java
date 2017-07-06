@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
     @GeneratedValue
     private int idUsuario;
     private String nome;
-    private String vinculo;
+    
 
     
    @OneToMany(mappedBy="usuario")
@@ -81,19 +81,6 @@ public class Usuario implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    /**
-     * @return the vinculo
-     */
-    public String getVinculo() {
-        return vinculo;
-    }
-
-    /**
-     * @param vinculo the vinculo to set
-     */
-    public void setVinculo(String vinculo) {
-        this.vinculo = vinculo;
-    }
     
     
 }

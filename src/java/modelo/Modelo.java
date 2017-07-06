@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "modelo")
-public class Modelo {
+public class Modelo implements Serializable {
 
     /**
      * @return the marca

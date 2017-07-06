@@ -7,7 +7,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import modelo.Placas;
 import backingbeans.SisEstacionamentoBean;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 
 /**
@@ -100,14 +97,7 @@ public class Servlet extends HttpServlet {
                Object obj = parser.parse(jb.toString());
 
                 JSONObject jsonObject = (JSONObject) obj;
-                //System.out.println(jsonObject);
-
-                //String plate = (String) jsonObject.get("results");
-                //System.out.println(plate);
-
-                //long age = (Long) jsonObject.get("age");
-                //System.out.println(age);
-
+               
                 // loop array
                 org.json.simple.JSONArray results = (org.json.simple.JSONArray) jsonObject.get("results");
                 String uuid = (String) jsonObject.get("uuid");
@@ -115,8 +105,8 @@ public class Servlet extends HttpServlet {
                 this.placa.setFotoEntrada(uuid);
                 //iterator = results.iterator();
 
-                Iterator<Object> iterator = results.iterator();
-                while (iterator.hasNext()) {
+                //Iterator<Object> iterator = results.iterator();
+                //while (iterator.hasNext()) {
                         if (results.iterator().next() != null){
                             JSONObject jsonObjectnovo = (JSONObject) results.iterator().next();
                             String plate = (String) jsonObjectnovo.get("plate");
@@ -146,28 +136,21 @@ public class Servlet extends HttpServlet {
                                         pp[i] = "8";
                                     }
                             plate = String.join("",pp);
+                            
                             }
-                        } else {
-                            break;
-                        }
-                        System.out.println("placa: "+plate);
-                        this.placa.setPlaca(plate);
-                        this.sis.incluirPlaca(this.placa);   
-                        break;
+                            System.out.println("placa: "+plate);
+                            this.placa.setPlaca(plate);
+                            this.sis.incluirPlaca(this.placa); 
+                        } 
                     }
  
-                }
+                
                     
               } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        // Work with the data using methods like...
-        // int someInt = jsonObject.getInt("intParamName");
-        // String someString = jsonObject.getString("stringParamName");
-        // JSONObject nestedObj = jsonObject.getJSONObject("nestedObjName");
-        // JSONArray arr = jsonObject.getJSONArray("arrayParamName");
-        // etc...
+       
     }
 
     /**
