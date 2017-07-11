@@ -281,12 +281,12 @@ public class SisEstacionamentoBean implements Serializable{
         modeloDao.incluir(getModelo());
         
         getVeiculo().setModelo(getModelo());
-        if (getUsuario().getVinculo().equals("Aluno")){
+        if (getOutros().getVinculo().equals("Aluno")){
             getVeiculo().setUsuario(getAlunos());
-        } else if (getUsuario().getVinculo().equals("Servidor")){
+        } else if (getOutros().getVinculo().equals("Servidor")){
             getVeiculo().setUsuario(getServidores());
         } else{
-            getOutros().setVinculo(getUsuario().getVinculo());
+            //getOutros().setVinculo(getUsuario().getVinculo());
             outrosDao.incluir(getOutros());
             getVeiculo().setUsuario(getOutros());
         }
@@ -298,66 +298,66 @@ public class SisEstacionamentoBean implements Serializable{
         
         return "index";
     }
-    
-    public String incluirVeiculo2() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg;
-        int id = 0;
-        
-        listaAlunos = alunosDao.listar();
-        setListaServidores(servidoresDao.listar());
-        
-        if (getVeiculo().getPlaca() != null){
-            if (getServidores() != null){
-                for (int k =0; k<getListaServidores().size(); k++){
-                    if (getListaServidores().get(k).getMatricula().equals(getServidores().getMatricula())){
-                        id = getListaServidores().get(k).getIdUsuario();
-                    }
-                }
-            }
-            if (getAlunos() != null){
-                for (int k =0; k < listaAlunos.size(); k++){
-                    if (listaAlunos.get(k).getMatricula().equals(getAlunos().getMatricula())){
-                        id = listaAlunos.get(k).getIdUsuario();
-                    }
-                }
-            }
-            
-            if (id > 0 ){
-                this.getUsuario().setIdUsuario(id);
-            } else {
-                this.getOutros().setVinculo(this.getOutros().getVinculo());
-                //this.getAlunos().setVinculo(this.getOutros().getVinculo());
-                this.getOutros().setVinculo(this.getOutros().getVinculo());
-                if (this.getUsuario().getVinculo().equals("Servidor")){
-                    usuarioDao.incluir(this.getServidores());
-                } else if(this.getUsuario().getVinculo().equals("Aluno")){
-                    usuarioDao.incluir(this.getAlunos());
-                } else {
-                    usuarioDao.incluir(this.getOutros());
-                }
-                
-                setListaUsuarios(usuarioDao.listar());
-                ArrayList<Integer> ids_users = new ArrayList<Integer>();
-                for (int i = 0; i< this.listaUsuarios.size();i++){
-                    ids_users.add(this.listaUsuarios.get(i).getIdUsuario());
-                }
-                int lastIdUsuario = Collections.max(ids_users);
-                this.getUsuario().setIdUsuario(lastIdUsuario);
-            }
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Usuario cadastrado com Sucesso!", "");
-                context.addMessage(null, msg);
-
-                this.getVeiculo().setUsuario(getUsuario());
-            VeiculoDAO veiculoDao = new VeiculoDAO();
-            veiculoDao.incluir(getVeiculo());
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Veiculo incluído com Sucesso!", "");
-        context.addMessage(null, msg);
-        }
-        return "index";
-    }
+//    
+//    public String incluirVeiculo2() {
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        FacesMessage msg;
+//        int id = 0;
+//        
+//        listaAlunos = alunosDao.listar();
+//        setListaServidores(servidoresDao.listar());
+//        
+//        if (getVeiculo().getPlaca() != null){
+//            if (getServidores() != null){
+//                for (int k =0; k<getListaServidores().size(); k++){
+//                    if (getListaServidores().get(k).getMatricula().equals(getServidores().getMatricula())){
+//                        id = getListaServidores().get(k).getIdUsuario();
+//                    }
+//                }
+//            }
+//            if (getAlunos() != null){
+//                for (int k =0; k < listaAlunos.size(); k++){
+//                    if (listaAlunos.get(k).getMatricula().equals(getAlunos().getMatricula())){
+//                        id = listaAlunos.get(k).getIdUsuario();
+//                    }
+//                }
+//            }
+//            
+//            if (id > 0 ){
+//                this.getUsuario().setIdUsuario(id);
+//            } else {
+//                this.getOutros().setVinculo(this.getOutros().getVinculo());
+//                //this.getAlunos().setVinculo(this.getOutros().getVinculo());
+//                this.getOutros().setVinculo(this.getOutros().getVinculo());
+//                if (this.getUsuario().getVinculo().equals("Servidor")){
+//                    usuarioDao.incluir(this.getServidores());
+//                } else if(this.getUsuario().getVinculo().equals("Aluno")){
+//                    usuarioDao.incluir(this.getAlunos());
+//                } else {
+//                    usuarioDao.incluir(this.getOutros());
+//                }
+//                
+//                setListaUsuarios(usuarioDao.listar());
+//                ArrayList<Integer> ids_users = new ArrayList<Integer>();
+//                for (int i = 0; i< this.listaUsuarios.size();i++){
+//                    ids_users.add(this.listaUsuarios.get(i).getIdUsuario());
+//                }
+//                int lastIdUsuario = Collections.max(ids_users);
+//                this.getUsuario().setIdUsuario(lastIdUsuario);
+//            }
+//            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+//                            "Usuario cadastrado com Sucesso!", "");
+//                context.addMessage(null, msg);
+//
+//                this.getVeiculo().setUsuario(getUsuario());
+//            VeiculoDAO veiculoDao = new VeiculoDAO();
+//            veiculoDao.incluir(getVeiculo());
+//            msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+//                    "Veiculo incluído com Sucesso!", "");
+//        context.addMessage(null, msg);
+//        }
+//        return "index";
+//    }
     
     //placas capturadas
     public Placas incluirPlaca(Placas pla) {

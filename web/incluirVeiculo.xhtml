@@ -48,7 +48,7 @@
                             <br/>
                             <p/>
                             <h:outputLabel for="vinculo" value="Vinculo do usuário com a Instituição:"/>
-                            <h:selectOneMenu id="vinculo" value="#{sisEstacionamentoBean.usuario.vinculo}">
+                            <h:selectOneMenu id="vinculo" value="#{sisEstacionamentoBean.outros.vinculo}">
                                 <f:selectItem itemLabel="Selecione..." />
                                 <f:selectItem itemValue="Servidor" />
                                 <f:selectItem itemValue="Aluno" />
@@ -63,7 +63,7 @@
                         
                     <h:panelGroup id="teste">
                             
-                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Servidor'}">
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.outros.vinculo == 'Servidor'}">
                             <h:panelGrid columns="2">
                                 <br/>
                                 <h:outputLabel for="txtMatricula" value="Matrícula:"/>
@@ -82,7 +82,7 @@
                             </h:panelGrid>
                         </h:panelGroup>
                             
-                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Aluno'}">
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.outros.vinculo == 'Aluno'}">
 
                             <h:panelGrid columns="2">
                                 <p/>
@@ -102,7 +102,7 @@
 
                         </h:panelGroup>
 
-                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Terceirizado' || sisEstacionamentoBean.usuario.vinculo == 'Fornecedor' || sisEstacionamentoBean.usuario.vinculo == 'Estagiario'|| sisEstacionamentoBean.usuario.vinculo == 'Outros'}">
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.outros.vinculo == 'Terceirizado' || sisEstacionamentoBean.outros.vinculo == 'Fornecedor' || sisEstacionamentoBean.outros.vinculo == 'Estagiario'|| sisEstacionamentoBean.outros.vinculo == 'Outros'}">
                                 
                             <h:panelGrid columns="1">
 
@@ -118,7 +118,7 @@
                             </h:panelGrid>
                                 
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{sisEstacionamentoBean.usuario.vinculo == 'Estagiário'}">
+                        <h:panelGroup rendered="#{sisEstacionamentoBean.outros.vinculo == 'Estagiário'}">
                                 
                             <h:panelGrid columns="1">
 
