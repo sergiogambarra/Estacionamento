@@ -361,6 +361,7 @@ public class SisEstacionamentoBean implements Serializable{
     
     //placas capturadas
     public Placas incluirPlaca(Placas pla) {
+        boolean grava = false;
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date d2 = new Date();
         String data2Formatada = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(d2);
@@ -406,8 +407,16 @@ public class SisEstacionamentoBean implements Serializable{
             System.out.print(diffHours + " horas, ");
             
             // && listaPlacas.get(i).getSaida().equals(null)
+            for (int i=0;i<listaVeiculos.size();i++){
+                if (pla.getPlaca().equals(listaVeiculos.get(i).getPlaca())){
+                    grava = false;
+                } else {
+                    grava = true;
+                }
+            }
             
-            if (diffSeconds + (diffMinutes * 60) + (diffHours * 60 *60) > 20){
+            
+            if (diffSeconds + (diffMinutes * 60) + (diffHours * 60 *60) > 20 && grava == true){
                 boolean entrada = true;
                 
                 for (int i =0;i<getListaPlacas().size();i++){
